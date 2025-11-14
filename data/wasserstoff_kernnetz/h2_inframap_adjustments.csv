@@ -1,0 +1,9 @@
+﻿Name,Adjustment
+CHE Pipeline,"Added point [5.94878952762695, 60.8216139039108] and [8.134962 53.551876]"
+H2Med-BarMar,"Added point [23.72857 60.031772] from ""HY-FEN H2 Corridor Spain France Germany connection"""
+Nordic-Baltic Hydrogen Coridor - EE section,"Added point [ 25.43896, 57.991041] from ""Nordic-Baltic Hydrogen Corridor - LV section"""
+Baltic Sea Hydrogen Collector - Offshore Pipeline [BHC] ,"Split into three separate pipelines & added [ 13.723239107802, 54.049918429801103 ] at German coast from ""Flow"", added [16.1455110811082,  60.6990319978245] at Swedish coast. Divide Peak increment by 3. Put Haversine length as length."
+Levante Pipeline Project,"Added point [18.48, 40.1325032582306]"
+Italian H2 Backbone 217,"Added point [8.349388 46.446614] from ""Transitgas H2 pipeline project """
+Giurgiu - Nodlac corridor modernization for hydrogen transmission,"Added point [20.6781982160765, 46.1700845880665] from ""HU hydrogen corridor V HU/RO"""
+H2ercules Network South,"Added point [12.417052017034001, 49.757871193632297] from ""Czech German Hydrogen Interconnector, Czech part (CGHI, CZ part)"""

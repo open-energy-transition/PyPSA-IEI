@@ -4,6 +4,7 @@
 
 from os.path import normpath, exists
 from shutil import copyfile, move, rmtree
+from os import remove
 
 from snakemake.remote.HTTP import RemoteProvider as HTTPRemoteProvider
 
@@ -13,17 +14,15 @@ from snakemake.utils import min_version
 
 min_version("7.7")
 
-conf_file = os.path.join(workflow.current_basedir, "config/config.yaml")
-conf_default_file = os.path.join(workflow.current_basedir, "config/config.default.yaml")
-if not exists(conf_file) and exists(conf_default_file):
-    copyfile(conf_default_file, conf_file)
+
+if not exists("config/config.yaml") and exists("config/config.agora.yaml"):
+    copyfile("config/config.agora.yaml", "config/config.yaml")
 
 
-configfile: "config/config.default.yaml"
 configfile: "config/config.yaml"
 
 
-COSTS = f"data/costs_{config['costs']['year']}.csv"
+
 ATLITE_NPROCESSES = config["atlite"].get("nprocesses", 4)
 
 run = config.get("run", {})
@@ -39,7 +38,9 @@ elif isinstance(shared_resources, str):
 else:
     RESOURCES = "resources/"
 RESULTS = "results/" + RDIR
+OUTPUTS = "outputs/" + RDIR
 
+COSTS = RESOURCES + f"costs_{config['costs']['year']}.csv"
 
 localrules:
     purge,
@@ -77,6 +78,7 @@ if config["foresight"] == "perfect":
 
     include: "rules/solve_perfect.smk"
 
+remove("config/config.yaml")
 
 rule all:
     input:

@@ -106,6 +106,7 @@ def plot_ch4_map(n):
     pipe_colors = {
         "gas pipeline": "#f08080",
         "gas pipeline new": "#c46868",
+        "gas pipeline tyndp": "#FFA500",
         "gas pipeline (in 2020)": "lightgrey",
         "gas pipeline (available)": "#e8d1d1",
     }

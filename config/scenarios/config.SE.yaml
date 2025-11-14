@@ -1,0 +1,45 @@
+# Run scenario 3: Sectoral silos, European view
+# Grid planning is realized both cross-border but the sectors are optimized independently.
+run:
+  name: "2025-MM-DD-branch-2190SEG-SE"
+  disable_progressbar: true
+  shared_resources: false
+  shared_cutouts: true
+
+scenario:
+  sector_opts:
+  - 2190SEG-T-H-B-I-A
+  planning_horizons:
+    - 2020
+    - 2025
+    - 2030
+    - 2035
+    - 2040
+    - 2045
+    - 2050
+
+policy_plans:
+  # wasserstoffkernnetz feature from Ariadne
+  # analog integration of H2 Infrastructure Map data
+  wasserstoff_kernnetz:
+    enable: true
+    optimize_after: 2040 # true: extension of pipelines at any optimization year, int: year after which the pipelines can be optimized
+  include_tyndp_elec:
+    enable: true
+    allowed_statuses:
+      - in planning
+      - in permitting
+      - under construction
+    optimize_after: 2040 # true: extension of pipelines at any optimization year, int: year after which the transmission lines can be optimized
+  include_national_grid_plans:
+    optimize_after: 2040 # true: extension of pipelines at any optimization year, int: year after which the transmission lines can be optimized
+  include_tyndp_gas:
+    enable: true
+  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
+
+solving:
+  solver:
+    name: gurobi
+    options: gurobi-default
+  constraints:
+    national_grid_plans: true # enable constraint that includes national electricity grid expansion plans

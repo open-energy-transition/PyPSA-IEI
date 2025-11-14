@@ -31,6 +31,139 @@ spatial = SimpleNamespace()
 logger = logging.getLogger(__name__)
 
 
+def get_index_for_capacity_constraint(
+    c: pypsa.components.Component, carrier: str, eu: bool, region: str, variable_prefix: str
+):
+    """
+    Get the index of the technology, to build the left hand side of the
+    constraint.
+
+    Parameters
+    ----------
+    c : pypsa Component
+        component (e.g. link, generator, etc.) for which the constraint shall be build
+    carrier : str
+        carrier to be constrained
+    eu : bool
+        True, if constraint should be build for all regions in sum
+    region : str
+        cluster / country to be constrained
+
+    Returns
+    -------
+    idx: pd.index
+    """
+    if carrier == "solar":
+        carrier_tech = ["solar", "solar rooftop"]
+    elif carrier == "onwind":
+        carrier_tech = c.df[c.df.carrier.str.contains("onwind")].carrier.unique()
+    elif carrier == "offwind":
+        carrier_tech = ["offwind-ac", "offwind-dc"]
+    else:
+        carrier_tech = [carrier]
+
+    if eu:
+        idx_ext = c.df[
+            (c.df.carrier.isin(carrier_tech)) & (c.df[f"{variable_prefix}_nom_extendable"])
+        ].index
+    else:
+        idx_ext = c.df[
+            (c.df.carrier.isin(carrier_tech))
+            & (c.df[f"{variable_prefix}_nom_extendable"])
+            & (c.df.index.str[: len(region)] == region)
+        ].index
+
+    return idx_ext
+
+
+def adjust_p_nom_max(path_agg_p_nom_min_max: str, n: pypsa.Network, year: int):
+    """
+    Function to loop all capacity limits (p_nom_min, p_nom_max), which are also
+    constrained by user input (df). In this loop a method is called to adapt
+    the limits according to the user input if necessary.
+
+    Parameters
+    ----------
+    path_agg_p_nom_min_max : str
+        path to input file with capacity limits
+    n : pypsa.Network
+        current prenetwork_brownfield
+    year : int
+        current year
+
+    Returns
+    -------
+    """
+    df = pd.read_csv(path_agg_p_nom_min_max)
+    carrier_to_check = df.carrier.unique()
+    if "year" in df.columns.values:
+        df = df[df.year == year]
+
+    for c in n.iterate_components(["Store", "Generator", "Link"]):
+        component = c.name
+        carrier_c = c.df.carrier.map(
+            {i: i.split("-")[0] for i in c.df.carrier.unique()}
+        )
+        carrier_to_check_c = [
+            x
+            for x in carrier_to_check
+            if x in carrier_c.unique() or x in c.df.carrier.values
+        ]
+        if component in ["Generator", "Link"]:
+            constrained_quantity = "p"
+        else:
+            constrained_quantity = "e"
+        for carrier in carrier_to_check_c:
+            for region in df[df.carrier == carrier]["country"]:
+                eu = region == "EU"
+                idx_ext = get_index_for_capacity_constraint(
+                    c, carrier, eu, region, constrained_quantity
+                )
+
+                df_carrier_region = df[(df.carrier == carrier) & (df.country == region)]
+                constraint_value_max = df_carrier_region["max"].item()
+                adapt_component_limits_by_user_input(
+                    c,
+                    constrained_quantity,
+                    constraint_value_max,
+                    idx_ext,
+                )
+
+
+def adapt_component_limits_by_user_input(
+    c: pypsa.components.Component,
+    constrained_quantity: str,
+    constraint_value_max: float,
+    idx: pd.Index,
+    ):
+    """
+    Function to adapt those capacity limits, which contradict to the user
+    input.
+
+    Parameters
+    ----------
+    c : pypsa.Component
+        component (Link, generator, store)
+    constrained_quantity : str
+        installed capacity (p) or storage size (e)
+    constraint_value_max : float
+        upper bound from user input
+    idx : index
+        index of components to be checked
+
+    Returns
+    -------
+    """
+    x_nom_max = f"{constrained_quantity}_nom_max"
+
+
+    if not idx.empty:
+        component_maximum = c.df.loc[idx, x_nom_max].sum().sum()
+        if component_maximum < constraint_value_max:
+            correction_factor = constraint_value_max / component_maximum
+            c.df.loc[idx, x_nom_max] *= correction_factor
+
+
 def define_spatial(nodes, options):
     """
     Namespace for spatial.
@@ -56,7 +189,10 @@ def define_spatial(nodes, options):
         spatial.biomass.nodes = ["EU solid biomass"]
         spatial.biomass.locations = ["EU"]
         spatial.biomass.industry = ["solid biomass for industry"]
-        spatial.biomass.industry_cc = ["solid biomass for industry CC"]
+        if options.get("co2_spatial", options["co2network"]):
+            spatial.biomass.industry_cc = nodes + " solid biomass for industry CC"
+        else:
+            spatial.biomass.industry_cc = ["solid biomass for industry CC"]
 
     spatial.biomass.df = pd.DataFrame(vars(spatial.biomass), index=nodes)
 
@@ -88,7 +224,7 @@ def define_spatial(nodes, options):
         spatial.gas.industry = nodes + " gas for industry"
         spatial.gas.industry_cc = nodes + " gas for industry CC"
         spatial.gas.biogas_to_gas = nodes + " biogas to gas"
-        spatial.gas.biogas_to_gas_cc = nodes + "biogas to gas CC"
+        spatial.gas.biogas_to_gas_cc = nodes + " biogas to gas CC"
     else:
         spatial.gas.nodes = ["EU gas"]
         spatial.gas.locations = ["EU"]
@@ -185,6 +321,180 @@ def define_spatial(nodes, options):
     spatial.lignite.locations = ["EU"]
 
     return spatial
+
+def add_import(n):
+    """
+    Add import options to the model. An import is represented by a generator.
+    Implement generators and if necessary buses and links.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+        prenetwork for adding the import components
+    """
+
+
+    # load import file
+    import_nodes_tech_manipulated = pd.read_csv(snakemake.input.import_data, header=0)
+
+    # check for applicability to current network
+    nodes = pop_layout.index
+    nodes_set = set(nodes.astype(str))
+    for x in import_nodes_tech_manipulated["bus"].astype(str):
+        if (x not in nodes_set) and (x != 'EU'):
+            raise AttributeError(f"Bus {x} does not match to clustering.")
+
+    # convert input columns into useful data types
+    import_nodes_tech_manipulated["bus"] = import_nodes_tech_manipulated["bus"].astype(str)
+    import_nodes_tech_manipulated["p_nom"] = import_nodes_tech_manipulated["p_nom"].astype(float)
+    import_nodes_tech_manipulated["marginal_cost"] = import_nodes_tech_manipulated["marginal_cost"].astype(float)
+    import_nodes_tech_manipulated["tech"] = import_nodes_tech_manipulated["tech"].astype(str)
+    import_nodes_tech_manipulated["capital_cost"] = import_nodes_tech_manipulated["capital_cost"].astype(float)
+    import_nodes_tech_manipulated["shipping_idx"] = import_nodes_tech_manipulated["shipping_idx"].astype(str)
+
+
+    # split input data by their import technology
+    import_nodes_tech_manipulated_pipeline_h2 = import_nodes_tech_manipulated[
+        import_nodes_tech_manipulated["tech"] == "pipeline-H2"]
+    import_nodes_tech_manipulated_shipping_h2 = import_nodes_tech_manipulated[
+        import_nodes_tech_manipulated["tech"] == "shipping-H2"]
+    import_nodes_tech_manipulated_pipeline_syngas = import_nodes_tech_manipulated[
+        import_nodes_tech_manipulated["tech"] == "pipeline-syngas"]
+    import_nodes_tech_manipulated_shipping_syngas = import_nodes_tech_manipulated[
+        import_nodes_tech_manipulated["tech"] == "shipping-syngas"]
+    import_nodes_tech_manipulated_synfuel = import_nodes_tech_manipulated[
+        import_nodes_tech_manipulated["tech"] == "synfuel"]
+
+
+
+    # pipeline-h2: Add generator
+    n.madd(
+        "Generator",
+        [f"{node} {tech}" for node, tech in zip(import_nodes_tech_manipulated_pipeline_h2["bus"],
+                                                import_nodes_tech_manipulated_pipeline_h2["tech"])],
+        bus=[f"{node} H2" for node in import_nodes_tech_manipulated_pipeline_h2["bus"]],
+        carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_pipeline_h2["tech"]],
+        p_nom_extendable=True,
+        p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_pipeline_h2["p_nom"]],
+        marginal_cost=[f"{marginal_cost}" for marginal_cost in
+                       import_nodes_tech_manipulated_pipeline_h2["marginal_cost"]],
+        capital_cost=[f"{capital_cost}" for capital_cost in import_nodes_tech_manipulated_pipeline_h2["capital_cost"]],
+        p_min_pu=0,
+        lifetime=25,
+    ) # Maybe set p_min_pu to e.g. 0.5/ 0.75 to make sure it is not "perfectly" used for peak-shaving but also to
+      # represent realistic supplier-demand contracts
+
+
+
+    # shipping-h2: Add generator
+    n.madd(
+        "Generator",
+        [f"{node} {tech} ({shipping_idx})" for node, tech, shipping_idx in zip(
+            import_nodes_tech_manipulated_shipping_h2["bus"], import_nodes_tech_manipulated_shipping_h2["tech"],
+            import_nodes_tech_manipulated_shipping_h2["shipping_idx"])],
+        bus=[f"{node} H2" for node in import_nodes_tech_manipulated_shipping_h2["bus"]],
+        carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_shipping_h2["tech"]],
+        p_nom_extendable=True,
+        p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_shipping_h2["p_nom"]],
+        marginal_cost=[f"{marginal_cost}" for marginal_cost in
+                       import_nodes_tech_manipulated_shipping_h2["marginal_cost"]],
+        capital_cost=[f"{capital_cost}" for capital_cost in import_nodes_tech_manipulated_shipping_h2["capital_cost"]],
+        p_min_pu=0,
+        lifetime=25,
+    ) # Maybe set p_min_pu to e.g. 0.2/ 0.3 to make sure it is not "perfectly" used for peak-shaving but also to
+      # represent realistic supplier-demand contracts
+
+
+
+    # pipeline-syngas: Add bus, generator and link
+    n.madd(
+        "Bus",
+        [f"{node} syngas" for node in pd.concat([import_nodes_tech_manipulated_pipeline_syngas["bus"], import_nodes_tech_manipulated_shipping_syngas["bus"]]).unique()],
+        location= [f"{node}" for node in pd.concat([import_nodes_tech_manipulated_pipeline_syngas["bus"], import_nodes_tech_manipulated_shipping_syngas["bus"]]).unique()],
+        carrier="syngas",
+        unit="MWh_LHV",
+    )
+
+    n.madd(
+        "Generator",
+        [f"{node} {tech}" for node, tech in zip(import_nodes_tech_manipulated_pipeline_syngas["bus"],
+                                                import_nodes_tech_manipulated_pipeline_syngas["tech"])],
+        bus=[f"{node} syngas" for node in import_nodes_tech_manipulated_pipeline_syngas["bus"]],
+        carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_pipeline_syngas["tech"]],
+        p_nom_extendable=True,
+        p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_pipeline_syngas["p_nom"]],
+        marginal_cost=[f"{marginal_cost}" for marginal_cost in
+                       import_nodes_tech_manipulated_pipeline_syngas["marginal_cost"]],
+        capital_cost=[f"{capital_cost}" for capital_cost in
+                      import_nodes_tech_manipulated_pipeline_syngas["capital_cost"]],
+        p_min_pu=0,
+    ) # Maybe set p_min_pu to e.g. 0.2/ 0.3 to make sure it is not "perfectly" used for peak-shaving but also to
+      # represent realistic supplier-demand contracts
+
+    n.madd(
+         "Link",
+         [f"{node} syngas" for node in pd.concat([import_nodes_tech_manipulated_pipeline_syngas["bus"], import_nodes_tech_manipulated_shipping_syngas["bus"]]).unique()],
+         bus0=[f"{node} syngas" for node in pd.concat([import_nodes_tech_manipulated_pipeline_syngas["bus"], import_nodes_tech_manipulated_shipping_syngas["bus"]]).unique()],
+         bus1=[f"{node} gas" for node in pd.concat([import_nodes_tech_manipulated_pipeline_syngas["bus"], import_nodes_tech_manipulated_shipping_syngas["bus"]]).unique()],
+         bus2="co2 atmosphere",
+         carrier="syngas to gas",
+         # Negative emissions so that no net emissions are emitted when syngas is consumed
+         efficiency2=-costs.at["gas", "CO2 intensity"],
+         p_nom_extendable=True,
+    )
+
+    # shipping-syngas: Add generator
+    n.madd(
+        "Generator",
+        [f"{node} {tech}" for node, tech in zip(import_nodes_tech_manipulated_shipping_syngas["bus"],
+                                                import_nodes_tech_manipulated_shipping_syngas["tech"])],
+        bus=[f"{node} syngas" for node in import_nodes_tech_manipulated_shipping_syngas["bus"]],
+        carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_shipping_syngas["tech"]],
+        p_nom_extendable=True,
+        p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_shipping_syngas["p_nom"]],
+        marginal_cost=[f"{marginal_cost}" for marginal_cost in
+                       import_nodes_tech_manipulated_shipping_syngas["marginal_cost"]],
+        capital_cost=[f"{capital_cost}" for capital_cost in
+                      import_nodes_tech_manipulated_shipping_syngas["capital_cost"]],
+        p_min_pu=0,
+    ) # Maybe set p_min_pu to e.g. 0.2/ 0.3 to make sure it is not "perfectly" used for peak-shaving but also to
+      # represent realistic supplier-demand contracts
+
+    # shipping-synfuel: Add bus, generator and link
+    n.madd(
+        "Bus",
+        [f"{node} synfuel" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        location=[f"{node}" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        carrier="synfuel",
+        unit="MWh_LHV",
+    )
+
+    n.madd(
+        "Generator",
+        [f"{node} synfuel" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        bus=[f"{node} synfuel" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        carrier="synfuel",
+        p_nom_extendable=True,
+        p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_synfuel["p_nom"]],
+        marginal_cost=[f"{marginal_cost}" for marginal_cost in
+                       import_nodes_tech_manipulated_synfuel["marginal_cost"]],
+        capital_cost=[f"{capital_cost}" for capital_cost in
+                      import_nodes_tech_manipulated_synfuel["capital_cost"]],
+        p_min_pu=0,
+        lifetime=25,
+    ) # Maybe set p_min_pu to e.g. 0.2/ 0.3 to make sure it is not "perfectly" used for peak-shaving but also to
+      # represent realistic supplier-demand contracts
+
+    n.madd(
+        "Link",
+        [f"{node} synfuel" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        bus0=[f"{node} synfuel" for node in import_nodes_tech_manipulated_synfuel["bus"]],
+        bus1="EU oil",
+        bus2="co2 atmosphere",
+        carrier="synfuel to oil",
+        efficiency2=-costs.at["oil", "CO2 intensity"],
+        p_nom_extendable=True,
+    )
 
 
 spatial = SimpleNamespace()
@@ -504,15 +814,15 @@ def add_carrier_buses(n, carrier, nodes=None):
         carrier=carrier,
         capital_cost=capital_cost,
     )
-
-    n.madd(
-        "Generator",
-        nodes,
-        bus=nodes,
-        p_nom_extendable=True,
-        carrier=carrier,
-        marginal_cost=costs.at[carrier, "fuel"],
-    )
+    if not carrier == "gas":
+        n.madd(
+            "Generator",
+            nodes,
+            bus=nodes,
+            p_nom_extendable=True,
+            carrier=carrier,
+            marginal_cost=costs.at[carrier, "fuel"],
+        )
 
 
 # TODO: PyPSA-Eur merge issue
@@ -961,6 +1271,16 @@ def insert_electricity_distribution_grid(n, costs):
         capital_cost=costs.at["electricity distribution grid", "fixed"] * cost_factor,
     )
 
+    # deduct distribution losses from electricity demand as these are included in total load
+    # https://nbviewer.org/github/Open-Power-System-Data/datapackage_timeseries/blob/2020-10-06/main.ipynb
+    if (
+        efficiency := options["transmission_efficiency"]
+        .get("electricity distribution grid", {})
+        .get("efficiency_static")
+    ):
+        logger.info(f"Deducting distribution losses from electricity demand: {100*(1-efficiency)}%")
+        n.loads_t.p_set.loc[:, n.loads.carrier == "electricity"] *= efficiency
+
     # this catches regular electricity load and "industry electricity" and
     # "agriculture machinery electric" and "agriculture electricity"
     loads = n.loads.index[n.loads.carrier.str.contains("electric")]
@@ -1213,12 +1533,20 @@ def add_storage_and_grids(n, costs):
             gas_pipes["p_nom_min"] = 0.0
             # 0.1 EUR/MWkm/a to prefer decommissioning to address degeneracy
             gas_pipes["capital_cost"] = 0.1 * gas_pipes.length
+            h2_optimize_after = snakemake.params.tyndp['wasserstoff_kernnetz']['optimize_after']
+            if (type(h2_optimize_after) == int) & (investment_year <= h2_optimize_after):
+                is_extendable = False
+            elif (type(h2_optimize_after) == bool):
+                is_extendable = h2_optimize_after
+            else:
+                is_extendable = True
         else:
             gas_pipes["p_nom_max"] = np.inf
             gas_pipes["p_nom_min"] = gas_pipes.p_nom
             gas_pipes["capital_cost"] = (
                 gas_pipes.length * costs.at["CH4 (g) pipeline", "fixed"]
             )
+            is_extendable = True
 
         n.madd(
             "Link",
@@ -1226,8 +1554,9 @@ def add_storage_and_grids(n, costs):
             bus0=gas_pipes.bus0 + " gas",
             bus1=gas_pipes.bus1 + " gas",
             p_min_pu=gas_pipes.p_min_pu,
+            p_max_pu=0.8,
             p_nom=gas_pipes.p_nom,
-            p_nom_extendable=True,
+            p_nom_extendable=is_extendable,
             p_nom_max=gas_pipes.p_nom_max,
             p_nom_min=gas_pipes.p_nom_min,
             length=gas_pipes.length,
@@ -1244,16 +1573,28 @@ def add_storage_and_grids(n, costs):
         gas_input_nodes = pd.read_csv(fn, index_col=0)
 
         unique = gas_input_nodes.index.unique()
-        gas_i = n.generators.carrier == "gas"
-        internal_i = ~n.generators.bus.map(n.buses.location).isin(unique)
-
-        remove_i = n.generators[gas_i & internal_i].index
-        n.generators.drop(remove_i, inplace=True)
-
-        input_types = ["lng", "pipeline", "production"]
-        p_nom = gas_input_nodes[input_types].sum(axis=1).rename(lambda x: x + " gas")
-        n.generators.loc[gas_i, "p_nom_extendable"] = False
-        n.generators.loc[gas_i, "p_nom"] = p_nom
+        generation_sites = ["lng", "pipeline", "production"]
+        # add import generator for each import/production technology
+        for technology in generation_sites:
+            # append string 'import' unless it is local production
+            if not technology == 'production':
+                tech_carrier = 'import ' + technology + ' gas'
+            else:
+                tech_carrier = technology + ' gas'
+            capital_cost = 7018.0 if technology == "lng" else 0.0  # €/MW/a https://arxiv.org/abs/2404.03927
+            n.madd(
+                "Generator",
+                unique + ' ' + tech_carrier,
+                bus=unique + ' gas',
+                p_nom_extendable=True,
+                carrier=tech_carrier,
+                marginal_cost=costs.at["gas", "fuel"],
+                capital_cost=capital_cost,
+            )
+            p_nom = gas_input_nodes[technology].rename(lambda x: f"{x} {tech_carrier}").fillna(0)
+            import_idx = n.generators.query(f'carrier=="{tech_carrier}"').index
+            n.generators.loc[import_idx, "p_nom_max"] = p_nom
+            n.generators.loc[import_idx, "p_nom"] = p_nom
 
         # add existing gas storage capacity
         gas_i = n.stores.carrier == "gas"
@@ -1269,46 +1610,55 @@ def add_storage_and_grids(n, costs):
         )  # limit extremely large storage
         n.stores.loc[gas_i, "e_nom_min"] = e_nom
 
-        # add candidates for new gas pipelines to achieve full connectivity
+        #  only allow new gas pipelines if specified in the config file
+        optimize_after = snakemake.params.tyndp['include_tyndp_gas']['optimize_after']
+        if (type(optimize_after) == int) & (optimize_after<investment_year):
+            allow_new_gas_pipes = True
+        else:
+            allow_new_gas_pipes = optimize_after
 
-        G = nx.Graph()
+        if allow_new_gas_pipes:
+            # add candidates for new gas pipelines to achieve full connectivity
 
-        gas_buses = n.buses.loc[n.buses.carrier == "gas", "location"]
-        G.add_nodes_from(np.unique(gas_buses.values))
+            G = nx.Graph()
 
-        sel = gas_pipes.p_nom > 1500
-        attrs = ["bus0", "bus1", "length"]
-        G.add_weighted_edges_from(gas_pipes.loc[sel, attrs].values)
+            gas_buses = n.buses.loc[n.buses.carrier == "gas", "location"]
+            G.add_nodes_from(np.unique(gas_buses.values))
 
-        # find all complement edges
-        complement_edges = pd.DataFrame(complement(G).edges, columns=["bus0", "bus1"])
-        complement_edges["length"] = complement_edges.apply(haversine, axis=1)
+            sel = gas_pipes.p_nom > 1500
+            attrs = ["bus0", "bus1", "length"]
+            G.add_weighted_edges_from(gas_pipes.loc[sel, attrs].values)
 
-        # apply k_edge_augmentation weighted by length of complement edges
-        k_edge = options.get("gas_network_connectivity_upgrade", 3)
-        if augmentation := list(
-            k_edge_augmentation(G, k_edge, avail=complement_edges.values)
-        ):
-            new_gas_pipes = pd.DataFrame(augmentation, columns=["bus0", "bus1"])
-            new_gas_pipes["length"] = new_gas_pipes.apply(haversine, axis=1)
+            # find all complement edges
+            complement_edges = pd.DataFrame(complement(G).edges, columns=["bus0", "bus1"])
+            complement_edges["length"] = complement_edges.apply(haversine, axis=1)
 
-            new_gas_pipes.index = new_gas_pipes.apply(
-                lambda x: f"gas pipeline new {x.bus0} <-> {x.bus1}", axis=1
-            )
+            # apply k_edge_augmentation weighted by length of complement edges
+            k_edge = options.get("gas_network_connectivity_upgrade", 3)
+            if augmentation := list(
+                k_edge_augmentation(G, k_edge, avail=complement_edges.values)
+            ):
+                new_gas_pipes = pd.DataFrame(augmentation, columns=["bus0", "bus1"])
+                new_gas_pipes["length"] = new_gas_pipes.apply(haversine, axis=1)
 
-            n.madd(
-                "Link",
-                new_gas_pipes.index,
-                bus0=new_gas_pipes.bus0 + " gas",
-                bus1=new_gas_pipes.bus1 + " gas",
-                p_min_pu=-1,  # new gas pipes are bidirectional
-                p_nom_extendable=True,
-                length=new_gas_pipes.length,
-                capital_cost=new_gas_pipes.length
-                * costs.at["CH4 (g) pipeline", "fixed"],
-                carrier="gas pipeline new",
-                lifetime=costs.at["CH4 (g) pipeline", "lifetime"],
-            )
+                new_gas_pipes.index = new_gas_pipes.apply(
+                    lambda x: f"gas pipeline new {x.bus0} <-> {x.bus1}", axis=1
+                )
+
+                n.madd(
+                    "Link",
+                    new_gas_pipes.index,
+                    bus0=new_gas_pipes.bus0 + " gas",
+                    bus1=new_gas_pipes.bus1 + " gas",
+                    p_min_pu=-0.8,  # new gas pipes are bidirectional
+                    p_max_pu=0.8,
+                    p_nom_extendable=True,
+                    length=new_gas_pipes.length,
+                    capital_cost=new_gas_pipes.length
+                    * costs.at["CH4 (g) pipeline", "fixed"],
+                    carrier="gas pipeline new",
+                    lifetime=costs.at["CH4 (g) pipeline", "lifetime"],
+                )
 
     if options["H2_retrofit"]:
         logger.info("Add retrofitting options of existing CH4 pipes to H2 pipes.")
@@ -1322,8 +1672,9 @@ def add_storage_and_grids(n, costs):
             h2_pipes.index,
             bus0=h2_pipes.bus0 + " H2",
             bus1=h2_pipes.bus1 + " H2",
-            p_min_pu=-1.0,  # allow that all H2 retrofit pipelines can be used in both directions
+            p_min_pu=-0.8,  # allow that all H2 retrofit pipelines can be used in both directions
             p_nom_max=h2_pipes.p_nom * options["H2_retrofit_capacity_per_CH4"],
+            p_max_pu=0.8,
             p_nom_extendable=True,
             length=h2_pipes.length,
             capital_cost=costs.at["H2 (g) pipeline repurposed", "fixed"]
@@ -1346,7 +1697,8 @@ def add_storage_and_grids(n, costs):
             h2_pipes.index,
             bus0=h2_pipes.bus0.values + " H2",
             bus1=h2_pipes.bus1.values + " H2",
-            p_min_pu=-1,
+            p_min_pu=-0.8,
+            p_max_pu=0.8,
             p_nom_extendable=True,
             length=h2_pipes.length.values,
             capital_cost=costs.at["H2 (g) pipeline", "fixed"] * h2_pipes.length.values,
@@ -3098,6 +3450,8 @@ def add_waste_heat(n):
 
     # AC buses with district heating
     urban_central = n.buses.index[n.buses.carrier == "urban central heat"]
+
+    cf_industry = snakemake.params.industry
     if not urban_central.empty:
         urban_central = urban_central.str[: -len(" urban central heat")]
 
@@ -3339,10 +3693,15 @@ def maybe_adjust_costs_and_potentials(n, opts):
 
 
 def limit_individual_line_extension(n, maxext):
-    logger.info(f"Limiting new HVAC and HVDC extensions to {maxext} MW")
-    n.lines["s_nom_max"] = n.lines["s_nom"] + maxext
     hvdc = n.links.index[n.links.carrier == "DC"]
-    n.links.loc[hvdc, "p_nom_max"] = n.links.loc[hvdc, "p_nom"] + maxext
+    if maxext == 0:
+        n.links.loc[hvdc, "p_nom_extendable"] = False
+        n.lines["s_nom_extendable"] = False
+        logger.info(f"Turning off new HVAC and HVDC extensions")
+    else:
+        logger.info(f"Limiting new HVAC and HVDC extensions to {maxext} MW")
+        n.lines["s_nom_max"] = n.lines["s_nom"] + maxext
+        n.links.loc[hvdc, "p_nom_max"] = n.links.loc[hvdc, "p_nom"] + maxext
 
 
 aggregate_dict = {
@@ -3505,40 +3864,14 @@ def apply_time_segmentation(
             n.pnl(component)[key] = values_t[component, key]
 
     return n
+#
 
-
-def set_temporal_aggregation(n, opts, solver_name):
-    """
-    Aggregate network temporally.
-    """
-    for o in opts:
-        # temporal averaging
-        m = re.match(r"^\d+h$", o, re.IGNORECASE)
-        if m is not None:
-            n = average_every_nhours(n, m.group(0))
-            break
-        # representative snapshots
-        m = re.match(r"(^\d+)sn$", o, re.IGNORECASE)
-        if m is not None:
-            sn = int(m[1])
-            logger.info(f"Use every {sn} snapshot as representative")
-            n.set_snapshots(n.snapshots[::sn])
-            n.snapshot_weightings *= sn
-            break
-        # segments with package tsam
-        m = re.match(r"^(\d+)seg$", o, re.IGNORECASE)
-        if m is not None:
-            segments = int(m[1])
-            logger.info(f"Use temporal segmentation with {segments} segments")
-            n = apply_time_segmentation(n, segments, solver_name=solver_name)
-            break
-    return n
-
-
-def lossy_bidirectional_links(n, carrier, efficiencies={}):
+def lossy_bidirectional_links(n, carrier, efficiencies={}, subset=None):
     "Split bidirectional links into two unidirectional links to include transmission losses."
 
-    carrier_i = n.links.query("carrier == @carrier").index
+    if subset is None:
+        subset = n.links.index
+    carrier_i = n.links.query("carrier == @carrier").index.intersection(subset)
 
     if (
         not any((v != 1.0) or (v >= 0) for v in efficiencies.values())
@@ -3585,25 +3918,233 @@ def lossy_bidirectional_links(n, carrier, efficiencies={}):
         )
 
 
+def set_capacity_tyndp_elec(n, year):
+    """
+    Set minimum and maximum nominal capacity for TYNDP links and lines
+
+    Parameters
+    ----------
+    n: pypsa.Network
+        network including initialized TYNDP links
+    year: int
+        current investment year to set the capacity limitations
+    """
+    allowed_statuses = snakemake.params.tyndp["include_tyndp_elec"]["allowed_statuses"]
+    open_for_optimization = snakemake.params.tyndp["include_tyndp_elec"]["optimize_after"]
+    # open_for_optimization can be true or a year. In case of true, the following if clauses are skipped and all lines
+    # and links are set as extendable later in the code. In case of a year, optimization of the lines and links is
+    # allowed after this year.
+    if (type(open_for_optimization)==int) & (year > open_for_optimization):
+        open_for_optimization = True
+    elif (type(open_for_optimization)==int) & (year <= open_for_optimization):
+        open_for_optimization = False
+
+
+    # switch cross-border lines and links to (not) extendable according to the config choice.
+    idx_cross_border_links = n.links[(n.links.carrier == "DC") & (n.links.bus0.str[:2] != n.links.bus1.str[:2])].index
+    n.links.loc[idx_cross_border_links, 'p_nom_extendable'] = open_for_optimization
+    idx_cross_border_lines = n.lines[(n.lines.bus0.str[:2] != n.lines.bus1.str[:2])].index
+    n.lines.loc[idx_cross_border_lines, 's_nom_extendable'] = open_for_optimization
+
+    ### limit the link capacity
+    links_limits_data = pd.read_csv(snakemake.input["link_limit"])
+    # loop through projects in links_2020-2050.csv
+    for _,row in links_limits_data.iterrows():
+        # check if project exists in links
+        if row['name'] not in n.links.index:
+            continue
+        # check if TYNDP status is included in this run
+        has_wrong_status = ('status' in n.links.loc[row['name'], 'tags']) & (not any([(status in n.links.loc[row['name']
+        , 'tags']) for status in allowed_statuses]))
+        if has_wrong_status:
+            continue
+        # make sure the csv file belongs to the right clustering be checking the buses
+        bus_match = ((n.links.loc[row['name'], 'bus0'] == row['bus0']) & (n.links.loc[row['name'], 'bus1'] == row['bus1']))
+        bus_match_reverse = ((n.links.loc[row['name'], 'bus0'] == row['bus1']) & (n.links.loc[row['name'], 'bus1'] == row['bus0']))
+        if not (bus_match or bus_match_reverse):
+            raise AttributeError(f"Buses for link {row['name']} do not match. Expected {n.links.loc[row['name'], 'bus0']} and "
+                                 f"{n.links.loc[row['name'], 'bus1']} and got {row['bus0']} and {row['bus1']} instead.")
+        # set capacity expansion limits according to project specification and investment year
+        if row[str(year)] == 'opt':
+            n.links.loc[row['name'], 'p_nom_min'] = row['p_nom']
+        else:
+            if float(row[str(year)])>0:
+                n.links.loc[row['name'], 'p_nom_extendable'] = True
+            n.links.loc[row['name'], 'p_nom_min'] = row['p_nom'] * float(row[str(year)])
+            n.links.loc[row['name'], 'p_nom_max'] = row['p_nom'] * float(row[str(year)])
+        if not n.links.loc[row['name'], 'p_nom_extendable']:
+            n.links.loc[row['name'], 'p_nom'] = n.links.loc[row['name'], 'p_nom_min']
+
+    ### limit the line capacity
+    lines_limits_data = pd.read_csv(snakemake.input["line_limit"])
+    # loop through projects in lines_2020-2050.csv
+    for _,row in lines_limits_data.iterrows():
+        idx = str(row['name'])
+        # check if project exists in network lines
+        if idx not in n.lines.index:
+            continue
+        # make sure the csv file belongs to the right clustering be checking the buses
+        if not ((n.lines.loc[idx, 'bus0'] == row['bus0']) & (n.lines.loc[idx, 'bus1'] == row['bus1'])):
+            raise AttributeError(f"Buses for line {idx} do not match. Expected {n.lines.loc[idx, 'bus0']} and "
+                                 f"{n.lines.loc[idx, 'bus1']} and got {row['bus0']} and {row['bus1']} instead.")
+
+        # create the header from the csv file belonging to the specific year and allowed statuses
+        year_status = [str(year) + status for status in allowed_statuses]
+        # calculate the total capacity expansion according to the installed nominal capacity, the year and the
+        # expansion per status
+        s_nom_base = n.lines.loc[idx, 's_nom_min']
+        s_nom_new = np.array([float(str(elem).split('opt')[0]) for elem in row[year_status] if not elem =='opt']).sum()
+        s_nom_total = s_nom_base + s_nom_new
+        # limit the capacity expansion in the lines of the network
+        if all(row[year_status].str.contains('opt').fillna(False)):
+            n.lines.loc[idx, 's_nom_min'] = s_nom_total
+        else:
+            if s_nom_total>0:
+                n.lines.loc[idx, 's_nom_extendable'] = True
+            n.lines.loc[idx, 's_nom_min'] = s_nom_total
+            n.lines.loc[idx, 's_nom_max'] = s_nom_total
+        if not n.lines.loc[idx, 's_nom_extendable']:
+            n.lines.loc[idx, 's_nom'] = n.lines.loc[idx, 's_nom_min']
+    logger.info(f"Restrict capacities of TYNDP electricity transmission projects")
+
+def add_tyndp_gas(n, costs, current_year):
+    """
+    Add pipelines from the TYNDP gas transmission project list. The selection of projects is made according to their
+    maturity and PCI status
+
+    Parameters
+    ----------
+    n: pypsa.Network
+        prenetwork to add gas pipelines to
+    costs: pd.DataFrame
+        PyPSA cost database
+    current_year: str
+        current investment year to select projects built in the last time period
+    """
+    # load list of TYNDP projects
+    tyndp_data = pd.read_csv(snakemake.input.clustered_tyndp_pipes).set_index('name')
+
+    # extract config option if only projects in the PCI list should be included
+    PCI_only = snakemake.params.tyndp["include_tyndp_gas"]['PCI_only']
+    # extract all the maturity statutes that should be considered in this run according to the config
+    statuses = snakemake.params.tyndp["include_tyndp_gas"]['allowed_statuses']
+    # get all planning years
+    all_years = snakemake.params.planning_horizons
+
+    # get previous optimization year
+    if current_year==all_years[0]:
+        previous_year = 0
+    else:
+        previous_year = all_years[all_years.index(current_year) - 1]
+
+    # filter out all non-PCI list items if required by the config option
+    if PCI_only:
+        tyndp_data = tyndp_data.query('PCI')
+
+    # filter for all the projects that have been built between the last and current optimization year
+    tyndp_data = tyndp_data.query(f'(year<={current_year}) & (year>{previous_year})')
+
+    # only keep projects with the correct maturity status
+    tyndp_data = tyndp_data.query(f'status.isin({statuses})')
+
+    # aggregate pipelines on the same route to one pipeline
+    tyndp_data = tyndp_data.groupby(level=0).agg({'status': 'unique',
+                                                  'length': 'mean',
+                                                  'PCI': 'unique',
+                                                  'year': 'unique',
+                                                  'bus0': 'first',
+                                                  'bus1': 'first',
+                                                  'p_nom': 'sum',
+                                                  'tag': 'sum'})
+    # if there are no projects remaining, skip the rest of the function
+    if tyndp_data.empty:
+        return
+    # calculate the capital cost of the pipeline in [€/MW]
+    tyndp_data["capital_cost"] = (
+            tyndp_data.length * costs.at["CH4 (g) pipeline", "fixed"]
+    )
+    # add the pipelines to the model
+    n.madd(
+        "Link",
+        tyndp_data.index,
+        bus0=tyndp_data.bus0 + " gas",
+        bus1=tyndp_data.bus1 + " gas",
+        p_nom=tyndp_data.p_nom,
+        p_nom_extendable=False,
+        p_nom_max=tyndp_data.p_nom,
+        p_max_pu=0.8,
+        length=tyndp_data.length,
+        capital_cost=tyndp_data.capital_cost,
+        tags=tyndp_data.tag,
+        carrier="gas pipeline tyndp",
+        lifetime=costs.at["CH4 (g) pipeline", "lifetime"],
+        reversed=False,
+    )
+
+    # add reversed pipes and losses
+    losses = snakemake.config["sector"]["transmission_efficiency"]["gas pipeline"]
+    lossy_bidirectional_links(n, "gas pipeline tyndp", losses)
+    logger.info(f"Add {len(tyndp_data)} TYNDP gas pipeline projects")
+
+def set_temporal_aggregation(n, snapshot_weightings):
+    """
+    Aggregate time-varying data to the given snapshots.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+        prenetwork with hourly resolution
+    snapshot_weightings : str
+        filepath of desired snapshot weightings generated inseparate rule
+    """
+    # Otherwise, use the provided snapshots
+    snapshot_weightings = pd.read_csv(
+        snapshot_weightings, index_col=0, parse_dates=True
+    )
+
+    # Define a series used for aggregation, mapping each hour in
+    # n.snapshots to the closest previous timestep in
+    # snapshot_weightings.index
+    aggregation_map = (
+        pd.Series(
+            snapshot_weightings.index.get_indexer(n.snapshots), index=n.snapshots
+        )
+        .replace(-1, np.nan)
+        .ffill()
+        .astype(int)
+        .map(lambda i: snapshot_weightings.index[i])
+    )
+
+    m = n.copy(with_time=False)
+    m.set_snapshots(snapshot_weightings.index)
+    m.snapshot_weightings = snapshot_weightings
+
+    # Aggregation all time-varying data.
+    for c in n.iterate_components():
+        pnl = getattr(m, c.list_name + "_t")
+        for k, df in c.pnl.items():
+            if not df.empty:
+                if c.list_name == "stores" and k == "e_max_pu":
+                    pnl[k] = df.groupby(aggregation_map).min()
+                elif c.list_name == "stores" and k == "e_min_pu":
+                    pnl[k] = df.groupby(aggregation_map).max()
+                else:
+                    pnl[k] = df.groupby(aggregation_map).mean()
+
+    return m
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
         snakemake = mock_snakemake(
             "prepare_sector_network",
-            configfiles="test/config.overnight.yaml",
-            simpl="",
-            opts="",
-            clusters="37",
-            ll="v1.0",
-            sector_opts="CO2L0-24H-T-H-B-I-A-dist1",
-            planning_horizons="2030",
-        )
+            configfile=r"...",   # add the path to the config file with which you want to debug
+            planning_horizons = '2025')
 
     logging.basicConfig(level=snakemake.config["logging"]["level"])
 
-    update_config_with_sector_opts(snakemake.config, snakemake.wildcards.sector_opts)
 
+    update_config_with_sector_opts(snakemake.config, snakemake.wildcards.sector_opts)
     options = snakemake.params.sector
 
     opts = snakemake.wildcards.sector_opts.split("-")
@@ -3644,6 +4185,9 @@ if __name__ == "__main__":
     add_generation(n, costs)
 
     add_storage_and_grids(n, costs)
+
+    # H2, LH2, LOHC, Ammonia for H2 re-conditioning, Syngas & Synfuel Import:
+    add_import(n)
 
     # TODO merge with opts cost adjustment below
     for o in opts:
@@ -3704,7 +4248,7 @@ if __name__ == "__main__":
         add_allam(n, costs)
 
     solver_name = snakemake.config["solving"]["solver"]["name"]
-    n = set_temporal_aggregation(n, opts, solver_name)
+    n = set_temporal_aggregation(n, snakemake.input.snapshot_weightings)
 
     limit_type = "config"
     limit = get(snakemake.params.co2_budget, investment_year)
@@ -3759,6 +4303,9 @@ if __name__ == "__main__":
     for k, v in options["transmission_efficiency"].items():
         lossy_bidirectional_links(n, k, v)
 
+    if snakemake.params.tyndp['include_tyndp_gas']['enable']:
+        add_tyndp_gas(n, costs, investment_year)
+
     # Workaround: Remove lines with conflicting (and unrealistic) properties
     # cf. https://github.com/PyPSA/pypsa-eur/issues/444
     if snakemake.config["solving"]["options"]["transmission_losses"]:
@@ -3772,6 +4319,9 @@ if __name__ == "__main__":
         snakemake.params.planning_horizons[0] == investment_year
     )
 
+    if snakemake.params.tyndp["include_tyndp_elec"]["enable"]:
+        set_capacity_tyndp_elec(n, investment_year)
+
     if options.get("cluster_heat_buses", False) and not first_year_myopic:
         cluster_heat_buses(n)
 
@@ -3780,4 +4330,5 @@ if __name__ == "__main__":
     sanitize_carriers(n, snakemake.config)
     sanitize_locations(n)
 
+    adjust_p_nom_max(snakemake.input.agg_p_nom_min_max, n, investment_year)
     n.export_to_netcdf(snakemake.output[0])

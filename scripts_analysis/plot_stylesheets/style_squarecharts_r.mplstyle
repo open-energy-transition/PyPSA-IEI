@@ -1,0 +1,17 @@
+# User defined style for plots
+
+# Colors
+axes.prop_cycle : cycler(color=['A6BBC8', 'F58220', '179C7D', '005B7F', '39C1CD', 'B2D235', '6D90A5', 'F9B479','008598', 'B0E6EB', '7F7F7F', '88A124', '466171', '854006', '11755E', '002E3F','737373', 'E0EDAE', '8CEED7'])
+image.cmap : Blues
+
+# Figure
+figure.dpi : 300
+figure.figsize: 6.2, 3.54
+
+# Legend
+legend.edgecolor : None
+legend.frameon : False
+legend.loc : center left
+
+# Font
+font.size : 10

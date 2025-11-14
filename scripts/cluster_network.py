@@ -218,7 +218,7 @@ def get_feature_for_hac(n, buses_i=None, feature=None):
     return feature_data
 
 
-def distribute_clusters(n, n_clusters, focus_weights=None, solver_name="scip"):
+def distribute_clusters(n, n_clusters, focus_weights_list=None, solver_name="scip"):
     """
     Determine the number of clusters per country.
     """
@@ -237,15 +237,29 @@ def distribute_clusters(n, n_clusters, focus_weights=None, solver_name="scip"):
         n_clusters >= len(N) and n_clusters <= N.sum()
     ), f"Number of clusters must be {len(N)} <= n_clusters <= {N.sum()} for this selection of countries."
 
-    if isinstance(focus_weights, dict):
+    if isinstance(focus_weights_list, list):
+        focus_weights = dict()          # TODO: better understand snakemake.params to get a dictionary right away
+        for weight in focus_weights_list:
+            focus_weights.update(weight)
         total_focus = sum(list(focus_weights.values()))
 
         assert (
             total_focus <= 1.0
         ), "The sum of focus weights must be less than or equal to 1."
 
-        for country, weight in focus_weights.items():
-            L[country] = weight / len(L[country])
+        min_weight = 1/n_clusters
+        for country, new_weight in focus_weights.items():
+            if len(L[country]) > 1:
+                tot_weight = sum(L[country])
+                for index, sub_weight in L[country].items():
+                    sub_new_weight = new_weight * sub_weight/tot_weight
+                    if sub_new_weight<min_weight:
+                        sub_new_weight = min_weight
+                    elif sub_new_weight>(new_weight-min_weight):
+                        sub_new_weight = new_weight-min_weight
+                    L[country].loc[index] = sub_new_weight
+            else:
+                L[country] = new_weight
 
         remainder = [
             c not in focus_weights.keys() for c in L.index.get_level_values("country")
@@ -338,7 +352,7 @@ def busmap_for_n_clusters(
     n.determine_network_topology()
 
     n_clusters = distribute_clusters(
-        n, n_clusters, focus_weights=focus_weights, solver_name=solver_name
+        n, n_clusters, focus_weights_list=focus_weights, solver_name=solver_name
     )
 
     def busmap_for_country(x):
@@ -454,7 +468,8 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("cluster_network", simpl="", clusters="37")
+        snakemake = mock_snakemake("cluster_network",
+                                   configfile="...",)    # add path to config
     configure_logging(snakemake)
 
     params = snakemake.params
@@ -518,8 +533,7 @@ if __name__ == "__main__":
         custom_busmap = params.custom_busmap
         if custom_busmap:
             custom_busmap = pd.read_csv(
-                snakemake.input.custom_busmap, index_col=0, squeeze=True
-            )
+                snakemake.input.custom_busmap, index_col=0).squeeze()
             custom_busmap.index = custom_busmap.index.astype(str)
             logger.info(f"Imported custom busmap from {snakemake.input.custom_busmap}")
 

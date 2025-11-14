@@ -14,7 +14,7 @@ rule add_existing_baseyear:
         busmap_s=RESOURCES + "busmap_elec_s{simpl}.csv",
         busmap=RESOURCES + "busmap_elec_s{simpl}_{clusters}.csv",
         clustered_pop_layout=RESOURCES + "pop_layout_elec_s{simpl}_{clusters}.csv",
-        costs="data/costs_{}.csv".format(config["scenario"]["planning_horizons"][0]),
+        costs=RESOURCES + "costs_{}.csv".format(config["scenario"]["planning_horizons"][0]),
         cop_soil_total=RESOURCES + "cop_soil_total_elec_s{simpl}_{clusters}.nc",
         cop_air_total=RESOURCES + "cop_air_total_elec_s{simpl}_{clusters}.nc",
         existing_heating_distribution=RESOURCES
@@ -92,7 +92,7 @@ rule solve_sector_network_perfect:
     input:
         network=RESULTS
         + "prenetworks-brownfield/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_brownfield_all_years.nc",
-        costs="data/costs_2030.csv",
+        costs=RESOURCES + "costs_2030.csv",
         config=RESULTS + "config.yaml",
     output:
         RESULTS
@@ -131,7 +131,7 @@ rule make_summary_perfect:
             for sector_opts in config["scenario"]["sector_opts"]
             for ll in config["scenario"]["ll"]
         },
-        costs="data/costs_2020.csv",
+        costs=RESOURCES + "costs_2020.csv",
     output:
         nodal_costs=RESULTS + "csvs/nodal_costs.csv",
         nodal_capacities=RESULTS + "csvs/nodal_capacities.csv",

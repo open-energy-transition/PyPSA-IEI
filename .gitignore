@@ -10,6 +10,8 @@ gurobi.log
 .vscode
 *.orig
 
+/analysis_results*
+
 /bak
 /resources
 /resources*
@@ -20,6 +22,8 @@ gurobi.log
 /notebooks
 /data
 /cutouts
+/outputs
+/slurm_logs
 
 doc/_build
 
@@ -44,6 +48,10 @@ dconf
 /data/bundle-sector/nuts*
 data/gas_network/scigrid-gas/
 data/costs_*.csv
+!/data/wasserstoff_kernnetz/locations_wasserstoff_kernnetz.csv
+!/data/wasserstoff_kernnetz/h2_inframap_entsog.geojson
+
+envs/myenv_2.yaml
 
 dask-worker-space/
 publications.jrc.ec.europa.eu/

@@ -1,0 +1,711 @@
+country,carrier,year,min,max,unit,Source,component
+Eur,H2 Electrolysis,2030,46978.7605,111532.3583,MW_H2,"https://www.iea.org/data-and-statistics/data-tools/hydrogen-production-projects-interactive-map(accessed 2024/12/05) minimum: operational, FID & feasibility study maximum: all statuses",link
+PL,gas for electricity,2020,,3000.0,MW,https://ember-energy.org/latest-insights/stepping-on-the-gas/,link
+PL,gas for electricity,2025,,5500.0,MW,value from 2024 communicated by Forum Energii 2025/03/07,link
+PL,gas for electricity,2030,,15000.0,MW,communicated by Forum Energii 2025/03/07,link
+RO,H2 Electrolysis,2030,1305.57,,MW_H2,maximum as communicated by EPG 2025/01/31,link
+RO,co2 sequestered,2030,,10000000.0,t,maximum: NZIA of 9-10Mt/a communicated by EPG 2024/11/25,store
+RO,co2 sequestered,2035,,10000000.0,t,maximum: NZIA of 9-10Mt/a communicated by EPG 2024/11/25,store
+RO,co2 sequestered,2040,,10000000.0,t,maximum: NZIA of 9-10Mt/a communicated by EPG 2024/11/25,store
+RO,co2 sequestered,2045,,10000000.0,t,maximum: NZIA of 9-10Mt/a communicated by EPG 2024/11/25,store
+RO,co2 sequestered,2050,,10000000.0,t,maximum: NZIA of 9-10Mt/a communicated by EPG 2024/11/25,store
+RO,gas for electricity,2020,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2025,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2030,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2035,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2040,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2045,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+RO,gas for electricity,2050,,5000.0,MW,maximum as communicated by EPG 2025/01/31,link
+AL,offwind,2030,15.449184619342825,23.173776929014235,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+AT,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BA,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BE,offwind,2030,1794.4655432782738,2788.696452391912,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BG,offwind,2030,7.043044294234445,31.693699324055004,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+CH,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+CZ,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+DE,offwind,2030,24000.0,36000.0,MW,30 GW  (Agora)  +/-20.0% for min/max,generator
+DK,offwind,2030,2566.7705635833504,8026.407841908519,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+EE,offwind,2030,283.9167908116809,425.87518621752133,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+ES,offwind,2030,503.62133550558207,776.7294229190569,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+FI,offwind,2030,466.330569077356,2263.6463040629988,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+FR,offwind,2030,859.50931817113,1352.6704023676798,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+GB,offwind,2030,41066.666666666664,63199.99999999999,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+GR,offwind,2030,497.071125508159,1065.1524118031978,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+HR,offwind,2030,250.64405317953592,425.0051336522566,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+HU,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+IE,offwind,2030,976.8912255260102,1756.2089447658611,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+IT,offwind,2030,1749.6838509036334,2741.604993144541,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LT,offwind,2030,54.22450013090609,104.11104025133967,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LU,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LV,offwind,2030,119.00770551352763,178.5115582702914,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+ME,offwind,2030,3.3698046258447687,5.054706938767152,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+MK,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+NL,offwind,2030,9935.693133585346,19657.254949636525,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+NO,offwind,2030,271.5944207087542,533.4793408520969,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+PL,offwind,2030,4800.000000000001,7199.999999999999,MW,Forum Energii 25.11.2024  +/-20.0% for min/max,generator
+PT,offwind,2030,198.40518046879967,401.1235170347472,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+RO,offwind,2030,36.235113815473056,77.9396787729043,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+SE,offwind,2030,1287.49015026025,2090.7720483574058,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+SI,offwind,2030,0.8163284657200057,1.2244926985800084,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+SK,offwind,2030,0.0,0.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+AL,onwind,2030,384.55081538065724,576.8262230709857,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+AT,onwind,2030,6320.0,10799.999999999998,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BA,onwind,2030,80.00000000000001,120.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BE,onwind,2030,7085.534456721726,11011.303547608088,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+BG,onwind,2030,712.9569557057657,3208.3063006759453,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+CH,onwind,2030,240.0,372.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+CZ,onwind,2030,640.0000000000001,1799.9999999999998,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+DE,onwind,2030,92000.0,138000.0,MW,115 GW (Agora) +/-20.0% for min/max,generator
+DK,onwind,2030,4033.7094364166505,12613.592158091482,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+EE,onwind,2030,1556.0832091883192,2334.124813782478,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+ES,onwind,2030,47736.37866449442,73623.27057708094,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+FI,onwind,2030,5293.669430922645,25696.353695937,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+FR,onwind,2030,28420.490681828876,44727.32959763232,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+GB,onwind,2030,20533.333333333332,31599.999999999996,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+GR,onwind,2030,5102.928874491842,10934.847588196802,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+HR,onwind,2030,1589.3559468204642,2694.9948663477435,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+HU,onwind,2030,240.0,1320.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+IE,onwind,2030,9703.10877447399,17443.79105523414,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+IT,onwind,2030,19770.31614909637,30978.395006855462,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LT,onwind,2030,3945.775499869094,7575.88895974866,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LU,onwind,2030,240.0,480.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+LV,onwind,2030,1640.9922944864725,2461.4884417297085,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+ME,onwind,2030,215.35019537415522,323.02529306123284,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+MK,onwind,2030,320.00000000000006,480.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+NL,onwind,2030,8624.306866414652,17062.745050363475,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+NO,onwind,2030,5226.6873664912455,10266.520659147902,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+PL,onwind,2030,9600.000000000002,14399.999999999998,MW,Forum Energii 25.11.2024 +/-20.0% for min/max,generator
+PT,onwind,2030,7161.5948195312,14478.876482965254,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+RO,onwind,2030,5840.0,8760.0,MW,draft NECP according to EPG 25.11.2024 +/-20.0% for min/max,generator
+SE,onwind,2030,17112.509849739752,27789.22795164259,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+SI,onwind,2030,159.18367153428002,238.77550730142,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+SK,onwind,2030,640.0000000000001,972.0,MW,Ember in on-/offshore ratio like Atlite in 2050 and +/-20.0% for min/max,generator
+AL,solar,2030,654.37106,981.5565899999999,MW,Ember,generator
+AT,solar,2030,9600.000000000002,15000.0,MW,Ember,generator
+BA,solar,2030,0.0,1391.2315772920267,MW,Data of MK scaled according to area (Factor ca. 2),generator
+BE,solar,2030,9200.000000000002,13920.0,MW,Ember,generator
+BG,solar,2030,2560.0000000000005,10200.0,MW,Ember,generator
+CH,solar,2030,7816.0,11760.0,MW,Ember,generator
+CZ,solar,2030,6400.0,12120.0,MW,Ember,generator
+DE,solar,2030,172000.0,258000.0,MW,Ember,generator
+DK,solar,2030,9360.0,42586.583999999995,MW,Ember,generator
+EE,solar,2030,960.0,1440.0,MW,Ember,generator
+ES,solar,2030,61120.00000000001,93119.99999999999,MW,Ember,generator
+FI,solar,2030,1866.666666666667,8520.0,MW,Ember,generator
+FR,solar,2030,43200.0,72000.0,MW,NECP 54-60 GW +/-20.0% for min/max (Agora),generator
+GB,solar,2030,32800.00000000001,49680.0,MW,Ember,generator
+GR,solar,2030,6160.0,15600.0,MW,Ember,generator
+HR,solar,2030,666.6666666666667,6000.0,MW,Ember,generator
+HU,solar,2030,8000.0,12600.0,MW,Ember,generator
+IE,solar,2030,1692.0000000000002,9600.0,MW,Ember,generator
+IT,solar,2030,60320.00000000001,95880.00000000001,MW,Ember,generator
+LT,solar,2030,1600.0,5100.0,MW,Ember,generator
+LU,solar,2030,787.2,1560.0,MW,Ember,generator
+LV,solar,2030,400.0,600.0,MW,Ember,generator
+ME,solar,2030,519.2,778.8000000000001,MW,Ember,generator
+MK,solar,2030,460.8,691.1999999999999,MW,Ember,generator
+NL,solar,2030,20640.0,71160.0,MW,Ember,generator
+NO,solar,2030,3470.7903784000005,6467.999999999999,MW,Ember,generator
+PL,solar,2030,22400.000000000004,33600.0,MW,Forum Energii 25.11.2024  +/-20.0% for min/max,generator
+PT,solar,2030,7120.000000000001,24479.999999999996,MW,Ember,generator
+RO,solar,2030,4080.0,9960.0,MW,draft NECP according to EPG 25.11.2024 +/-20.0% for min/max,generator
+SE,solar,2030,6144.0,9240.0,MW,Ember,generator
+SI,solar,2030,2800.0000000000005,4560.0,MW,Ember,generator
+SK,solar,2030,1119.9999999999998,2052.0,MW,Ember,generator
+AL,solar,2050,654.37106,53772.92556920771,MW,Atlite,generator
+AT,solar,2050,9600.000000000002,175423.9416044631,MW,Atlite,generator
+BA,solar,2050,0.0,89158.70928136454,MW,Atlite,generator
+BE,solar,2050,9200.000000000002,101717.1320311867,MW,Atlite,generator
+BG,solar,2050,2560.0000000000005,234003.7324583285,MW,Atlite,generator
+CH,solar,2050,7816.0,124131.9031188333,MW,Atlite,generator
+CZ,solar,2050,6400.0,209172.7148897193,MW,Atlite,generator
+DE,solar,2050,172000.0,500000.0,MW,NDP scen. C is max (500 GW) (Agora),generator
+DK,solar,2050,9360.0,144146.2917315938,MW,Atlite,generator
+EE,solar,2050,960.0,62015.59035631543,MW,Atlite,generator
+ES,solar,2050,61120.00000000001,289000.0,MW,TYNDP2022 Distributed Energy (available under https://2022.entsos-tyndp-scenarios.eu/visualisation-platform/) with 233 GW and 25% tolerance,generator
+FI,solar,2050,1866.666666666667,101168.0483647717,MW,Atlite,generator
+FR,solar,2050,43200.0,308400.0,MW,RTE (257 GW) as max +/-20.0%  (Agora),generator
+GB,solar,2050,32800.00000000001,841944.199278856,MW,Atlite,generator
+GR,solar,2050,6160.0,203454.5148532936,MW,Atlite,generator
+HR,solar,2050,666.6666666666667,80087.90508648194,MW,Atlite,generator
+HU,solar,2050,8000.0,300533.5584624403,MW,Atlite,generator
+IE,solar,2050,1692.0000000000002,220170.066225176,MW,Atlite,generator
+IT,solar,2050,60320.00000000001,300000.0,MW,Italian Long Term Strategy as communicated by ECCO 2025/01/22 as max +/-20.0%  (Agora),generator
+LT,solar,2050,1600.0,176979.1913360081,MW,Atlite,generator
+LU,solar,2050,787.2,7208.06956825523,MW,Atlite,generator
+LV,solar,2050,400.0,120155.4811691505,MW,Atlite,generator
+ME,solar,2050,519.2,14695.0840528763,MW,Atlite,generator
+MK,solar,2050,460.8,50607.82873708863,MW,Atlite,generator
+NL,solar,2050,20640.0,138475.3765843459,MW,Atlite,generator
+NO,solar,2050,3470.7903784000005,300356.6150486919,MW,Atlite,generator
+PL,solar,2050,22400.000000000004,106919.99999999999,MW,89.1 GW https://instrat.pl/wp-content/uploads/2021/06/Instrat-Co-po-w%C4%99glu.pdf . (Agora),generator
+PT,solar,2050,7120.000000000001,136607.2228677924,MW,Atlite,generator
+RO,solar,2050,26640.0,39959.99999999999,MW,draft NECP according to EPG 25.11.2024  +/-20.0%,generator
+SE,solar,2050,6144.0,194842.970971773,MW,Atlite,generator
+SI,solar,2050,2800.0000000000005,24156.6234909775,MW,Atlite,generator
+SK,solar,2050,1119.9999999999998,100139.6071560925,MW,Atlite,generator
+AL,onwind,2050,384.55081538065724,67491.86156512852,MW,Atlite,generator
+AT,onwind,2050,6320.0,139636.0433286459,MW,Atlite,generator
+BA,onwind,2050,80.00000000000001,140826.7144179389,MW,Atlite,generator
+BE,onwind,2050,7085.534456721726,14414.82439182257,MW,Atlite,generator
+BG,onwind,2050,712.9569557057657,145579.5355003047,MW,Atlite,generator
+CH,onwind,2050,240.0,76714.33786350509,MW,Atlite,generator
+CZ,onwind,2050,640.0000000000001,104280.3398579476,MW,Atlite,generator
+DE,onwind,2050,92000.0,210000.0,MW,NDP scen. A of 2037 is max (210 GW) (Agora),generator
+DK,onwind,2050,4033.7094364166505,73472.2622725701,MW,Atlite,generator
+EE,onwind,2050,1556.0832091883192,93642.60048710904,MW,Atlite,generator
+ES,onwind,2050,47736.37866449442,932050.4694851768,MW,Atlite,generator
+FI,onwind,2050,5293.669430922645,718168.4773556133,MW,Atlite,generator
+FR,onwind,2050,28420.490681828876,954028.7198875824,MW,Atlite,generator
+GB,onwind,2050,20533.333333333332,50000.0,MW,"Relation 2:1 offshore/onshore from 2030 -->  [no higher values known: https://www.carbonfreeeurope.org/product/net-zero-unveiled-uks-ambitions-analyzed, https://100percentrenewableuk.org/wp-content/uploads/100-RE-23-Dec-.pdf",generator
+GR,onwind,2050,5102.928874491842,208175.2303269424,MW,Atlite,generator
+HR,onwind,2050,1589.3559468204642,74223.71503669361,MW,Atlite,generator
+HU,onwind,2050,240.0,137152.2517157686,MW,Atlite,generator
+IE,onwind,2050,9703.10877447399,140888.5491448598,MW,Atlite,generator
+IT,onwind,2050,19770.31614909637,522451.8838525405,MW,Atlite,generator
+LT,onwind,2050,3945.775499869094,128364.6677344847,MW,Atlite,generator
+LU,onwind,2050,240.0,2952.601611573248,MW,Atlite,generator
+LV,onwind,2050,1640.9922944864725,149651.4890242207,MW,Atlite,generator
+ME,onwind,2050,215.35019537415522,37722.18499858843,MW,Atlite,generator
+MK,onwind,2050,320.00000000000006,66676.75384886953,MW,Atlite,generator
+NL,onwind,2050,8624.306866414652,46326.58810776089,MW,Atlite,generator
+NO,onwind,2050,5226.6873664912455,730823.1869165526,MW,Atlite,generator
+PL,onwind,2050,9600.000000000002,52800.0,MW,The estimated potential for onshore is 44 GW. (Agora),generator
+PT,onwind,2050,7161.5948195312,160994.1054533841,MW,Atlite,generator
+RO,onwind,2050,5840.0,20000.0,MW,as communicated by EPG 2025/01/31,generator
+SE,onwind,2050,17112.509849739752,935927.5651114567,MW,Atlite,generator
+SI,onwind,2050,159.18367153428002,28734.06906209032,MW,Atlite,generator
+SK,onwind,2050,640.0000000000001,52215.50400787203,MW,Atlite,generator
+AL,offwind,2050,15.449184619342825,2711.460196985051,MW,Atlite,generator
+AT,offwind,2050,0.0,0.0,MW,Atlite,generator
+BA,offwind,2050,0.0,0.0,MW,Atlite,generator
+BE,offwind,2050,1794.4655432782738,3650.664017164443,MW,Atlite,generator
+BG,offwind,2050,7.043044294234445,1438.127657858028,MW,Atlite,generator
+CH,offwind,2050,0.0,0.0,MW,Atlite,generator
+CZ,offwind,2050,0.0,0.0,MW,Atlite,generator
+DE,offwind,2050,24000.0,84000.0,MW,"Offshore target in 2045 is 70, max is +20% (Agora)",generator
+DK,offwind,2050,2566.7705635833504,46752.60898530148,MW,Atlite,generator
+EE,offwind,2050,283.9167908116809,17085.65869522392,MW,Atlite,generator
+ES,offwind,2050,503.62133550558207,9833.18205806555,MW,Atlite,generator
+FI,offwind,2050,466.330569077356,63264.98454594478,MW,Atlite,generator
+FR,offwind,2050,859.50931817113,28852.30180316805,MW,Atlite,generator
+GB,offwind,2050,41066.666666666664,99687.31821074907,MW,Atlite,generator
+GR,offwind,2050,497.071125508159,20278.13802359493,MW,Atlite,generator
+HR,offwind,2050,250.64405317953592,11705.20223368268,MW,Atlite,generator
+HU,offwind,2050,0.0,0.0,MW,Atlite,generator
+IE,offwind,2050,976.8912255260102,14184.40116829101,MW,Atlite,generator
+IT,offwind,2050,1749.6838509036334,46237.27901755139,MW,Atlite,generator
+LT,offwind,2050,54.22450013090609,1764.041046583417,MW,Atlite,generator
+LU,offwind,2050,0.0,0.0,MW,Atlite,generator
+LV,offwind,2050,119.00770551352763,10852.99449320612,MW,Atlite,generator
+ME,offwind,2050,3.3698046258447687,590.2775861631329,MW,Atlite,generator
+MK,offwind,2050,0.0,0.0,MW,Atlite,generator
+NL,offwind,2050,9935.693133585346,53370.8703197002,MW,Atlite,generator
+NO,offwind,2050,271.5944207087542,37975.77436210315,MW,Atlite,generator
+PL,offwind,2050,4800.000000000001,39600.0,MW,33 GW http://psew.pl/nowy-potencjal-baltyku-33-gw-mocy-i-20-nowych-obszarow-pod-mfw-raport/(Agora),generator
+PT,offwind,2050,198.40518046879967,4460.188736142793,MW,Atlite,generator
+RO,offwind,2050,36.235113815473056,18000.0,MW,as communicated by EPG 2025/01/31  +20.0%,generator
+SE,offwind,2050,1287.49015026025,70416.1769383224,MW,Atlite,generator
+SI,offwind,2050,0.8163284657200057,147.3545514138839,MW,Atlite,generator
+SK,offwind,2050,0.0,0.0,MW,Atlite,generator
+AL,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,offwind,2020,,2314.077035762371,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,offwind,2020,,7747.000000000001,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,offwind,2020,,1700.8,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,offwind,2020,,3.296633431166667,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,offwind,2020,,72.95875184829333,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,offwind,2020,,0.4624755293036763,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,offwind,2020,,10382.70519991023,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,offwind,2020,,25.10287104602192,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,offwind,2020,,2439.465323470064,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,offwind,2020,,1.112722948592202,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+PT,offwind,2020,,24.96633451582581,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,offwind,2020,,281.15,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,offwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,onwind,2020,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,onwind,2020,,3224.12,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,onwind,2020,,106.7229401804664,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,onwind,2020,,2261.964666714989,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,onwind,2020,,703.0321976773537,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,onwind,2020,,85.28959871158852,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,onwind,2020,,339.41,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,onwind,2020,,54312.54619411324,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,onwind,2020,,4533.957488034115,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,onwind,2020,,316.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,onwind,2020,,27083.72819679152,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,onwind,2020,,2781.677738747053,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,onwind,2020,,17512.02802518003,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,onwind,2020,,14100.72476643336,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,onwind,2020,,4113.000000000001,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,onwind,2020,,768.5770598195337,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,onwind,2020,,323.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,onwind,2020,,4274.660000000001,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,onwind,2020,,10878.77163042971,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,onwind,2020,,539.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,onwind,2020,,289.8140692666177,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,onwind,2020,,77.82074956512004,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,onwind,2020,,118.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,onwind,2020,,36.99999999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,onwind,2020,,4100.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,onwind,2020,,3594.222261252946,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,onwind,2020,,6266.655381302254,MW,Interpolation between existing capacities and 2030 maximum,generator
+PT,onwind,2020,,5213.24564051156,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,onwind,2020,,3022.52,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,onwind,2020,,13259.69,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,onwind,2020,,5.32977156600406,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,onwind,2020,,3.233400518269678,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,solar,2020,,16.65497438896999,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,solar,2020,,2220.1,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,solar,2020,,36.0290257730784,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,solar,2020,,5428.54337645247,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,solar,2020,,1072.859499458582,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,solar,2020,,2936.083077681703,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,solar,2020,,2073.420000000001,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,solar,2020,,53708.24778557188,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,solar,2020,,1300.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,solar,2020,,130.3,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,solar,2020,,11784.52837019695,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,solar,2020,,390.9999999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,solar,2020,,11933.95464524045,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,solar,2020,,13462.36339469028,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,solar,2020,,3247.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,solar,2020,,83.5638554370333,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,solar,2020,,1953.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,solar,2020,,39.96589517521873,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,solar,2020,,21607.55828478348,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,solar,2020,,148.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,solar,2020,,269.6157040801764,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,solar,2020,,7.084308613106668,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,solar,2020,,6.22,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,solar,2020,,94.35999999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,solar,2020,,10213.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,solar,2020,,151.5389591318717,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,solar,2020,,3935.74,MW,Interpolation between existing capacities and 2030 maximum,generator
+PT,solar,2020,,1025.341700484936,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,solar,2020,,1386.71,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,solar,2020,,1416.048276582977,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,solar,2020,,266.81,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,solar,2020,,592.8999999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,offwind,2025,,11.586888464507117,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,offwind,2025,,2551.386744077141,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,offwind,2025,,15.846849662027502,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,offwind,2025,,21873.5,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,offwind,2025,,4863.603920954259,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,offwind,2025,,212.93759310876067,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,offwind,2025,,390.01302817511174,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,offwind,2025,,1168.302527955646,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,offwind,2025,,676.5664389484917,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,offwind,2025,,36791.35259995512,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,offwind,2025,,532.5762059015989,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,offwind,2025,,212.5025668261283,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,offwind,2025,,890.6559079059415,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,offwind,2025,,1370.8024965722702,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,offwind,2025,,52.05552012566984,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,offwind,2025,,89.2557791351457,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,offwind,2025,,2.527353469383576,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,offwind,2025,,11048.360136553294,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,offwind,2025,,267.2960319003446,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,offwind,2025,,0.0,MW,First offshore should start in 2026. (Agora),generator
+PT,offwind,2025,,213.0449257752865,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,offwind,2025,,38.96983938645215,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,offwind,2025,,1185.9610241787032,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,offwind,2025,,0.6122463492900043,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,offwind,2025,,0.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,onwind,2025,,288.4131115354929,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,onwind,2025,,7012.06,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,onwind,2025,,113.3614700902332,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,onwind,2025,,6636.634107161539,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,onwind,2025,,1955.6692491766496,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,onwind,2025,,228.64479935579425,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,onwind,2025,,1069.705,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,onwind,2025,,96156.27309705662,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,onwind,2025,,8573.774823062799,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,onwind,2025,,1325.0624068912393,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,onwind,2025,,50353.49938693624,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,onwind,2025,,14239.015717342027,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,onwind,2025,,31119.678811406175,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,onwind,2025,,22850.362383216678,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,onwind,2025,,7523.923794098402,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,onwind,2025,,1731.7859630836385,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,onwind,2025,,821.5000000000001,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,onwind,2025,,10859.22552761707,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,onwind,2025,,20928.583318642588,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,onwind,2025,,4057.4444798743298,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,onwind,2025,,384.90703463330885,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,onwind,2025,,1269.6545956474142,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,onwind,2025,,220.51264653061642,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,onwind,2025,,258.5,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,onwind,2025,,10581.372525181738,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,onwind,2025,,6930.371460200425,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,onwind,2025,,10333.327690651126,MW,Interpolation between existing capacities and 2030 maximum,generator
+PT,onwind,2025,,9846.061061738406,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,onwind,2025,,5891.26,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,onwind,2025,,20524.458975821297,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,onwind,2025,,122.05263943371203,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,onwind,2025,,487.61670025913486,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,solar,2025,,499.10578219448496,MW,Interpolation between existing capacities and 2030 maximum,generator
+AT,solar,2025,,8610.05,MW,Interpolation between existing capacities and 2030 maximum,generator
+BA,solar,2025,,18.0145128865392,MW,Interpolation between existing capacities and 2030 maximum,generator
+BE,solar,2025,,9674.271688226234,MW,Interpolation between existing capacities and 2030 maximum,generator
+BG,solar,2025,,5636.42974972929,MW,Interpolation between existing capacities and 2030 maximum,generator
+CH,solar,2025,,7348.041538840851,MW,Interpolation between existing capacities and 2030 maximum,generator
+CZ,solar,2025,,7096.71,MW,Interpolation between existing capacities and 2030 maximum,generator
+DE,solar,2025,,155854.12389278592,MW,Interpolation between existing capacities and 2030 maximum,generator
+DK,solar,2025,,21943.292,MW,Interpolation between existing capacities and 2030 maximum,generator
+EE,solar,2025,,785.1499999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+ES,solar,2025,,52452.26418509847,MW,Interpolation between existing capacities and 2030 maximum,generator
+FI,solar,2025,,4455.5,MW,Interpolation between existing capacities and 2030 maximum,generator
+FR,solar,2025,,41966.97732262022,MW,Interpolation between existing capacities and 2030 maximum,generator
+GB,solar,2025,,31571.18169734514,MW,Interpolation between existing capacities and 2030 maximum,generator
+GR,solar,2025,,9423.5,MW,Interpolation between existing capacities and 2030 maximum,generator
+HR,solar,2025,,3041.781927718517,MW,Interpolation between existing capacities and 2030 maximum,generator
+HU,solar,2025,,7276.5,MW,Interpolation between existing capacities and 2030 maximum,generator
+IE,solar,2025,,4819.9829475876095,MW,Interpolation between existing capacities and 2030 maximum,generator
+IT,solar,2025,,58743.779142391744,MW,Interpolation between existing capacities and 2030 maximum,generator
+LT,solar,2025,,2624.0,MW,Interpolation between existing capacities and 2030 maximum,generator
+LU,solar,2025,,914.8078520400882,MW,Interpolation between existing capacities and 2030 maximum,generator
+LV,solar,2025,,303.5421543065533,MW,Interpolation between existing capacities and 2030 maximum,generator
+ME,solar,2025,,392.51000000000005,MW,Interpolation between existing capacities and 2030 maximum,generator
+MK,solar,2025,,392.78,MW,Interpolation between existing capacities and 2030 maximum,generator
+NL,solar,2025,,40686.49999999999,MW,Interpolation between existing capacities and 2030 maximum,generator
+NO,solar,2025,,3309.769479565935,MW,Interpolation between existing capacities and 2030 maximum,generator
+PL,solar,2025,16000.0,25200.0,MW,It's (01.07.2024) 19 223 MW. (Agora),generator
+PT,solar,2025,,12752.670850242466,MW,Interpolation between existing capacities and 2030 maximum,generator
+RO,solar,2025,,5673.355,MW,Interpolation between existing capacities and 2030 maximum,generator
+SE,solar,2025,,5328.024138291488,MW,Interpolation between existing capacities and 2030 maximum,generator
+SI,solar,2025,,2413.4049999999997,MW,Interpolation between existing capacities and 2030 maximum,generator
+SK,solar,2025,,1322.4499999999998,MW,Interpolation between existing capacities and 2030 maximum,generator
+AL,offwind,2035,15.449184619342825,695.2453819430234,MW,Interpolation between 2030 and 2050,generator
+AT,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BA,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BE,offwind,2035,1794.4655432782738,3004.1883435850445,MW,Interpolation between 2030 and 2050,generator
+BG,offwind,2035,7.043044294234445,383.30218895754825,MW,Interpolation between 2030 and 2050,generator
+CH,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+CZ,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+DE,offwind,2035,24000.0,48000.0,MW,DE offshore target is 40 GW +/-20.0% for min/max (Agora),generator
+DK,offwind,2035,2566.7705635833504,17707.95812775676,MW,Interpolation between 2030 and 2050,generator
+EE,offwind,2035,283.9167908116809,4590.82106346912,MW,Interpolation between 2030 and 2050,generator
+ES,offwind,2035,503.62133550558207,3040.8425817056795,MW,Interpolation between 2030 and 2050,generator
+FI,offwind,2035,466.330569077356,17513.980864533445,MW,Interpolation between 2030 and 2050,generator
+FR,offwind,2035,859.50931817113,8227.578252567771,MW,Interpolation between 2030 and 2050,generator
+GB,offwind,2035,41066.666666666664,72321.82955268727,MW,Interpolation between 2030 and 2050,generator
+GR,offwind,2035,497.071125508159,5868.398814751132,MW,Interpolation between 2030 and 2050,generator
+HR,offwind,2035,250.64405317953592,3245.0544086598625,MW,Interpolation between 2030 and 2050,generator
+HU,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+IE,offwind,2035,976.8912255260102,4863.257000647148,MW,Interpolation between 2030 and 2050,generator
+IT,offwind,2035,1749.6838509036334,13615.523499246252,MW,Interpolation between 2030 and 2050,generator
+LT,offwind,2035,54.22450013090609,519.093541834359,MW,Interpolation between 2030 and 2050,generator
+LU,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+LV,offwind,2035,119.00770551352763,2847.1322920042485,MW,Interpolation between 2030 and 2050,generator
+ME,offwind,2035,3.3698046258447687,151.3604267448586,MW,Interpolation between 2030 and 2050,generator
+MK,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+NL,offwind,2035,9935.693133585346,28085.658792152444,MW,Interpolation between 2030 and 2050,generator
+NO,offwind,2035,271.5944207087542,9894.053096164858,MW,Interpolation between 2030 and 2050,generator
+PL,offwind,2035,4800.000000000001,15300.0,MW,Interpolation between 2030 and 2050,generator
+PT,offwind,2035,198.40518046879967,1415.8898218117583,MW,Interpolation between 2030 and 2050,generator
+RO,offwind,2035,36.235113815473056,4558.454759079678,MW,Interpolation between 2030 and 2050,generator
+SE,offwind,2035,1287.49015026025,19172.123270848653,MW,Interpolation between 2030 and 2050,generator
+SI,offwind,2035,0.8163284657200057,37.75700737740598,MW,Interpolation between 2030 and 2050,generator
+SK,offwind,2035,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+AL,onwind,2035,384.55081538065724,17305.58505858537,MW,Interpolation between 2030 and 2050,generator
+AT,onwind,2035,6320.0,43009.010832161475,MW,Interpolation between 2030 and 2050,generator
+BA,onwind,2035,80.00000000000001,35296.67860448472,MW,Interpolation between 2030 and 2050,generator
+BE,onwind,2035,7085.534456721726,11862.18375866171,MW,Interpolation between 2030 and 2050,generator
+BG,onwind,2035,712.9569557057657,38801.11360058312,MW,Interpolation between 2030 and 2050,generator
+CH,onwind,2035,240.0,19457.584465876273,MW,Interpolation between 2030 and 2050,generator
+CZ,onwind,2035,640.0000000000001,27420.084964486905,MW,Interpolation between 2030 and 2050,generator
+DE,onwind,2035,92000.0,156000.0,MW,Interpolation between 2030 and 2050,generator
+DK,onwind,2035,4033.7094364166505,27828.259686711135,MW,Interpolation between 2030 and 2050,generator
+EE,onwind,2035,1556.0832091883192,25161.24373211411,MW,Interpolation between 2030 and 2050,generator
+ES,onwind,2035,47736.37866449442,288230.07030410494,MW,Interpolation between 2030 and 2050,generator
+FI,onwind,2035,5293.669430922645,198814.38461085607,MW,Interpolation between 2030 and 2050,generator
+FR,onwind,2035,28420.490681828876,272052.67717011983,MW,Interpolation between 2030 and 2050,generator
+GB,onwind,2035,20533.333333333332,36199.99999999999,MW,Interpolation between 2030 and 2050,generator
+GR,onwind,2035,5102.928874491842,60244.9432728832,MW,Interpolation between 2030 and 2050,generator
+HR,onwind,2035,1589.3559468204642,20577.174908934212,MW,Interpolation between 2030 and 2050,generator
+HU,onwind,2035,240.0,35278.06292894215,MW,Interpolation between 2030 and 2050,generator
+IE,onwind,2035,9703.10877447399,48304.98057764056,MW,Interpolation between 2030 and 2050,generator
+IT,onwind,2035,19770.31614909637,153846.7672182767,MW,Interpolation between 2030 and 2050,generator
+LT,onwind,2035,3945.775499869094,37773.08365343267,MW,Interpolation between 2030 and 2050,generator
+LU,onwind,2035,240.0,1098.150402893312,MW,Interpolation between 2030 and 2050,generator
+LV,onwind,2035,1640.9922944864725,39258.988587352454,MW,Interpolation between 2030 and 2050,generator
+ME,onwind,2035,215.35019537415522,9672.815219443033,MW,Interpolation between 2030 and 2050,generator
+MK,onwind,2035,320.00000000000006,17029.188462217382,MW,Interpolation between 2030 and 2050,generator
+NL,onwind,2035,8624.306866414652,24378.705814712826,MW,Interpolation between 2030 and 2050,generator
+NO,onwind,2035,5226.6873664912455,190405.6872234991,MW,Interpolation between 2030 and 2050,generator
+PL,onwind,2035,9600.000000000002,24000.0,MW,Interpolation between 2030 and 2050,generator
+PT,onwind,2035,7161.5948195312,51107.68372556997,MW,Interpolation between 2030 and 2050,generator
+RO,onwind,2035,5840.0,11570.0,MW,Interpolation between 2030 and 2050,generator
+SE,onwind,2035,17112.509849739752,254823.81224159617,MW,Interpolation between 2030 and 2050,generator
+SI,onwind,2035,159.18367153428002,7362.598895998645,MW,Interpolation between 2030 and 2050,generator
+SK,onwind,2035,640.0000000000001,13782.876001968005,MW,Interpolation between 2030 and 2050,generator
+AL,solar,2035,654.37106,14179.39883480193,MW,Interpolation between 2030 and 2050,generator
+AT,solar,2035,9600.000000000002,55105.98540111577,MW,Interpolation between 2030 and 2050,generator
+BA,solar,2035,0.0,22289.677320341136,MW,Interpolation between 2030 and 2050,generator
+BE,solar,2035,9200.000000000002,35869.28300779668,MW,Interpolation between 2030 and 2050,generator
+BG,solar,2035,2560.0000000000005,66150.93311458213,MW,Interpolation between 2030 and 2050,generator
+CH,solar,2035,7816.0,39852.97577970832,MW,Interpolation between 2030 and 2050,generator
+CZ,solar,2035,6400.0,61383.17872242982,MW,Interpolation between 2030 and 2050,generator
+DE,solar,2035,172000.0,318500.0,MW,Interpolation between 2030 and 2050,generator
+DK,solar,2035,9360.0,67976.51093289845,MW,Interpolation between 2030 and 2050,generator
+EE,solar,2035,960.0,16583.89758907886,MW,Interpolation between 2030 and 2050,generator
+ES,solar,2035,61120.00000000001,142089.99999999997,MW,Interpolation between 2030 and 2050,generator
+FI,solar,2035,1866.666666666667,31682.012091192926,MW,Interpolation between 2030 and 2050,generator
+FR,solar,2035,43200.0,131100.0,MW,Interpolation between 2030 and 2050,generator
+GB,solar,2035,32800.00000000001,247746.049819714,MW,Interpolation between 2030 and 2050,generator
+GR,solar,2035,6160.0,62563.6287133234,MW,Interpolation between 2030 and 2050,generator
+HR,solar,2035,666.6666666666667,24521.976271620486,MW,Interpolation between 2030 and 2050,generator
+HU,solar,2035,8000.0,84583.38961561007,MW,Interpolation between 2030 and 2050,generator
+IE,solar,2035,1692.0000000000002,62242.51655629401,MW,Interpolation between 2030 and 2050,generator
+IT,solar,2035,60320.00000000001,146910.00000000003,MW,Interpolation between 2030 and 2050,generator
+LT,solar,2035,1600.0,48069.797834002035,MW,Interpolation between 2030 and 2050,generator
+LU,solar,2035,787.2,2972.017392063807,MW,Interpolation between 2030 and 2050,generator
+LV,solar,2035,400.0,30488.87029228763,MW,Interpolation between 2030 and 2050,generator
+ME,solar,2035,519.2,4257.871013219075,MW,Interpolation between 2030 and 2050,generator
+MK,solar,2035,460.8,13170.357184272158,MW,Interpolation between 2030 and 2050,generator
+NL,solar,2035,20640.0,87988.84414608649,MW,Interpolation between 2030 and 2050,generator
+NO,solar,2035,3470.7903784000005,79940.15376217298,MW,Interpolation between 2030 and 2050,generator
+PL,solar,2035,22400.000000000004,51930.0,MW,Interpolation between 2030 and 2050,generator
+PT,solar,2035,7120.000000000001,52511.8057169481,MW,Interpolation between 2030 and 2050,generator
+RO,solar,2035,9720.0,17460.0,MW,Interpolation between 2030 and 2050,generator
+SE,solar,2035,6144.0,55640.74274294325,MW,Interpolation between 2030 and 2050,generator
+SI,solar,2035,2800.0000000000005,9459.155872744375,MW,Interpolation between 2030 and 2050,generator
+SK,solar,2035,1119.9999999999998,26573.901789023126,MW,Interpolation between 2030 and 2050,generator
+AL,offwind,2040,15.449184619342825,1367.3169869570327,MW,Interpolation between 2030 and 2050,generator
+AT,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BA,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BE,offwind,2040,1794.4655432782738,3219.6802347781777,MW,Interpolation between 2030 and 2050,generator
+BG,offwind,2040,7.043044294234445,734.9106785910415,MW,Interpolation between 2030 and 2050,generator
+CH,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+CZ,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+DE,offwind,2040,24000.0,66000.0,MW,Interpolation between 2035 and 2045 (55 GW) +/-20.0% for min/max (Agora),generator
+DK,offwind,2040,2566.7705635833504,27389.508413604995,MW,Interpolation between 2030 and 2050,generator
+EE,offwind,2040,283.9167908116809,8755.76694072072,MW,Interpolation between 2030 and 2050,generator
+ES,offwind,2040,503.62133550558207,5304.9557404923025,MW,Interpolation between 2030 and 2050,generator
+FI,offwind,2040,466.330569077356,32764.315425003893,MW,Interpolation between 2030 and 2050,generator
+FR,offwind,2040,859.50931817113,15102.486102767865,MW,Interpolation between 2030 and 2050,generator
+GB,offwind,2040,41066.666666666664,81443.65910537454,MW,Interpolation between 2030 and 2050,generator
+GR,offwind,2040,497.071125508159,10671.645217699064,MW,Interpolation between 2030 and 2050,generator
+HR,offwind,2040,250.64405317953592,6065.103683667469,MW,Interpolation between 2030 and 2050,generator
+HU,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+IE,offwind,2040,976.8912255260102,7970.305056528435,MW,Interpolation between 2030 and 2050,generator
+IT,offwind,2040,1749.6838509036334,24489.442005347963,MW,Interpolation between 2030 and 2050,generator
+LT,offwind,2040,54.22450013090609,934.0760434173784,MW,Interpolation between 2030 and 2050,generator
+LU,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+LV,offwind,2040,119.00770551352763,5515.753025738206,MW,Interpolation between 2030 and 2050,generator
+ME,offwind,2040,3.3698046258447687,297.66614655095003,MW,Interpolation between 2030 and 2050,generator
+MK,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+NL,offwind,2040,9935.693133585346,36514.062634668364,MW,Interpolation between 2030 and 2050,generator
+NO,offwind,2040,271.5944207087542,19254.62685147762,MW,Interpolation between 2030 and 2050,generator
+PL,offwind,2040,14400.0,23400.000000000004,MW,From the 2nd round of CFD auctions there'll be additional 12 GW (so the sum is around 18 GW) by 2040. (Agora),generator
+PT,offwind,2040,198.40518046879967,2430.6561265887694,MW,Interpolation between 2030 and 2050,generator
+RO,offwind,2040,36.235113815473056,9038.969839386451,MW,Interpolation between 2030 and 2050,generator
+SE,offwind,2040,1287.49015026025,36253.474493339905,MW,Interpolation between 2030 and 2050,generator
+SI,offwind,2040,0.8163284657200057,74.28952205623195,MW,Interpolation between 2030 and 2050,generator
+SK,offwind,2040,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+AL,onwind,2040,384.55081538065724,34034.34389409976,MW,Interpolation between 2030 and 2050,generator
+AT,onwind,2040,6320.0,75218.02166432295,MW,Interpolation between 2030 and 2050,generator
+BA,onwind,2040,80.00000000000001,70473.35720896945,MW,Interpolation between 2030 and 2050,generator
+BE,onwind,2040,7085.534456721726,12713.06396971533,MW,Interpolation between 2030 and 2050,generator
+BG,onwind,2040,712.9569557057657,74393.9209004903,MW,Interpolation between 2030 and 2050,generator
+CH,onwind,2040,240.0,38543.168931752545,MW,Interpolation between 2030 and 2050,generator
+CZ,onwind,2040,640.0000000000001,53040.1699289738,MW,Interpolation between 2030 and 2050,generator
+DE,onwind,2040,92000.0,174000.0,MW,Interpolation between 2030 and 2050,generator
+DK,onwind,2040,4033.7094364166505,43042.92721533079,MW,Interpolation between 2030 and 2050,generator
+EE,onwind,2040,1556.0832091883192,47988.36265044575,MW,Interpolation between 2030 and 2050,generator
+ES,onwind,2040,47736.37866449442,502836.8700311289,MW,Interpolation between 2030 and 2050,generator
+FI,onwind,2040,5293.669430922645,371932.4155257751,MW,Interpolation between 2030 and 2050,generator
+FR,onwind,2040,28420.490681828876,499378.0247426073,MW,Interpolation between 2030 and 2050,generator
+GB,onwind,2040,20533.333333333332,40800.0,MW,Interpolation between 2030 and 2050,generator
+GR,onwind,2040,5102.928874491842,109555.0389575696,MW,Interpolation between 2030 and 2050,generator
+HR,onwind,2040,1589.3559468204642,38459.354951520676,MW,Interpolation between 2030 and 2050,generator
+HU,onwind,2040,240.0,69236.12585788428,MW,Interpolation between 2030 and 2050,generator
+IE,onwind,2040,9703.10877447399,79166.17010004698,MW,Interpolation between 2030 and 2050,generator
+IT,onwind,2040,19770.31614909637,276715.13942969794,MW,Interpolation between 2030 and 2050,generator
+LT,onwind,2040,3945.775499869094,67970.27834711668,MW,Interpolation between 2030 and 2050,generator
+LU,onwind,2040,240.0,1716.300805786624,MW,Interpolation between 2030 and 2050,generator
+LV,onwind,2040,1640.9922944864725,76056.48873297521,MW,Interpolation between 2030 and 2050,generator
+ME,onwind,2040,215.35019537415522,19022.60514582483,MW,Interpolation between 2030 and 2050,generator
+MK,onwind,2040,320.00000000000006,33578.37692443476,MW,Interpolation between 2030 and 2050,generator
+NL,onwind,2040,8624.306866414652,31694.66657906218,MW,Interpolation between 2030 and 2050,generator
+NO,onwind,2040,5226.6873664912455,370544.85378785024,MW,Interpolation between 2030 and 2050,generator
+PL,onwind,2040,9600.000000000002,33599.99999999999,MW,Interpolation between 2030 and 2050,generator
+PT,onwind,2040,7161.5948195312,87736.49096817468,MW,Interpolation between 2030 and 2050,generator
+RO,onwind,2040,5840.0,14380.0,MW,Interpolation between 2030 and 2050,generator
+SE,onwind,2040,17112.509849739752,481858.3965315497,MW,Interpolation between 2030 and 2050,generator
+SI,onwind,2040,159.18367153428002,14486.422284695871,MW,Interpolation between 2030 and 2050,generator
+SK,onwind,2040,640.0000000000001,26593.75200393601,MW,Interpolation between 2030 and 2050,generator
+AL,solar,2040,654.37106,27377.24107960386,MW,Interpolation between 2030 and 2050,generator
+AT,solar,2040,9600.000000000002,95211.97080223155,MW,Interpolation between 2030 and 2050,generator
+BA,solar,2040,0.0,44579.35464068227,MW,Interpolation between 2030 and 2050,generator
+BE,solar,2040,9200.000000000002,57818.56601559336,MW,Interpolation between 2030 and 2050,generator
+BG,solar,2040,2560.0000000000005,122101.86622916425,MW,Interpolation between 2030 and 2050,generator
+CH,solar,2040,7816.0,67945.95155941666,MW,Interpolation between 2030 and 2050,generator
+CZ,solar,2040,6400.0,110646.35744485965,MW,Interpolation between 2030 and 2050,generator
+DE,solar,2040,172000.0,379000.0,MW,Interpolation between 2030 and 2050,generator
+DK,solar,2040,9360.0,93366.4378657969,MW,Interpolation between 2030 and 2050,generator
+EE,solar,2040,960.0,31727.795178157718,MW,Interpolation between 2030 and 2050,generator
+ES,solar,2040,61120.00000000001,191060.0,MW,Interpolation between 2030 and 2050,generator
+FI,solar,2040,1866.666666666667,54844.02418238585,MW,Interpolation between 2030 and 2050,generator
+FR,solar,2040,43200.0,190200.0,MW,Interpolation between 2030 and 2050,generator
+GB,solar,2040,32800.00000000001,445812.099639428,MW,Interpolation between 2030 and 2050,generator
+GR,solar,2040,6160.0,109527.2574266468,MW,Interpolation between 2030 and 2050,generator
+HR,solar,2040,666.6666666666667,43043.95254324097,MW,Interpolation between 2030 and 2050,generator
+HU,solar,2040,8000.0,156566.77923122016,MW,Interpolation between 2030 and 2050,generator
+IE,solar,2040,1692.0000000000002,114885.033112588,MW,Interpolation between 2030 and 2050,generator
+IT,solar,2040,60320.00000000001,197940.0,MW,Interpolation between 2030 and 2050,generator
+LT,solar,2040,1600.0,91039.59566800405,MW,Interpolation between 2030 and 2050,generator
+LU,solar,2040,787.2,4384.034784127614,MW,Interpolation between 2030 and 2050,generator
+LV,solar,2040,400.0,60377.74058457526,MW,Interpolation between 2030 and 2050,generator
+ME,solar,2040,519.2,7736.942026438151,MW,Interpolation between 2030 and 2050,generator
+MK,solar,2040,460.8,25649.514368544314,MW,Interpolation between 2030 and 2050,generator
+NL,solar,2040,20640.0,104817.68829217296,MW,Interpolation between 2030 and 2050,generator
+NO,solar,2040,3470.7903784000005,153412.30752434596,MW,Interpolation between 2030 and 2050,generator
+PL,solar,2040,22400.000000000004,70259.99999999999,MW,Interpolation between 2030 and 2050,generator
+PT,solar,2040,7120.000000000001,80543.61143389622,MW,Interpolation between 2030 and 2050,generator
+RO,solar,2040,15360.000000000002,24959.999999999996,MW,Interpolation between 2030 and 2050,generator
+SE,solar,2040,6144.0,102041.4854858865,MW,Interpolation between 2030 and 2050,generator
+SI,solar,2040,2800.0000000000005,14358.311745488752,MW,Interpolation between 2030 and 2050,generator
+SK,solar,2040,1119.9999999999998,51095.80357804625,MW,Interpolation between 2030 and 2050,generator
+AL,offwind,2045,15.449184619342825,2039.3885919710422,MW,Interpolation between 2030 and 2050,generator
+AT,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BA,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+BE,offwind,2045,1794.4655432782738,3435.1721259713104,MW,Interpolation between 2030 and 2050,generator
+BG,offwind,2045,7.043044294234445,1086.5191682245347,MW,Interpolation between 2030 and 2050,generator
+CH,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+CZ,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+DE,offwind,2045,24000.0,84000.0,MW,DE offshore target is 70 GW +/-20.0% for min/max (Agora),generator
+DK,offwind,2045,2566.7705635833504,37071.058699453235,MW,Interpolation between 2030 and 2050,generator
+EE,offwind,2045,283.9167908116809,12920.712817972319,MW,Interpolation between 2030 and 2050,generator
+ES,offwind,2045,503.62133550558207,7569.0688992789255,MW,Interpolation between 2030 and 2050,generator
+FI,offwind,2045,466.330569077356,48014.649985474345,MW,Interpolation between 2030 and 2050,generator
+FR,offwind,2045,859.50931817113,21977.39395296796,MW,Interpolation between 2030 and 2050,generator
+GB,offwind,2045,41066.666666666664,90565.4886580618,MW,Interpolation between 2030 and 2050,generator
+GR,offwind,2045,497.071125508159,15474.891620646997,MW,Interpolation between 2030 and 2050,generator
+HR,offwind,2045,250.64405317953592,8885.152958675075,MW,Interpolation between 2030 and 2050,generator
+HU,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+IE,offwind,2045,976.8912255260102,11077.35311240972,MW,Interpolation between 2030 and 2050,generator
+IT,offwind,2045,1749.6838509036334,35363.360511449675,MW,Interpolation between 2030 and 2050,generator
+LT,offwind,2045,54.22450013090609,1349.0585450003978,MW,Interpolation between 2030 and 2050,generator
+LU,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+LV,offwind,2045,119.00770551352763,8184.373759472162,MW,Interpolation between 2030 and 2050,generator
+ME,offwind,2045,3.3698046258447687,443.9718663570415,MW,Interpolation between 2030 and 2050,generator
+MK,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+NL,offwind,2045,9935.693133585346,44942.46647718428,MW,Interpolation between 2030 and 2050,generator
+NO,offwind,2045,271.5944207087542,28615.200606790382,MW,Interpolation between 2030 and 2050,generator
+PL,offwind,2045,4800.000000000001,31500.000000000004,MW,Interpolation between 2030 and 2050,generator
+PT,offwind,2045,198.40518046879967,3445.422431365781,MW,Interpolation between 2030 and 2050,generator
+RO,offwind,2045,36.235113815473056,13519.484919693225,MW,Interpolation between 2030 and 2050,generator
+SE,offwind,2045,1287.49015026025,53334.82571583116,MW,Interpolation between 2030 and 2050,generator
+SI,offwind,2045,0.8163284657200057,110.82203673505792,MW,Interpolation between 2030 and 2050,generator
+SK,offwind,2045,0.0,0.0,MW,Interpolation between 2030 and 2050,generator
+AL,onwind,2045,384.55081538065724,50763.10272961414,MW,Interpolation between 2030 and 2050,generator
+AT,onwind,2045,6320.0,107427.03249648442,MW,Interpolation between 2030 and 2050,generator
+BA,onwind,2045,80.00000000000001,105650.03581345416,MW,Interpolation between 2030 and 2050,generator
+BE,onwind,2045,7085.534456721726,13563.944180768949,MW,Interpolation between 2030 and 2050,generator
+BG,onwind,2045,712.9569557057657,109986.72820039748,MW,Interpolation between 2030 and 2050,generator
+CH,onwind,2045,240.0,57628.75339762882,MW,Interpolation between 2030 and 2050,generator
+CZ,onwind,2045,640.0000000000001,78660.2548934607,MW,Interpolation between 2030 and 2050,generator
+DE,onwind,2045,92000.0,192000.0,MW,Interpolation between 2030 and 2050,generator
+DK,onwind,2045,4033.7094364166505,58257.59474395045,MW,Interpolation between 2030 and 2050,generator
+EE,onwind,2045,1556.0832091883192,70815.48156877738,MW,Interpolation between 2030 and 2050,generator
+ES,onwind,2045,47736.37866449442,717443.6697581528,MW,Interpolation between 2030 and 2050,generator
+FI,onwind,2045,5293.669430922645,545050.4464406942,MW,Interpolation between 2030 and 2050,generator
+FR,onwind,2045,28420.490681828876,726703.3723150948,MW,Interpolation between 2030 and 2050,generator
+GB,onwind,2045,20533.333333333332,45400.0,MW,Interpolation between 2030 and 2050,generator
+GR,onwind,2045,5102.928874491842,158865.13464225602,MW,Interpolation between 2030 and 2050,generator
+HR,onwind,2045,1589.3559468204642,56341.53499410714,MW,Interpolation between 2030 and 2050,generator
+HU,onwind,2045,240.0,103194.18878682645,MW,Interpolation between 2030 and 2050,generator
+IE,onwind,2045,9703.10877447399,110027.3596224534,MW,Interpolation between 2030 and 2050,generator
+IT,onwind,2045,19770.31614909637,399583.51164111926,MW,Interpolation between 2030 and 2050,generator
+LT,onwind,2045,3945.775499869094,98167.4730408007,MW,Interpolation between 2030 and 2050,generator
+LU,onwind,2045,240.0,2334.451208679936,MW,Interpolation between 2030 and 2050,generator
+LV,onwind,2045,1640.9922944864725,112853.98887859796,MW,Interpolation between 2030 and 2050,generator
+ME,onwind,2045,215.35019537415522,28372.39507220663,MW,Interpolation between 2030 and 2050,generator
+MK,onwind,2045,320.00000000000006,50127.56538665214,MW,Interpolation between 2030 and 2050,generator
+NL,onwind,2045,8624.306866414652,39010.62734341153,MW,Interpolation between 2030 and 2050,generator
+NO,onwind,2045,5226.6873664912455,550684.0203522014,MW,Interpolation between 2030 and 2050,generator
+PL,onwind,2045,9600.000000000002,43199.99999999999,MW,Interpolation between 2030 and 2050,generator
+PT,onwind,2045,7161.5948195312,124365.29821077938,MW,Interpolation between 2030 and 2050,generator
+RO,onwind,2045,5840.0,17190.0,MW,Interpolation between 2030 and 2050,generator
+SE,onwind,2045,17112.509849739752,708892.9808215032,MW,Interpolation between 2030 and 2050,generator
+SI,onwind,2045,159.18367153428002,21610.245673393096,MW,Interpolation between 2030 and 2050,generator
+SK,onwind,2045,640.0000000000001,39404.628005904015,MW,Interpolation between 2030 and 2050,generator
+AL,solar,2045,654.37106,40575.08332440578,MW,Interpolation between 2030 and 2050,generator
+AT,solar,2045,9600.000000000002,135317.9562033473,MW,Interpolation between 2030 and 2050,generator
+BA,solar,2045,0.0,66869.0319610234,MW,Interpolation between 2030 and 2050,generator
+BE,solar,2045,9200.000000000002,79767.84902339004,MW,Interpolation between 2030 and 2050,generator
+BG,solar,2045,2560.0000000000005,178052.79934374636,MW,Interpolation between 2030 and 2050,generator
+CH,solar,2045,7816.0,96038.92733912499,MW,Interpolation between 2030 and 2050,generator
+CZ,solar,2045,6400.0,159909.53616728948,MW,Interpolation between 2030 and 2050,generator
+DE,solar,2045,172000.0,439500.0,MW,Interpolation between 2030 and 2050,generator
+DK,solar,2045,9360.0,118756.36479869536,MW,Interpolation between 2030 and 2050,generator
+EE,solar,2045,960.0,46871.69276723657,MW,Interpolation between 2030 and 2050,generator
+ES,solar,2045,61120.00000000001,240029.99999999997,MW,Interpolation between 2030 and 2050,generator
+FI,solar,2045,1866.666666666667,78006.0362735788,MW,Interpolation between 2030 and 2050,generator
+FR,solar,2045,43200.0,249299.99999999997,MW,Interpolation between 2030 and 2050,generator
+GB,solar,2045,32800.00000000001,643878.1494591419,MW,Interpolation between 2030 and 2050,generator
+GR,solar,2045,6160.0,156490.88613997021,MW,Interpolation between 2030 and 2050,generator
+HR,solar,2045,666.6666666666667,61565.92881486145,MW,Interpolation between 2030 and 2050,generator
+HU,solar,2045,8000.0,228550.16884683026,MW,Interpolation between 2030 and 2050,generator
+IE,solar,2045,1692.0000000000002,167527.549668882,MW,Interpolation between 2030 and 2050,generator
+IT,solar,2045,60320.00000000001,248970.00000000003,MW,Interpolation between 2030 and 2050,generator
+LT,solar,2045,1600.0,134009.39350200607,MW,Interpolation between 2030 and 2050,generator
+LU,solar,2045,787.2,5796.0521761914215,MW,Interpolation between 2030 and 2050,generator
+LV,solar,2045,400.0,90266.61087686288,MW,Interpolation between 2030 and 2050,generator
+ME,solar,2045,519.2,11216.013039657226,MW,Interpolation between 2030 and 2050,generator
+MK,solar,2045,460.8,38128.67155281648,MW,Interpolation between 2030 and 2050,generator
+NL,solar,2045,20640.0,121646.53243825944,MW,Interpolation between 2030 and 2050,generator
+NO,solar,2045,3470.7903784000005,226884.46128651893,MW,Interpolation between 2030 and 2050,generator
+PL,solar,2045,22400.000000000004,88590.0,MW,Interpolation between 2030 and 2050,generator
+PT,solar,2045,7120.000000000001,108575.41715084431,MW,Interpolation between 2030 and 2050,generator
+RO,solar,2045,21000.0,32459.999999999993,MW,Interpolation between 2030 and 2050,generator
+SE,solar,2045,6144.0,148442.22822882977,MW,Interpolation between 2030 and 2050,generator
+SI,solar,2045,2800.0000000000005,19257.467618233124,MW,Interpolation between 2030 and 2050,generator
+SK,solar,2045,1119.9999999999998,75617.70536706937,MW,Interpolation between 2030 and 2050,generator
+RS,offwind,2030,0.0,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2030,1111.6339047019974,1667.4508570529956,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2030,1600.752822770876,2401.1292341563135,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2050,1600.752822770876,175804.3070859368,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2050,1111.6339047019974,231625.43823085233,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2050,0.0,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2020,,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2020,,128.5326702311684,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2020,,327.7930476490014,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2025,,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2025,,897.9917636420821,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2025,,1364.4611409026575,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2035,0.0,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2035,1111.6339047019974,59156.94770050283,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2035,1600.752822770876,45751.92369710143,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2040,0.0,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2040,1111.6339047019974,116646.44454395265,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2040,1600.752822770876,89102.71816004656,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,offwind,2045,0.0,0.0,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,onwind,2045,1111.6339047019974,174135.94138740248,MW,Data of MK scaled according to area (Factor ca. 3.5),generator
+RS,solar,2045,1600.752822770876,132453.5126229917,MW,Data of MK scaled according to area (Factor ca. 3.5),generator

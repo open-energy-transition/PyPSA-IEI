@@ -311,7 +311,8 @@ def simplify_links(
             for m, ls in G.adj[u].items():
                 if m not in nodes or m in seen:
                     continue
-
+                if 'Line' in list(ls)[0]:
+                    continue
                 buses = [u, m]
                 links = [list(ls)]  # [name for name in ls]]
 
@@ -319,6 +320,8 @@ def simplify_links(
                     seen.add(m)
                     for m2, ls in G.adj[m].items():
                         if m2 in seen or m2 == u:
+                            continue
+                        if 'Line' in list(ls)[0]:
                             continue
                         buses.append(m2)
                         links.append(list(ls))  # [name for name in ls])
@@ -366,6 +369,7 @@ def simplify_links(
 
             lengths = n.links.loc[all_links, "length"]
             name = lengths.idxmax() + "+{}".format(len(links) - 1)
+            new_tag = f"Joint link of {all_links}. Old tags: {n.links.loc[all_links, 'tags']}"
             params = dict(
                 carrier="DC",
                 bus0=b[0],
@@ -383,6 +387,7 @@ def simplify_links(
                 p_min_pu=-p_max_pu,
                 underground=False,
                 under_construction=False,
+                tags=new_tag,
             )
 
             logger.info(
@@ -527,7 +532,9 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("simplify_network", simpl="")
+        snakemake = mock_snakemake("simplify_network",
+                                   configfile="...",   # add the path to the config file with which you want to debug
+                                   )
     configure_logging(snakemake)
 
     params = snakemake.params

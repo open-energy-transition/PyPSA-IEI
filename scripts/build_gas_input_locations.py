@@ -24,7 +24,7 @@ def read_scigrid_gas(fn):
 
 
 def build_gem_lng_data(fn):
-    df = pd.read_excel(fn[0], sheet_name="LNG terminals - data")
+    df = pd.read_excel(fn, sheet_name="LNG terminals - data")
     df = df.set_index("ComboID")
 
     remove_country = ["Cyprus", "Turkey"]  # noqa: F841
@@ -45,7 +45,7 @@ def build_gem_lng_data(fn):
 
 
 def build_gem_prod_data(fn):
-    df = pd.read_excel(fn[0], sheet_name="Gas extraction - main")
+    df = pd.read_excel(fn, sheet_name="Gas extraction - main")
     df = df.set_index("GEM Unit ID")
 
     remove_country = ["Cyprus", "Türkiye"]  # noqa: F841
@@ -59,7 +59,7 @@ def build_gem_prod_data(fn):
               & ~Longitude.isna()"
     ).copy()
 
-    p = pd.read_excel(fn[0], sheet_name="Gas extraction - production")
+    p = pd.read_excel(fn, sheet_name="Gas extraction - production")
     p = p.set_index("GEM Unit ID")
     p = p[p["Fuel description"] == "gas"]
 
@@ -97,7 +97,10 @@ def build_gas_input_locations(gem_fn, entry_fn, sto_fn, countries):
         & ~entry.name.str.contains("Tegelen")  # only take non-EU entries
         | (entry.from_country == "NO")  # malformed datapoint  # entries from NO to GB
     ]
-
+    if not snakemake.params.import_from_russia:
+        entry = entry.loc[~(entry.from_country=="RU")]
+    elif not snakemake.params.nordstream:
+        entry = entry.loc[entry.id!="INET_BP_63"]
     sto = read_scigrid_gas(sto_fn)
     remove_country = ["RU", "UA", "TR", "BY"]  # noqa: F841
     sto = sto.query("country_code not in @remove_country")
@@ -130,8 +133,7 @@ if __name__ == "__main__":
 
         snakemake = mock_snakemake(
             "build_gas_input_locations",
-            simpl="",
-            clusters="128",
+            configfile=r"..."
         )
 
     logging.basicConfig(level=snakemake.config["logging"]["level"])

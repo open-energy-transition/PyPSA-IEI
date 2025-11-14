@@ -1,0 +1,58 @@
+,bus,Hydrogen Derivate,p_nom,note,tech,shipping_idx,marginal_cost,capital_cost
+0,IT1 2,0,36721.19959618056,Pipeline Italien: p_nom=existing gas_pipeline*0.6 - ,pipeline-H2,,97,2688.0
+1,BE1 0,,18782.82854635573,,pipeline-syngas,,163,0.0
+2,BG1 0,,17204.763033239775,,pipeline-syngas,,163,0.0
+3,DE1 3,,85088.52267915697,,pipeline-syngas,,163,0.0
+4,ES1 1,,28162.69599870591,,pipeline-syngas,,163,0.0
+5,FR1 2,,21938.959572587628,,pipeline-syngas,,163,0.0
+6,GB0 0,,30533.64320865573,,pipeline-syngas,,163,0.0
+7,GB0 2,,27165.82046724973,,pipeline-syngas,,163,0.0
+8,GR1 0,,1870.5849740837875,,pipeline-syngas,,163,0.0
+9,HU1 0,,26811.71796186762,,pipeline-syngas,,163,0.0
+10,IT1 2,,61201.99932696769,,pipeline-syngas,,163,0.0
+11,LT6 0,,16919.94145282372,,pipeline-syngas,,163,0.0
+12,PL1 0,,12289.666300924964,,pipeline-syngas,,163,0.0
+13,RO1 0,,47422.793139272304,,pipeline-syngas,,163,0.0
+14,SK1 0,,94068.10034281432,,pipeline-syngas,,163,0.0
+15,BE1 0,,20780.2224,,shipping-syngas,,163,0.0
+16,DE1 1,,19394.87424,,shipping-syngas,,163,0.0
+17,DE1 3,,50334.31648,,shipping-syngas,,163,0.0
+18,DE1 7,,6069.14432,,shipping-syngas,,163,0.0
+19,DK1 0,,82.4612,,shipping-syngas,,163,0.0
+20,EE6 0,,7487.47696,,shipping-syngas,,163,0.0
+21,ES1 0,,26766.90552,,shipping-syngas,,163,0.0
+22,ES1 2,,45683.5048,,shipping-syngas,,163,0.0
+23,FI2 0,,7058.67872,,shipping-syngas,,163,0.0
+24,FR1 1,,21984.15592,,shipping-syngas,,163,0.0
+25,FR1 2,,25200.14272,,shipping-syngas,,163,0.0
+26,FR1 4,,16228.36416,,shipping-syngas,,163,0.0
+27,GB0 0,,29850.9544,,shipping-syngas,,163,0.0
+28,GB0 1,,25398.0496,,shipping-syngas,,163,0.0
+29,GB0 2,,12220.74984,,shipping-syngas,,163,0.0
+30,GR1 0,,41659.39824,,shipping-syngas,,163,0.0
+31,IE5 0,,13160.807519999998,,shipping-syngas,,163,0.0
+32,IT1 1,,4123.06,,shipping-syngas,,163,0.0
+33,IT1 2,,24243.5928,,shipping-syngas,,163,0.0
+34,IT1 3,,30345.7216,,shipping-syngas,,163,0.0
+35,IT3 0,,6398.98912,,shipping-syngas,,163,0.0
+36,LT6 0,,4782.7496,,shipping-syngas,,163,0.0
+37,LV6 0,,4947.672,,shipping-syngas,,163,0.0
+38,ME1 0,,659.6896,,shipping-syngas,,163,0.0
+39,NL1 0,,9697.43712,,shipping-syngas,,163,0.0
+40,NL1 1,,30312.73712,,shipping-syngas,,163,0.0
+41,NO2 0,,8509.99584,,shipping-syngas,,163,0.0
+42,PL1 2,,14793.53928,,shipping-syngas,,163,0.0
+43,PL1 4,,10093.25088,,shipping-syngas,,163,0.0
+44,PT1 0,,9235.6544,,shipping-syngas,,163,0.0
+45,RO1 0,,9895.344,,shipping-syngas,,163,0.0
+46,SE2 0,,1319.3792,,shipping-syngas,,163,0.0
+47,EU,,inf,,synfuel,,161,0.0
+48,BE1 0,AmmoniaAmmonia,23000.0,Zeebrugge New Molecules development: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Amplifhy Antwerp: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+49,DE1 1,AmmoniaLH2LOHC,34500.0,Ammonia Import Temrminal Brunsbuttel : (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Hydrogen Imports to Hamburg: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - TransHyDE: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+50,DE1 3,AmmoniaHydrogen Derivates,23000.0,Green Wilhelmshaven Terminal/Storage/Cracker: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - bp Wilhelmshaven Green Hydrogen Hub: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+51,FR1 0,"Pure H2 and ammoniaAmmonia, methanol or LOHC",23000.0,Green P(Hy)sics: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Mediterranean Hydrogen Gateway: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+52,FR1 2,Ammonia,11500.0,Dunkerque New Molecules development: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+53,IE5 0,Ammonia,11500.0,Green Atlantic @Moneypoint: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+54,NL1 1,"Hydrogen, ammonia or LOHCAmmoniaLOHCHydrogen DerivatesHydrogen DerivatesLH2Hydrogen Derivates",92000.0,North Sea Port: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Antwerp NH3 Import Terminal: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - IPCEI Northern Green Crane: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Project Helios: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Amplifhy Rotterdam: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - PoR import portfolio programm: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ACE Terminal: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - Artificial Modular Reef: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,99,8421.6
+55,PL1 0,LH2,11500.0,H2 Energy Terminals: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,143,8421.6
+56,PT1 0,LH2,11500.0,H2Sines.Rdam: (Min 2.000 m3/h mit LHV 20.8MJ/l) (https://www.wasserstoff-leitprojekte.de/lw_resource/datapool/systemfiles/cbox/2662/live/lw_datei/transhyde_kurzanalyse_h2-beschleunigungsg.pdf) - ,shipping-H2,new,143,8421.6
