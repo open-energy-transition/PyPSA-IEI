@@ -4,6 +4,18 @@
 # SPDX-License-Identifier: MIT
 """
 Build specific energy consumption by carrier and industries.
+
+Three demand scenarios are possible:
+"original": reverts industry sector ratios to original PyPSA Eur version (release 0.10.0)
+"high-temperature": sector ratios reflecting TransHyDE Scenario Mid Demand
+"high-temperature+steam": sector ratios reflecting TransHyDE Scenario High Demand
+Steel production is always local.
+
+Background: When transhyde_data is True, in order to account for the regional distribution of the industry demand
+within a country, processes (mostly heat) are mapped from originally electricity/biomass/gas to hydrogen.
+The mapping is not precise, the aim is to get a more realistic distribution of the demand within a country.
+Absolute values of the demand values at country level are then overwritten anyhow in
+build_industrial_energy_demand_per_node with the original TransHyDE demands.
 """
 
 import pandas as pd
@@ -129,8 +141,10 @@ def iron_and_steel():
     # efficiency changes due to transforming all the smelters into methane
     key = "Natural gas (incl. biogas)"
     eff_met = s_ued[key] / s_fec[key]
-
-    df.at["methane", sector] += s_ued[subsector] / eff_met
+    if demand_scenario == "original":
+        df.at["methane", sector] += s_ued[subsector] / eff_met
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        df.at["hydrogen", sector] += s_ued[subsector] / eff_met
 
     subsector = "Steel: Electric arc"
     s_fec = idees["fec"][67:68]
@@ -174,7 +188,7 @@ def iron_and_steel():
     df.loc["process emission", sector] += s_emi["Process emissions"] / s_out[sector]
 
     # final energy consumption MWh/t material
-    sel = ["elec", "heat", "methane"]
+    sel = ["elec", "heat", "methane", "hydrogen"]
     df.loc[sel, sector] = df.loc[sel, sector] * toe_to_MWh / s_out[sector]
 
     ## DRI + Electric arc
@@ -185,7 +199,7 @@ def iron_and_steel():
     df[sector] = df["Electric arc"]
 
     # add H2 consumption for DRI at 1.7 MWh H2 /ton steel
-    df.at["hydrogen", sector] = params["H2_DRI"]
+    df.at["hydrogen", sector] += params["H2_DRI"]
 
     # add electricity consumption in DRI shaft (0.322 MWh/tSl)
     df.at["elec", sector] += params["elec_DRI"]
@@ -336,9 +350,13 @@ def chemicals_industry():
 
     # efficiency of natural gas
     eff_ch4 = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # replace all fec by methane
+        df.loc["methane", sector] += s_ued[subsector] / eff_ch4
+    elif demand_scenario == "high-temperature+steam":
+        # replace all fec by methane
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_ch4
 
-    # replace all fec by methane
-    df.loc["methane", sector] += s_ued[subsector] / eff_ch4
 
     subsector = "Chemicals: Furnaces"
 
@@ -346,13 +364,16 @@ def chemicals_industry():
     s_ued = idees["ued"][33:41]
     assert s_fec.index[0] == subsector
     assert s_ued.index[0] == subsector
-
-    # efficiency of electrification
-    key = "Chemicals: Furnaces - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    # assume fully electrified
-    df.loc["elec", sector] += s_ued[subsector] / eff_elec
+    if demand_scenario == "original":
+        # efficiency of electrification
+        key = "Chemicals: Furnaces - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        # assume fully electrified
+        df.loc["elec", sector] += s_ued[subsector] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     subsector = "Chemicals: Process cooling"
 
@@ -480,11 +501,15 @@ def chemicals_industry():
     assert s_fec.index[0] == subsector
     assert s_ued.index[0] == subsector
 
-    key = "High enthalpy heat  processing - Electric (microwave)"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    # assume fully electrified
-    df.loc["elec", sector] += s_ued[subsector] / eff_elec
+    if demand_scenario == "original":
+        key = "High enthalpy heat  processing - Electric (microwave)"
+        eff_elec = s_ued[key] / s_fec[key]
+        # assume fully electrified
+        df.loc["elec", sector] += s_ued[subsector] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     subsector = "Chemicals: Furnaces"
 
@@ -492,12 +517,16 @@ def chemicals_industry():
     s_ued = idees["ued"][81:89]
     assert s_fec.index[0] == subsector
     assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        key = "Chemicals: Furnaces - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        # assume fully electrified
+        df.loc["elec", sector] += s_ued[subsector] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
-    key = "Chemicals: Furnaces - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    # assume fully electrified
-    df.loc["elec", sector] += s_ued[subsector] / eff_elec
 
     subsector = "Chemicals: Process cooling"
 
@@ -566,12 +595,17 @@ def chemicals_industry():
     s_ued = idees["ued"][129:137]
     assert s_fec.index[0] == subsector
     assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Chemicals: Furnaces - Electric"
+        eff = s_ued[key] / s_fec[key]
+        # assume fully electrified
+        df.loc["elec", sector] += s_ued[subsector] / eff
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
-    key = "Chemicals: Furnaces - Electric"
-    eff = s_ued[key] / s_fec[key]
-
-    # assume fully electrified
-    df.loc["elec", sector] += s_ued[subsector] / eff
 
     subsector = "Chemicals: Process cooling"
 
@@ -655,10 +689,17 @@ def nonmetalic_mineral_products():
     assert s_fec.index[0] == subsector
     assert s_ued.index[0] == subsector
 
-    df.loc["biomass", sector] += s_fec["Biomass"]
-    df.loc["methane", sector] += (
-        s_fec["Cement: Clinker production (kilns)"] - s_fec["Biomass"]
-    )
+    if demand_scenario == "original":
+        # all that is not biomass is gas in 2050
+        df.loc["biomass", sector] += s_fec["Biomass"]
+        df.loc["methane", sector] += (
+                s_fec["Cement: Clinker production (kilns)"] - s_fec["Biomass"]
+        )
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
     df.loc["elec", sector] += s_fec["Cement: Grinding, packaging"]
 
     # Process emissions
@@ -715,15 +756,34 @@ def nonmetalic_mineral_products():
     ]
     df.loc["elec", sector] += s_ued[sel].sum() / eff_elec
 
-    key = "Ceramics: Electric kiln"
-    eff_elec = s_ued[key] / s_fec[key]
+    subsector = "Ceramics: Primary production process"
+    s_fec = idees["fec"][75:85]
+    s_ued = idees["ued"][75:85]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        key = "Ceramics: Electric kiln"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Ceramics: Primary production process"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
-    df.loc["elec", sector] += s_ued["Ceramics: Primary production process"] / eff_elec
 
-    key = "Ceramics: Electric furnace"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    df.loc["elec", sector] += s_ued["Ceramics: Product finishing"] / eff_elec
+    subsector = "Ceramics: Product finishing"
+    s_fec = idees["fec"][85:94]
+    s_ued = idees["ued"][85:94]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        key = "Ceramics: Electric furnace"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Ceramics: Product finishing"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     s_emi = idees["emi"][45:94]
     assert s_emi.index[0] == sector
@@ -764,16 +824,27 @@ def nonmetalic_mineral_products():
     df.loc["heat", sector] += s_fec["Low enthalpy heat"]
 
     # Efficiency changes due to electrification
-    key = "Glass: Electric melting tank"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    df.loc["elec", sector] += s_ued["Glass: Melting tank"] / eff_elec
-
     key = "Glass: Annealing - electric"
     eff_elec = s_ued[key] / s_fec[key]
 
     sel = ["Glass: Forming", "Glass: Annealing", "Glass: Finishing processes"]
     df.loc["elec", sector] += s_ued[sel].sum() / eff_elec
+
+    subsector = "Glass: Melting tank"
+    s_fec = idees["fec"][105:113]
+    s_ued = idees["ued"][105:113]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        key = "Glass: Electric melting tank"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Glass: Melting tank"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
+
 
     s_emi = idees["emi"][95:124]
     assert s_emi.index[0] == sector
@@ -833,9 +904,18 @@ def pulp_paper_printing():
     ]
     df.loc["elec", sector] += s_fec[sel].sum()
 
-    # Efficiency changes due to biomass
-    eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
-    df.loc["biomass", sector] += s_ued["Pulp: Pulping thermal"] / eff_bio
+    s_fec = idees["fec"][15:26]
+    s_ued = idees["ued"][15:26]
+    assert s_fec.index[0] == "Pulp: Pulping thermal"
+    assert s_ued.index[0] == "Pulp: Pulping thermal"
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Efficiency changes due to biomass
+        eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += s_ued["Pulp: Pulping thermal"] / eff_bio
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued["Pulp: Pulping thermal"] / eff_gas
 
     s_out = idees["out"][8:9]
     assert sector in str(s_out.index)
@@ -887,19 +967,28 @@ def pulp_paper_printing():
     s_ued = idees["ued"][53:64]
     assert s_fec.index[0] == "Paper: Paper machine - Steam use"
     assert s_ued.index[0] == "Paper: Paper machine - Steam use"
-
-    # Efficiency changes due to biomass
-    eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
-    df.loc["biomass", sector] += s_ued["Paper: Paper machine - Steam use"] / eff_bio
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Efficiency changes due to biomass
+        eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += s_ued["Paper: Paper machine - Steam use"] / eff_bio
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued["Paper: Paper machine - Steam use"] / eff_gas
 
     s_fec = idees["fec"][66:77]
     s_ued = idees["ued"][66:77]
     assert s_fec.index[0] == "Paper: Product finishing - Steam use"
     assert s_ued.index[0] == "Paper: Product finishing - Steam use"
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Efficiency changes due to biomass
+        eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += s_ued["Paper: Product finishing - Steam use"] / eff_bio
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued["Paper: Product finishing - Steam use"] / eff_gas
 
-    # Efficiency changes due to biomass
-    eff_bio = s_ued["Biomass"] / s_fec["Biomass"]
-    df.loc["biomass", sector] += s_ued["Paper: Product finishing - Steam use"] / eff_bio
 
     s_out = idees["out"][9:10]
     assert sector in str(s_out.index)
@@ -984,8 +1073,13 @@ def food_beverages_tobacco():
         s_ued["Food: Process cooling and refrigeration"] / eff_elec
     )
 
-    # Steam processing goes all to biomass without change in efficiency
-    df.loc["biomass", sector] += s_fec["Food: Steam processing"]
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Steam processing goes all to biomass without change in efficiency
+        df.loc["biomass", sector] += s_fec["Food: Steam processing"]
+    elif demand_scenario == "high-temperature+steam":
+        # hydrogen
+        df.loc["hydrogen", sector] += s_fec["Food: Steam processing"]
+
 
     # add electricity from process that is already electrified
     df.loc["elec", sector] += s_fec["Food: Electric machinery"]
@@ -1083,15 +1177,25 @@ def non_ferrous_metals():
     df.loc["elec", sector] += s_fec["Aluminium electrolysis (smelting)"]
 
     # Efficiency changes due to electrification
-    key = "Aluminium processing - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    key = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
-    df.loc["elec", sector] += s_ued[key] / eff_elec
-
     key = "Aluminium finishing - Electric"
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Aluminium finishing"] / eff_elec
+
+    subsector = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
+    s_fec = idees["fec"][42:49]
+    s_ued = idees["ued"][42:49]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Aluminium processing - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        key = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
+        df.loc["elec", sector] += s_ued[key] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     s_emi = idees["emi"][31:67]
     assert s_emi.index[0] == sector
@@ -1129,19 +1233,43 @@ def non_ferrous_metals():
     df.loc["heat", sector] += s_fec["Low enthalpy heat"]
 
     # Efficiency changes due to electrification
-    key = "Secondary aluminium - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-    key = "Secondary aluminium (incl. pre-treatment, remelting)"
-    df.loc["elec", sector] += s_ued[key] / eff_elec
-
-    key = "Aluminium processing - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-    key = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
-    df.loc["elec", sector] += s_ued[key] / eff_elec
-
     key = "Aluminium finishing - Electric"
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Aluminium finishing"] / eff_elec
+
+    subsector = "Secondary aluminium (incl. pre-treatment, remelting)"
+    s_fec = idees["fec"][78:85]
+    s_ued = idees["ued"][78:85]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Secondary aluminium - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        key = "Secondary aluminium (incl. pre-treatment, remelting)"
+        df.loc["elec", sector] += s_ued[key] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
+    subsector = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
+    s_fec = idees["fec"][85:92]
+    s_ued = idees["ued"][85:92]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Aluminium processing - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        key = "Aluminium processing  (metallurgy e.g. cast house, reheating)"
+        df.loc["elec", sector] += s_ued[key] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
+
 
     s_out = idees["out"][12:13]
     assert sector in str(s_out.index)
@@ -1173,14 +1301,26 @@ def non_ferrous_metals():
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Other Metals: production"] / eff_elec
 
-    key = "Metal processing - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-    key = "Metal processing  (metallurgy e.g. cast house, reheating)"
-    df.loc["elec", sector] += s_ued[key] / eff_elec
 
     key = "Metal finishing - Electric"
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Metal finishing"] / eff_elec
+
+    subsector = "Metal processing  (metallurgy e.g. cast house, reheating)"
+    s_fec = idees["fec"][128:135]
+    s_ued = idees["ued"][128:135]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Metal processing - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        key = "Metal processing  (metallurgy e.g. cast house, reheating)"
+        df.loc["elec", sector] += s_ued[key] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     s_emi = idees["emi"][110:153]
     assert s_emi.index[0] == sector
@@ -1223,24 +1363,55 @@ def transport_equipment():
     df.loc["heat", sector] += s_fec["Low enthalpy heat"]
 
     # Efficiency changes due to electrification
-    key = "Trans. Eq.: Electric Foundries"
-    eff_elec = s_ued[key] / s_fec[key]
-    df.loc["elec", sector] += s_ued["Trans. Eq.: Foundries"] / eff_elec
+    df.loc["elec", sector] += s_fec["Trans. Eq.: General machinery"]
+    df.loc["elec", sector] += s_fec["Trans. Eq.: Product finishing"]
 
     key = "Trans. Eq.: Electric connection"
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Trans. Eq.: Connection techniques"] / eff_elec
 
-    key = "Trans. Eq.: Heat treatment - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-    df.loc["elec", sector] += s_ued["Trans. Eq.: Heat treatment"] / eff_elec
+    subsector = "Trans. Eq.: Foundries"
+    s_fec = idees["fec"][13:21]
+    s_ued = idees["ued"][13:21]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" :
+        key = "Trans. Eq.: Electric Foundries"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Trans. Eq.: Foundries"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
-    df.loc["elec", sector] += s_fec["Trans. Eq.: General machinery"]
-    df.loc["elec", sector] += s_fec["Trans. Eq.: Product finishing"]
+    subsector = "Trans. Eq.: Heat treatment"
+    s_fec = idees["fec"][24:32]
+    s_ued = idees["ued"][24:32]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" :
+        key = "Trans. Eq.: Heat treatment - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Trans. Eq.: Heat treatment"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
-    # Steam processing is supplied with biomass
-    eff_biomass = s_ued["Biomass"] / s_fec["Biomass"]
-    df.loc["biomass", sector] += s_ued["Trans. Eq.: Steam processing"] / eff_biomass
+    subsector = "Trans. Eq.: Steam processing"
+    s_fec = idees["fec"][32:43]
+    s_ued = idees["ued"][32:43]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Steam processing is supplied with biomass
+        eff_biomass = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += s_ued["Trans. Eq.: Steam processing"] / eff_biomass
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
 
     s_out = idees["out"][3:4]
     assert "Physical output" in str(s_out.index)
@@ -1274,25 +1445,57 @@ def machinery_equipment():
     df.loc["heat", sector] += s_fec["Low enthalpy heat"]
 
     # Efficiency changes due to electrification
-    key = "Mach. Eq.: Electric Foundries"
-    eff_elec = s_ued[key] / s_fec[key]
-    df.loc["elec", sector] += s_ued["Mach. Eq.: Foundries"] / eff_elec
-
     key = "Mach. Eq.: Electric connection"
     eff_elec = s_ued[key] / s_fec[key]
     df.loc["elec", sector] += s_ued["Mach. Eq.: Connection techniques"] / eff_elec
 
-    key = "Mach. Eq.: Heat treatment - Electric"
-    eff_elec = s_ued[key] / s_fec[key]
-
-    df.loc["elec", sector] += s_ued["Mach. Eq.: Heat treatment"] / eff_elec
-
     df.loc["elec", sector] += s_fec["Mach. Eq.: General machinery"]
     df.loc["elec", sector] += s_fec["Mach. Eq.: Product finishing"]
 
+    subsector = "Mach. Eq.: Foundries"
+    s_fec = idees["fec"][13:21]
+    s_ued = idees["ued"][13:21]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to electricity
+        key = "Mach. Eq.: Electric Foundries"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Mach. Eq.: Foundries"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
+    subsector = "Mach. Eq.: Heat treatment"
+    s_fec = idees["fec"][24:32]
+    s_ued = idees["ued"][24:32]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original":
+        # Efficiency changes due to biomass
+        key = "Mach. Eq.: Heat treatment - Electric"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += s_ued["Mach. Eq.: Heat treatment"] / eff_elec
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
     # Steam processing is supplied with biomass
-    eff_biomass = s_ued["Biomass"] / s_fec["Biomass"]
-    df.loc["biomass", sector] += s_ued["Mach. Eq.: Steam processing"] / eff_biomass
+    subsector = "Mach. Eq.: Steam processing"
+    s_fec = idees["fec"][32:43]
+    s_ued = idees["ued"][32:43]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Efficiency changes due to biomass
+        eff_biomass = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += s_ued[subsector] / eff_biomass
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     s_out = idees["out"][3:4]
     assert "Physical output" in str(s_out.index)
@@ -1333,14 +1536,34 @@ def textiles_and_leather():
     df.loc["elec", sector] += s_fec["Textiles: Electric general machinery"]
     df.loc["elec", sector] += s_fec["Textiles: Finishing Electric"]
 
-    # Steam processing is supplied with biomass
-    eff_biomass = s_ued[15:26]["Biomass"] / s_fec[15:26]["Biomass"]
-    df.loc["biomass", sector] += (
-        s_ued["Textiles: Pretreatment with steam"] / eff_biomass
-    )
-    df.loc["biomass", sector] += (
-        s_ued["Textiles: Wet processing with steam"] / eff_biomass
-    )
+    subsector = "Textiles: Pretreatment with steam"
+    s_fec = idees["fec"][13:24]
+    s_ued = idees["ued"][13:24]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    eff_biomass = s_ued["Biomass"] / s_fec["Biomass"] #in original version only this efficiency is used
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Steam processing is supplied with biomass
+        df.loc["biomass", sector] += (
+                s_ued[subsector] / eff_biomass
+        )
+    elif demand_scenario == "high-temperature+steam":
+        # Steam processing is supplied with hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
+
+    subsector = "Textiles: Wet processing with steam"
+    s_fec = idees["fec"][24:35]
+    s_ued = idees["ued"][24:35]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Efficiency changes due to biomass
+        df.loc["biomass", sector] += s_ued[subsector] / eff_biomass
+    elif demand_scenario == "high-temperature+steam":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += s_ued[subsector] / eff_gas
 
     s_out = idees["out"][3:4]
     assert "Physical output" in str(s_out.index)
@@ -1381,11 +1604,19 @@ def wood_and_wood_products():
     df.loc["elec", sector] += s_fec["Wood: Electric mechanical processes"]
     df.loc["elec", sector] += s_fec["Wood: Finishing Electric"]
 
-    # Steam processing is supplied with biomass
-    eff_biomass = s_ued[15:25]["Biomass"] / s_fec[15:25]["Biomass"]
-    df.loc["biomass", sector] += (
-        s_ued["Wood: Specific processes with steam"] / eff_biomass
-    )
+    # Steam processing
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Steam processing is supplied with biomass
+        eff_biomass = s_ued[10:21]["Biomass"] / s_fec[10:21]["Biomass"]
+        df.loc["biomass", sector] += (
+                s_ued["Wood: Specific processes with steam"] / eff_biomass
+        )
+    elif demand_scenario == "high-temperature+steam":
+        # Steam processing is supplied with hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued[10:21]["Natural gas (incl. biogas)"] / s_fec[10:21]["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += (
+                s_ued["Wood: Specific processes with steam"] / eff_gas
+        )
 
     s_out = idees["out"][3:4]
     assert "Physical output" in str(s_out.index)
@@ -1418,12 +1649,6 @@ def other_industrial_sectors():
 
     df.loc["heat", sector] += s_fec["Low enthalpy heat"]
 
-    # Efficiency changes due to electrification
-    key = "Other Industrial sectors: Electric processing"
-    eff_elec = s_ued[key] / s_fec[key]
-    df.loc["elec", sector] += (
-        s_ued["Other Industrial sectors: Process heating"] / eff_elec
-    )
 
     key = "Other Industries: Electric drying"
     eff_elec = s_ued[key] / s_fec[key]
@@ -1441,11 +1666,43 @@ def other_industrial_sectors():
     key = "Other Industrial sectors: Electric machinery"
     df.loc["elec", sector] += s_fec[key]
 
-    # Steam processing is supplied with biomass
-    eff_biomass = s_ued[15:25]["Biomass"] / s_fec[15:25]["Biomass"]
-    df.loc["biomass", sector] += (
-        s_ued["Other Industrial sectors: Steam processing"] / eff_biomass
-    )
+    subsector = "Other Industrial sectors: Process heating"
+    s_fec = idees["fec"][24:32]
+    s_ued = idees["ued"][24:32]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+
+    if demand_scenario == "original":
+        # Efficiency changes due to electrification
+        key = "Other Industrial sectors: Electric processing"
+        eff_elec = s_ued[key] / s_fec[key]
+        df.loc["elec", sector] += (
+                s_ued[subsector] / eff_elec
+        )
+    elif demand_scenario == "high-temperature+steam" or demand_scenario == "high-temperature":
+        # Efficiency changes due to hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += (
+                s_ued[subsector] / eff_gas
+        )
+
+    subsector = "Other Industrial sectors: Steam processing"
+    s_fec = idees["fec"][13:24]
+    s_ued = idees["ued"][13:24]
+    assert s_fec.index[0] == subsector
+    assert s_ued.index[0] == subsector
+    if demand_scenario == "original" or demand_scenario == "high-temperature":
+        # Steam processing is supplied with biomass
+        eff_biomass = s_ued["Biomass"] / s_fec["Biomass"]
+        df.loc["biomass", sector] += (
+                s_ued[subsector] / eff_biomass
+        )
+    elif demand_scenario == "high-temperature+steam":
+        # Steam processing is supplied with hydrogen (assumption: h2 efficiency = gas efficiency)
+        eff_gas = s_ued["Natural gas (incl. biogas)"] / s_fec["Natural gas (incl. biogas)"]
+        df.loc["hydrogen", sector] += (
+                s_ued[subsector] / eff_gas
+        )
 
     s_out = idees["out"][3:4]
     assert "Physical output" in str(s_out.index)
@@ -1463,12 +1720,25 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("build_industry_sector_ratios")
+        snakemake = mock_snakemake(
+            "build_industry_sector_ratios",
+            configfile="...",  # add the path to the config file with which you want to debug
+            planning_horizons='2050'
+        )
 
     # TODO make params option
     year = 2015
 
     params = snakemake.params.industry
+
+    # adapt demand scenario if transhyde data is included
+    if params["transhyde_data"] is False:
+        demand_scenario = "original"
+    elif params["transhyde_processes"] == "high_temp_only":
+        demand_scenario = "high-temperature"
+    elif params["transhyde_processes"] == "with_steam":
+        demand_scenario = "high-temperature+steam"
+
 
     df = pd.concat(
         [

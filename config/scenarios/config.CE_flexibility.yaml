@@ -1,0 +1,135 @@
+# Flexibility sensitivity: Cross-sectoral, European view
+# Local grids
+
+run:
+  name: "2025-MM-DD-branch-2190SEG-CE-flex"
+  disable_progressbar: true
+  shared_resources: false
+  shared_cutouts: true
+
+scenario:
+  sector_opts:
+  - 2190SEG-T-H-B-I-A
+  planning_horizons:
+    - 2020
+    - 2025
+    - 2030
+    - 2035
+    - 2040
+    - 2045
+    - 2050
+
+policy_plans:
+  include_tyndp_elec:
+    enable: true
+    allowed_statuses:
+      - under construction
+  include_tyndp_gas:
+    enable: true
+    allowed_statuses:
+      - FID # Final investment decision
+  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
+
+sector:
+  bev_availability: 0.25
+  district_heating:
+    potential: 0.3
+
+solving:
+  solver:
+    name: gurobi
+    options: gurobi-default
+
+costs:
+  investment:
+    2020:
+      central air-sourced heat pump: 1208.1318   # 20% more than original value
+      central ground-sourced heat pump: 716.2044   # 20% more than original value
+      decentral air-sourced heat pump: 1193.6739599999999   # 20% more than original value
+      decentral ground-sourced heat pump: 1904.7988799999998   # 20% more than original value
+      central solid biomass CHP: 4488.52644   # 20% more than original value
+      central gas CHP: 749.22096   # 20% more than original value
+      micro CHP: 12756.201720000001   # 20% more than original value
+      biomass CHP capture: 3960000.0   # 20% more than original value
+      central water tank storage: 0.73596   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 88.8906   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2025:
+      central air-sourced heat pump: 1208.1318   # 20% more than original value
+      central ground-sourced heat pump: 680.3941199999999   # 20% more than original value
+      decentral air-sourced heat pump: 1136.53008   # 20% more than original value
+      decentral ground-sourced heat pump: 1841.30568   # 20% more than original value
+      central solid biomass CHP: 4370.96424   # 20% more than original value
+      central gas CHP: 730.17288   # 20% more than original value
+      micro CHP: 11069.27856   # 20% more than original value
+      biomass CHP capture: 3600000.0   # 20% more than original value
+      central water tank storage: 0.7136399999999999   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 82.54128   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2030:
+      central air-sourced heat pump: 1087.31856   # 20% more than original value
+      central ground-sourced heat pump: 644.5839599999999   # 20% more than original value
+      decentral air-sourced heat pump: 1079.38608   # 20% more than original value
+      decentral ground-sourced heat pump: 1777.81236   # 20% more than original value
+      central solid biomass CHP: 4253.40204   # 20% more than original value
+      central gas CHP: 711.12492   # 20% more than original value
+      micro CHP: 9410.05524   # 20% more than original value
+      biomass CHP capture: 3240000.0   # 20% more than original value
+      central water tank storage: 0.6913199999999999   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 76.19196   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2035:
+      central air-sourced heat pump: 1087.31856   # 20% more than original value
+      central ground-sourced heat pump: 628.4694000000001   # 20% more than original value
+      decentral air-sourced heat pump: 1050.8140799999999   # 20% more than original value
+      decentral ground-sourced heat pump: 1714.31904   # 20% more than original value
+      central solid biomass CHP: 4191.96   # 20% more than original value
+      central gas CHP: 698.4262799999999   # 20% more than original value
+      micro CHP: 8887.2744   # 20% more than original value
+      biomass CHP capture: 3060000.0   # 20% more than original value
+      central water tank storage: 0.66672   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 76.19196   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2040:
+      central air-sourced heat pump: 1087.31856   # 20% more than original value
+      central ground-sourced heat pump: 612.3547199999999   # 20% more than original value
+      decentral air-sourced heat pump: 1022.2420799999999   # 20% more than original value
+      decentral ground-sourced heat pump: 1650.82572   # 20% more than original value
+      central solid biomass CHP: 4130.51808   # 20% more than original value
+      central gas CHP: 685.72764   # 20% more than original value
+      micro CHP: 8364.493559999999   # 20% more than original value
+      biomass CHP capture: 2880000.0   # 20% more than original value
+      central water tank storage: 0.642   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 76.19196   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2045:
+      central air-sourced heat pump: 1087.31856   # 20% more than original value
+      central ground-sourced heat pump: 596.24016   # 20% more than original value
+      decentral air-sourced heat pump: 993.67008   # 20% more than original value
+      decentral ground-sourced heat pump: 1587.3324   # 20% more than original value
+      central solid biomass CHP: 4069.0760399999995   # 20% more than original value
+      central gas CHP: 673.0289999999999   # 20% more than original value
+      micro CHP: 7841.7127199999995   # 20% more than original value
+      biomass CHP capture: 2640000.0   # 20% more than original value
+      central water tank storage: 0.6172799999999999   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 76.19196   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value
+    2050:
+      central air-sourced heat pump: 1087.31856   # 20% more than original value
+      central ground-sourced heat pump: 580.1256   # 20% more than original value
+      decentral air-sourced heat pump: 965.0980799999999   # 20% more than original value
+      decentral ground-sourced heat pump: 1523.8392   # 20% more than original value
+      central solid biomass CHP: 4007.6341199999997   # 20% more than original value
+      central gas CHP: 660.33024   # 20% more than original value
+      micro CHP: 7318.93188   # 20% more than original value
+      biomass CHP capture: 2400000.0   # 20% more than original value
+      central water tank storage: 0.59256   # 20% more than original value
+      decentral water tank storage: 23.3352   # 20% more than original value
+      central resistive heater: 76.19196   # 20% more than original value
+      decentral resistive heater: 126.98664   # 20% more than original value

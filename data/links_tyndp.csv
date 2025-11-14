@@ -1,28 +1,31 @@
-Name,Converterstation 1,Converterstation 2,Length (given) (km),Length (distance*1.2) (km),Power (MW),status,replaces,Ref,x1,y1,x2,y2
-Biscay Gulf,Gatica (ES),Cubnezais (FR),370,,2200,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/16,-2.867,43.367,-0.408943,45.074191
-Italy-France,Piossasco (IT),Grand Ile (FR),190,,1000,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/21,7.468,44.9898,6.045,45.472
-IFA2,Tourbe (FR),Chilling (GB),,247.2,1000,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/25,-0.172042,49.083593,-1.277269,50.839338
-Italy-Montenegro,Villanova (IT),Latsva (MT),445,,1200,under construction,Link.14539,https://tyndp.entsoe.eu/tyndp2018/projects/projects/28,14.125,42.3947222222222,18.7947222222222,42.3175
-NordLink,Tonstad (NO),Wilster (DE),514,,1400,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/37,6.716948,58.662631,9.373979,53.922479
-COBRA cable,Endrup (DK),Eemshaven (NL),325,,700,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/71,8.718392,55.523115,6.835494,53.438589
-Thames Estuary Cluster (NEMO-Link),Richborough (GB),Gezelle (BE),140,,1000,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/74,1.324854,51.295891,3.23043,51.24902
-Anglo-Scottish -1,Hunterston (UK),Deeside (UK),422,,2400,built,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/77,-4.898329,55.723331,-3.032972,53.199735
-ALEGrO,Lixhe (BE),Oberzier (DE),100,,1000,built,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/92,5.67933,50.7567965,6.474704,50.867532
-North Sea Link,Kvilldal (NO),Blythe (GB),720,,1400,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/110,6.637527,59.515096,-1.510277,55.126957
-HVDC SuedOstLink,Wolmirstedt (DE),Isar (DE),,557,2000,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/130,11.629014,52.252137,12.091596,48.080837
-HVDC Line A-North,Emden East (DE),Osterath (DE),,284,2000,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/132,7.206009,53.359403,6.619451,51.272935
-France-Alderney-Britain,Exeter (UK),Menuel (FR),220,,1400,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/153,-3.533899,50.718412,-1.469216,49.509594
-Viking DKW-GB,Bicker Fen (GB),Revsing (DK),,807,1400,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/167,-0.203587,52.93979,9.178363,55.509166
-ElecLink,Sellindge (UK),Mandarins (FR),,72,1000,under construction,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/172,0.975555555555556,51.1058333333333,1.78472222222222,50.9030555555556
-Greenconnector,Verderio (IT),Sils i.D. (CH),150,,1000,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/174,9.439781,45.668539,9.76569,46.432156
-Hansa PowerBridge I,Hurva (SE),Guestrow (DE),,283,700,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/176,13.6022222222222,55.8330555555556,12.189538,53.803155
-NorthConnect,Simadalen (NO),Peterhead (UK),650,,1400,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/190,7.16027,60.500527,-1.784066,57.508123
-HVDC SuedLink,Wilster (DE),Großgartach (DE),,637,4000,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/235,9.373979,53.922479,9.117193,49.145157
-AQUIND Interconnector,Lovedean (GB),Barnabos (FR),254,,2000,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/247,-1.020512,50.908244,0.991736,49.656631
-HVDC Ultranet,Osterath (DE),Philippsburg (DE),,314,600,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/254,6.619451,51.272935,8.458036,49.235253
-Gridlink,Kingsnorth (UK),Warande (FR),160,,1400,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/285,0.596111111111111,51.41972,2.376776,51.034368
-NeuConnect,Grain (UK),Fedderwarden (DE),680,,1400,in permitting,,https://tyndp.entsoe.eu/tyndp2018/projects/projects/309,0.716666666666667,51.44,8.046524,53.562763
-NordBalt,Klaipeda (LT),Nybro (SE),450,,700,built,,https://en.wikipedia.org/wiki/NordBalt,21.256667,55.681667,15.854167,56.767778
-Estlink 1,Harku (EE),Espoo (FI),105,,350,built,,https://en.wikipedia.org/wiki/Estlink,24.560278,59.384722,24.551667,60.203889
-Greenlink,Waterford (IE),Pembroke (UK),,180,500,under construction,,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission/286,-6.987,52.260,-4.986,51.686
-Celtic Interconnector,Aghada (IE),La Martyre (FR),,572,700,under consideration,,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission/107,-8.16642,51.91413,-4.184,48.459
+Name,Converterstation 1,Converterstation 2,Commissioning Year,Length (given) (km),Power (MW),status,x1,y1,x2,y2,replaces,Length (distance*1.2) (km),Ref
+HVDC Gatica-Cubnezais,Gatica (ES),Cubnezais (FR),2027,394.0,2000,in permitting,-2.87264210953349,43.3628527913278,-0.657948427372874,45.0568394746435,,309.7506972528299,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Second HVDC Module IT-ME,Villanova (IT),Lastva (ME),2026,445.0,600,under construction,14.1592993491803,42.4536490449628,18.6906865686664,42.4567102782839,,446.05450754314523,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Elmed Project,Sicily Area (IT),Mlaaba,2028,200.0,600,in permitting,12.998176445594,37.6672097017317,10.9845073390732,36.8345964900646,,241.0025456559398,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+France Ireland Interconnector,Knockraha (IE),La Martyre (FR),2027,575.0,700,in permitting,-8.339844,51.9591306,-4.1580155,48.4483714,,588.8640740359614,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Nautilus multi purpose interconnection UK - BE,Leiston (UK),MOG2,2030,140.0,1400,in planning,1.5764329,52.20648,3.08916074522677,51.1124462449261,,192.3167211476998,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Wolmirstedt-Isar,Wolmirstedt (DE),Isar (DE),2025,539.0,2000,in permitting,11.6267388,52.2484924,11.6820379003761,48.2504008238313,,533.5018192876312,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC Line A-North,Emden East (DE),Osterath (DE),2027,300.0,2400,in permitting,7.23041575205076,53.3706781015783,6.6207151,51.2690922,,284.7949756985598,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+France-Alderney-Britain,Menuel (FR),Exeter (GB),2030,220.0,1250,in permitting,-1.614217,49.4973976,-3.5269497,50.7255794,,231.60137890079673,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+New HVDC interconnector Harmony Link,Darbenai,Zarnowiec,2026,330.0,700,in permitting,21.254035,56.0231924,18.0839499091636,54.7865784264188,,291.34282855274705,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Greenconnector,Verderio,Bonaduz,2026,165.0,1000,in permitting,9.4376098,45.665698,9.3984396,46.81132,,152.9075584241531,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Hansa PowerBridge I,Hurva (SE4),Guestrow (DE),2026,300.0,700,in permitting,13.43333,55.8,12.1759661,53.7936523,,284.63789135914953,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+EuroAsia Interconnector,Hadera Site,Kofinou Site,2026,325.0,1040,in permitting,34.89632,32.441333,33.4201759307015,34.8489722112753,,360.6740853421126,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+EuroAsia Interconnector,Kofinou Site,Korakia (Crete)Site,2026,921.0,1000,in permitting,33.4201759307015,34.8489722112753,24.9292747479624,35.4221134669488,,929.3991821545139,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC LINE C - SUEDLINK,"Brunsbüttel, Wilster","Großgartach, Bergrheinfeld West",2026,700.0,4000,in permitting,9.37465,53.92253,10.1823734198334,50.0098593115179,,526.2794219283585,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+AQUIND Interconnector,Lovedean (GB),Barnabos (FR),2026,240.0,2075,in permitting,-1.0230902,50.9065694,0.9888891,49.6597467,,238.95456083352096,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC Line A South - Ultranet,Osterath (DE),Philippsburg (DE),2026,343.0,2000,in permitting,6.6207151,51.2690922,8.4546679,49.2367495,,313.06214034237723,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC Aragon region -Marsillon,Aragon region,Marsillon,2030,120.0,2000,in planning,-0.61761634501423,42.6438651407996,-0.5999697,43.3907503,,99.67467691942161,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC Pamplona area  - Cantegrit,Pamplona area,Cantegrit,2030,225.0,2000,in planning,-1.6440089,42.8181992,-0.80936246589025,44.0774977650984,,186.4714585921155,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+GridLink,Kingsnorth (UK),"Warande (Gravelines, France)",2025,158.0,1400,in permitting,0.8608126,51.1165833,2.137794,50.996719,,108.28678737925802,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Greenlink,Great Island,Pembroke,2024,200.0,504,under construction,-6.8302171853333,52.1781066650576,-4.99472604163874,51.6834063083852,,164.80889973780242,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+SACOI3,Codrongianos - Lucciana,Suvereto ,2027,300.0,400,in permitting,8.68197718355049,40.65774628903,10.6786806,43.079015,,379.1074925980307,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+NeuConnect Interconnector,Grain West 400kV Substation,Fedderwarden 380kV Substation,2026,720.0,1400,in permitting,0.717757678254274,51.4556844317891,8.04550263743788,53.5622564168489,,657.7352717272701,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+New HVDC line between Villanova and Fano existing 400 kV substations,Villanova,Fano,2028,560.0,1000,in planning,18.6906865686664,42.4567102782839,13.0146632,43.8424173,,582.5268965313774,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Tyrrhenian HVDC link - West,Caracoli,Selargius,2027,900.0,1000,in permitting,13.730554224127,37.9711675797554,9.1675535,39.2569504,,505.6599335737389,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Tyrrhenian HVDC link - East,Montecorvino,Caracoli,2028,424.0,1000,in permitting,14.9768999121369,40.697763176782,13.730554224127,37.9711675797554,,385.8771927275266,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Mares Cable : Irish Sea Interconnector Cable,Bodelwyddan,Maynooth,2027,211.0,750,in planning,-3.5129657,53.2705527,-6.5922806,53.3830239,,245.84041916846945,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC from Wilhelmshaven to Region Hamm,Wilhelmshaven,Region Hamm,2031,270.0,2000,in planning,8.106301,53.5278793,7.80583183896726,51.6756116799298,,248.3513127471437,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+HVDC from Heide/West to Polsum,Heide/West,Polsum,2031,440.0,2000,in planning,9.0465369,54.1891673,7.0528322,51.6264919,,377.67867576893855,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+Interconnection between Crete and Attica (Phase II),Damasta,Koumoundouros,2024,373.0,1000,under construction,24.9242091606665,35.3634113292989,23.714140403436,37.9676294766463,,370.83219539503244,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission
+EuroAfrica Interconnector,Kofinou,Damietta (Egypt),2026,512.0,1000,in permitting,33.3920208,34.8245908,31.8213657,31.4167427,,487.40220050710604,https://tyndp2022-project-platform.azurewebsites.net/projectsheets/transmission

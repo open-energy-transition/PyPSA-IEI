@@ -83,11 +83,11 @@ rule build_gas_network:
 
 
 rule build_gas_input_locations:
+    params:
+        import_from_russia=config["sector"]["import_from_russia"],
+        nordstream=config["sector"]["allow_nordstream"]
     input:
-        gem=HTTP.remote(
-            "https://globalenergymonitor.org/wp-content/uploads/2023/07/Europe-Gas-Tracker-2023-03-v3.xlsx",
-            keep_local=True,
-        ),
+        gem="data/Europe-Gas-Tracker-2023-03-v3.xlsx",
         entry="data/gas_network/scigrid-gas/data/IGGIELGN_BorderPoints.geojson",
         storage="data/gas_network/scigrid-gas/data/IGGIELGN_Storages.geojson",
         regions_onshore=RESOURCES + "regions_onshore_elec_s{simpl}_{clusters}.geojson",
@@ -122,6 +122,48 @@ rule cluster_gas_network:
     script:
         "../scripts/cluster_gas_network.py"
 
+if config["policy_plans"]["wasserstoff_kernnetz"]["enable"]:
+
+    rule build_wasserstoff_kernnetz:
+        params:
+            fill_mode=config["policy_plans"]["wasserstoff_kernnetz"]["fill_mode"],
+            peak_increment=config["policy_plans"]["wasserstoff_kernnetz"]["peak_increment"],
+            pipeline_utilization=config["policy_plans"]["wasserstoff_kernnetz"]["pipeline_utilization"],
+        input:
+            wasserstoff_kernnetz_1=HTTP.remote(
+                "https://fnb-gas.de/wp-content/uploads/2023/11/2023_11_15_Anlage2_Leitungsmeldungen_weiterer_potenzieller_Wasserstoffnetzbetreiber_Veroeffentlichung_final.xlsx",
+                keep_local=True,
+                static=True,
+            ),
+            wasserstoff_kernnetz_2=HTTP.remote(
+                "https://fnb-gas.de/wp-content/uploads/2023/11/2023_11_15_Anlage3_FNB_Massnahmenliste_Veroeffentlichung_final.xlsx",
+                keep_local=True,
+                static=True,
+            ),
+            gadm=HTTP.remote(
+                "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_DEU_1.json.zip",
+                keep_local=True,
+                static=True
+            ),
+            locations="data/wasserstoff_kernnetz/locations_wasserstoff_kernnetz.csv",
+            h2_inframap="data/wasserstoff_kernnetz/h2_inframap_entsog.geojson",
+        output:
+            cleaned_wasserstoff_kernnetz=RESOURCES + "wasserstoff_kernnetz.csv",
+            cleaned_h2_inframap=RESOURCES + "h2_inframap.geojson",
+        script:
+            "../scripts/build_wasserstoff_kernnetz.py"
+
+
+    rule cluster_wasserstoff_kernnetz:
+        input:
+            cleaned_h2_network=RESOURCES + "wasserstoff_kernnetz.csv",
+            cleaned_h2_inframap=RESOURCES + "h2_inframap.geojson",
+            regions_onshore=RESOURCES + "regions_onshore_elec_s{simpl}_{clusters}.geojson",
+            regions_offshore=RESOURCES + "regions_offshore_elec_s{simpl}_{clusters}.geojson",
+        output:
+            clustered_h2_network=RESOURCES + "wasserstoff_kernnetz_elec_s{simpl}_{clusters}.csv",
+        script:
+            "../scripts/cluster_wasserstoff_kernnetz.py"
 
 rule build_daily_heat_demand:
     params:
@@ -555,8 +597,16 @@ rule build_industrial_production_per_node:
     script:
         "../scripts/build_industrial_production_per_node.py"
 
+transhyde_data=config["industry"].get("transhyde_data", False)
+if not transhyde_data:
+    transhyde_plot = False
+else:
+    transhyde_plot=config["industry"].get("transhyde_plot", False)
 
 rule build_industrial_energy_demand_per_node:
+    params:
+        transhyde_data=transhyde_data,
+        transhyde_plot=transhyde_plot,
     input:
         industry_sector_ratios=RESOURCES
         + "industry_sector_ratios_{planning_horizons}.csv",
@@ -564,9 +614,26 @@ rule build_industrial_energy_demand_per_node:
         + "industrial_production_elec_s{simpl}_{clusters}_{planning_horizons}.csv",
         industrial_energy_demand_per_node_today=RESOURCES
         + "industrial_energy_demand_today_elec_s{simpl}_{clusters}.csv",
+        transhyde_demand_csv = f"data/transhyde/TH_S{config['industry']['transhyde_scenario']}_demand.csv",
+        transhyde_emissions_csv = f"data/transhyde/TH_S{config['industry']['transhyde_scenario']}_process_emissions.csv",
+        industrial_energy_demand= ("data/ammonia_methanol_demand_elec_s{simpl}_{clusters}.csv" # use this file as input, if you are optimizing overnight AND include methanol and/or ammonia import
+                                   if config["foresight"] == "overnight"  # check the optimization mode (overnight, myopic, perfect)
+                                   else "data/ammonia_methanol_demand_elec_s{simpl}_{clusters}_{planning_horizons}.csv") # use this file as input, if you are optimizing myopic/perfect  AND include methanol and/or ammonia import
+                                   if any([config['sector']['methanol_import'], config['sector']['ammonia_import']])     # check if ammonia and methanol imports are allowed by the config
+                                   else []  # do not give any input file if neither methanol nor ammonia are imported
     output:
         industrial_energy_demand_per_node=RESOURCES
         + "industrial_energy_demand_elec_s{simpl}_{clusters}_{planning_horizons}.csv",
+        nodal_pre=OUTPUTS
+        + "industrial_energy_demand_elec_s{simpl}_{clusters}_{planning_horizons}_pre.csv" if transhyde_plot else [],
+        nodal_post=OUTPUTS
+        + "industrial_energy_demand_elec_s{simpl}_{clusters}_{planning_horizons}_post.csv" if transhyde_plot else [],
+        factor=OUTPUTS
+        + "industrial_energy_demand_factorelec_s{simpl}_{clusters}_{planning_horizons}.csv" if transhyde_plot else [],
+        demand_th = OUTPUTS
+        + "demand_th_s{simpl}_{clusters}_{planning_horizons}.csv" if transhyde_plot else [],
+        demand_plot=OUTPUTS
+        + "demand_update{simpl}_{clusters}_{planning_horizons}.png" if transhyde_plot else [],
     threads: 1
     resources:
         mem_mb=1000,
@@ -787,6 +854,55 @@ rule build_existing_heating_distribution:
         "../scripts/build_existing_heating_distribution.py"
 
 
+rule build_tyndp_gas_pipes:
+    input:
+        regions=RESOURCES + 'regions_onshore_elec_s{simpl}_{clusters}.geojson',
+        tyndp_gas_projects='data/gas_network/TYNDP_Gas_Interconnectors.xlsx',
+    output:
+        clustered_tyndp_pipes=RESOURCES + "tyndp_gas_s{simpl}_{clusters}.csv",
+    threads: 1
+    resources:
+        mem_mb=2000,
+    log:
+        LOGS
+        + "build_tyndp_gas_pipes_s{simpl}_{clusters}.log",
+    benchmark:
+        (
+            BENCHMARKS
+            + "build_tyndp_gas_pipes/elec_s{simpl}_{clusters}"
+        )
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/build_tyndp_gas_pipes.py"
+
+
+rule time_aggregation:
+    params:
+        solver_name=config["solving"]["solver"]["name"],
+    input:
+        network=RESOURCES + "networks/elec_s{simpl}_{clusters}_ec_l{ll}_{opts}.nc",
+        hourly_heat_demand_total= RESOURCES + "hourly_heat_demand_total_elec_s{simpl}_{clusters}.nc",
+        solar_thermal_total=(
+            RESOURCES + "solar_thermal_total_elec_s{simpl}_{clusters}.nc"
+            if config["sector"]["solar_thermal"]
+            else []
+        ),
+    output:
+        snapshot_weightings=RESOURCES +
+            "snapshot_weightings_elec_s{simpl}_{clusters}_elec_l{ll}_{opts}_{sector_opts}.csv",
+    threads: 1
+    resources:
+        mem_mb=5000,
+    log:
+        LOGS + "time_aggregation_elec_s{simpl}_{clusters}_elec_l{ll}_{opts}_{sector_opts}.log",
+    benchmark:
+        BENCHMARKS + "time_aggregation_elec_s{simpl}_{clusters}_elec_l{ll}_{opts}_{sector_opts}"
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/time_aggregation.py"
+
 rule prepare_sector_network:
     params:
         co2_budget=config["co2_budget"],
@@ -801,6 +917,7 @@ rule prepare_sector_network:
         countries=config["countries"],
         emissions_scope=config["energy"]["emissions"],
         eurostat_report_year=config["energy"]["eurostat_report_year"],
+        tyndp=config["policy_plans"],
         RDIR=RDIR,
     input:
         **build_retro_cost_output,
@@ -828,10 +945,13 @@ rule prepare_sector_network:
             else RESOURCES
             + "biomass_potentials_s{simpl}_{clusters}_{planning_horizons}.csv"
         ),
+        import_data="data/import_nodes_tech_manipulated_s_{clusters}.csv"
+        if config["foresight"] == "overnight"
+        else "data/import_nodes_tech_manipulated_s_{clusters}_{planning_horizons}.csv",
         costs=(
-            "data/costs_{}.csv".format(config["costs"]["year"])
+            RESOURCES + "costs_{}.csv".format(config["costs"]["year"])
             if config["foresight"] == "overnight"
-            else "data/costs_{planning_horizons}.csv"
+            else RESOURCES + "costs_{planning_horizons}.csv"
         ),
         profile_offwind_ac=RESOURCES + "profile_offwind-ac.nc",
         profile_offwind_dc=RESOURCES + "profile_offwind-dc.nc",
@@ -873,6 +993,12 @@ rule prepare_sector_network:
             if config["sector"]["solar_thermal"]
             else []
         ),
+        link_limit="data/links_2020-2050.csv",
+        line_limit="data/lines_2020-2050.csv",
+        clustered_tyndp_pipes=RESOURCES + "tyndp_gas_s{simpl}_{clusters}.csv",
+        agg_p_nom_min_max=config["policy_plans"]["agg_p_nom_limits"],
+        snapshot_weightings=RESOURCES +
+            "snapshot_weightings_elec_s{simpl}_{clusters}_elec_l{ll}_{opts}_{sector_opts}.csv",
     output:
         RESULTS
         + "prenetworks/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",

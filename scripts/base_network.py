@@ -30,7 +30,7 @@ Relevant Settings
     links:
         p_max_pu:
         under_construction:
-        include_tyndp:
+        include_tyndp_elec:
 
     transformers:
         x:
@@ -717,7 +717,7 @@ def base_network(
     buses = _load_buses_from_eg(eg_buses, europe_shape, config["electricity"])
 
     links = _load_links_from_eg(buses, eg_links)
-    if config["links"].get("include_tyndp"):
+    if config["policy_plans"]["include_tyndp_elec"].get("enable"):
         buses, links = _add_links_from_tyndp(buses, links, links_tyndp, europe_shape)
 
     converters = _load_converters_from_eg(buses, eg_converters)
@@ -766,8 +766,12 @@ def base_network(
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
+        import os
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-        snakemake = mock_snakemake("base_network")
+        snakemake = mock_snakemake("base_network",
+                                   configfile="..."     # add the path to the config file with which you want to debug
+                                   )
     configure_logging(snakemake)
 
     n = base_network(

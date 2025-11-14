@@ -76,3 +76,12 @@ def solved_previous_horizon(wildcards):
         + planning_horizon_p
         + ".nc"
     )
+
+def network_base_powerplants(wildcards):
+    planning_horizons = config["scenario"]["planning_horizons"]
+    return (
+        RESULTS
+        + "base_year_capacities/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_"
+        + str(planning_horizons[0])
+        + ".nc"
+    )

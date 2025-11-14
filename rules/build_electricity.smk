@@ -17,6 +17,31 @@ if config["enable"].get("prepare_links_p_nom", False):
         script:
             "../scripts/prepare_links_p_nom.py"
 
+rule update_costs_csv:
+    params:
+        invest_update=config['costs']['investment']
+    input:
+        costs = (
+            "data/costs_{}.csv".format(config["costs"]["year"])
+            if config["foresight"] == "overnight"
+            else "data/costs_{planning_horizons}.csv"
+        ),
+    output:
+            costs = (
+            RESOURCES + "costs_{}.csv".format(config["costs"]["year"])
+            if config["foresight"] == "overnight"
+            else RESOURCES + "costs_{planning_horizons}.csv"
+        ),
+    log:
+        LOGS + "update_costs_csv.log"
+        if config["foresight"] == "overnight"
+        else LOGS + "update_costs_csv_{planning_horizons}.log"
+    resources:
+        mem_mb=5000,
+    conda:
+        "../envs/environment.yaml"
+    script:
+        "../scripts/update_costs_csv.py"
 
 rule build_electricity_demand:
     params:
@@ -46,6 +71,7 @@ rule build_powerplants:
     input:
         base_network=RESOURCES + "networks/base.nc",
         custom_powerplants="data/custom_powerplants.csv",
+        new_ppl_lifetimes=config["electricity"]["new_powerplant_lifetimes"]
     output:
         RESOURCES + "powerplants.csv",
     log:
@@ -151,7 +177,7 @@ if config["enable"].get("build_cutout", False):
             regions_onshore=RESOURCES + "regions_onshore.geojson",
             regions_offshore=RESOURCES + "regions_offshore.geojson",
         output:
-            protected("cutouts/" + CDIR + "{cutout}.nc"),
+            "cutouts/" + CDIR + "{cutout}.nc",
         log:
             "logs/" + CDIR + "build_cutout/{cutout}.log",
         benchmark:

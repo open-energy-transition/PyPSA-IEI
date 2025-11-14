@@ -1,0 +1,10 @@
+Data on the German Hydrogen Core Network were taken from:
+
+Michael Lindner, Toni Seibold, Julian Geis, Tom Brown (2025).
+Kopernikus-Projekt Ariadne - Gesamtsystemmodell PyPSA-DE.
+https://github.com/PyPSA/pypsa-de
+
+
+Data on the H2 Infrastructure Map was downloaded from
+https://services9.arcgis.com/xSsJeibXqRtsnmY7/ArcGIS/rest/services/Hydrogen_Infrastructure_Map_WFL1/FeatureServer
+and adapted according to h2_inframap_adjustments.csv.

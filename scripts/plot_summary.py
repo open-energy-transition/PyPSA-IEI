@@ -284,7 +284,7 @@ def plot_balances():
             (
                 i[:-1]
                 if (
-                    (i not in ["co2", "NH3", "H2"])
+                    (i not in ["co2", "NH3", "H2", "import pipeline-H2", "import shipping-H2"])
                     and (i[-1:] in ["0", "1", "2", "3", "4"])
                 )
                 else i

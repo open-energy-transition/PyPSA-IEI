@@ -1,0 +1,8 @@
+Europe-Gas-Tracker-2023-03-v3.xlsx:
+
+"Global Energy Monitor, Global Gas Infrastructure Tracker - LNG Terminals, June 2022 release with interim updates as of March 2023."
+Retrieved from https://globalenergymonitor.org/projects/europe-gas-tracker/download-data/
+
+Published under Creative Commons CC BY 4.0 International license.
+
+For the license details, disclaimer of warranties, see https://globalenergymonitor.org/creative-commons-public-license/
