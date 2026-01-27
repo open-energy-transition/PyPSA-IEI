@@ -31,6 +31,12 @@ policy_plans:
   agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
 
 solving:
+  oetc:
+    name: "agora-oetc-test"
+    authentication_server_url: "https://oetc.openenergytransition.org"
+    orchestrator_server_url: "https://oetc.openenergytransition.org"
+    cpu_cores: 16
+    disk_space_gb: 100
   solver:
     name: gurobi
     options: gurobi-default
