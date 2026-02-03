@@ -40,7 +40,7 @@ import xarray as xr
 from linopy.oetc import OetcHandler, OetcSettings, OetcCredentials
 
 from _benchmark import memory_logger
-from _helpers import configure_logging, get_opt, update_config_with_sector_opts
+from _helpers import configure_logging, create_model, get_opt, update_config_with_sector_opts
 from pypsa.descriptors import get_activity_mask
 from pypsa.descriptors import get_switchable_as_dense as get_as_dense
 
@@ -1707,7 +1707,8 @@ def solve_network(n, config, solving, opts="", **kwargs):
         n.optimize.optimize_with_rolling_horizon(**kwargs)
         status, condition = "", ""
     elif skip_iterations:
-        status, condition = n.optimize(**kwargs)
+        create_model(n, **kwargs)
+        status, condition = n.optimize.solve_model(**kwargs)
     else:
         kwargs["track_iterations"] = (cf_solving.get("track_iterations", False),)
         kwargs["min_iterations"] = (cf_solving.get("min_iterations", 4),)
