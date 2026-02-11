@@ -374,7 +374,6 @@ dependencies:
   - six=1.16.0
   - smart_open=6.4.0
   - smmap=5.0.0
-  - snakemake-minimal=7.32.4
   - snappy=1.1.10
   - sniffio=1.3.0
   - snuggs=1.4.7
@@ -462,6 +461,7 @@ dependencies:
   - zstd=1.5.5
   - pip:
       - git+https://github.com/open-energy-transition/linopy.git@oetc-backport
+      - git+https://github.com/open-energy-transition/snakemake.git@v7.32.4_gurobi_fix
       - contextily==1.5.2
       - geoplot==0.5.1
       - highspy==1.5.3
