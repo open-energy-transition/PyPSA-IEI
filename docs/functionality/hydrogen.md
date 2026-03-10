@@ -23,14 +23,16 @@ The scripts are adapted from [PyPSA-Ariadne](https://github.com/PyPSA/pypsa-aria
 
 ## Data Sources
 
-| Source | Data | Geographic scope |
+| Source | File | Geographic scope |
 |---|---|---|
-| [FNB-Gas](https://fnb-gas.de/) | Wasserstoffkernnetz | Germany |
-| [ENTSO-G](https://www.h2inframap.eu/) | European Hydrogen Infrastructure Map | Europe |
+| [FNB-Gas](https://fnb-gas.de/) | `Anlage2_Leitungsmeldungen_...xlsx` — pipeline submissions from potential operators | Germany |
+| [FNB-Gas](https://fnb-gas.de/) | `Anlage3_FNB_Massnahmenliste_...xlsx` — FNB measure list (retrofit + new build) | Germany |
+| ENTSO-G | `data/wasserstoff_kernnetz/h2_inframap_entsog.geojson` | Europe |
 
-Both datasets are merged in `cluster_wasserstoff_kernnetz`. Duplicate entries
-between the two sources are removed to prevent double-counting of pipeline
-capacities.
+The two FNB-Gas files are downloaded automatically by Snakemake at runtime from
+[fnb-gas.de](https://fnb-gas.de/wp-content/uploads/2023/11/). Both datasets are
+merged in `cluster_wasserstoff_kernnetz`. Duplicate entries between the two
+sources are removed to prevent double-counting of pipeline capacities.
 
 ---
 
