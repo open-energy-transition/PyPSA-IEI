@@ -24,6 +24,7 @@ if not snakemake.params.import_from_russia:
 elif not snakemake.params.nordstream:
     entry = entry.loc[entry.id != "INET_BP_63"]
 ```
+
 ---
 
 ## TYNDP Gas Pipelines
