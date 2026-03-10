@@ -1,0 +1,9 @@
+site_name: PyPSA-IEI Documentation
+repo_url: https://github.com/open-energy-transition/PyPSA-IEI
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Model Functionality: functionality.md
