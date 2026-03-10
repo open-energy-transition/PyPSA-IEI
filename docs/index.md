@@ -7,6 +7,8 @@ extended to meet the needs of the study:
 > *"Integrated Infrastructure Planning and 2050 Climate Neutrality:
 > Deriving Future-Proof European Energy Infrastructures"*
 > — Fraunhofer IEG, Fraunhofer ISI and d-fine (November 2025)
+>
+> [Download report (PDF)](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf)
 
 ---
 
