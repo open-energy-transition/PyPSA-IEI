@@ -21,4 +21,3 @@ modification.
 | [Electricity Network](electricity.md) | TYNDP line enforcement and extendability |
 | [Myopic Optimization](myopic.md) | Brownfield capacity accounting across horizons |
 | [Expansion Limits](expansion.md) | Min/max capacity constraints per carrier and country |
-| [Allam Cycle](allam.md) | Gas turbine with 100% CO₂ capture |
