@@ -501,7 +501,7 @@ def modify_carrier_names(n):
 
 def update_colors(n):
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(root / "PyPSA-IEI" / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     colors = pd.Series(config["plotting"]["tech_colors"])
@@ -511,7 +511,7 @@ def update_colors(n):
 def add_carrier_nice_names(n):
     # replace abbreviations with capital letters
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(root / "PyPSA-IEI" / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     nice_names = pd.Series(config["plotting"]["nice_names"])
@@ -545,7 +545,7 @@ def add_carrier_nice_names(n):
 
 def add_carrier_groups(n):
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(root / "PyPSA-IEI" / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     groups = pd.Series(config["plotting"]["technology_groups"])
