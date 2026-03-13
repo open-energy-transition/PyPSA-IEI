@@ -98,7 +98,7 @@ policy_plans:
 
 ---
 
-## How to Modify
+## How to Modify the Expansion Limits
 
 ### Change a capacity limit for a country
 
@@ -109,7 +109,7 @@ entry. For example, to raise the solar minimum in Spain for 2030:
 ES,solar,2030,130000.0,195000.0,MW,Custom,generator
 ```
 
-### Add a new country or carrier
+### Add a constraint to new country or carrier
 
 Add a new row with `country`, `carrier`, `year`, `min`/`max`, and `component`.
 Make sure `carrier` matches the grouped name (e.g. use `offwind`, not
