@@ -15,14 +15,13 @@ extended to meet the needs of the study:
 ## About the Model
 
 PyPSA-IEI performs **myopic pathway optimisation** of the European energy
-system across multiple planning horizons (2020–2050). It covers electricity,
-hydrogen, gas, heat and industry sectors in an integrated framework.
+system across multiple planning horizons between 2020 and 2050 in 5 year increments. It co-optimizes the electricity, hydrogen, gas, heat, and industry sectors within an integrated framework to identify the least-cost configuration of the overall energy system.
 
-Key extensions over PyPSA-Eur include:
+Key extensions on top PyPSA-Eur v0.10 include:
 
 - TYNDP-based electricity and gas network enforcement
-- Hydrogen network (Wasserstoffkernnetz + ENTSO-G)
-- Energy import modelling (H₂, syngas, synfuel)
+- Hydrogen network (European Hydrogen Backbone + ENTSO-G)
+- Energy import modelling (hydrogen, syngas, synfuel)
 - TransHyDe-based industrial demand
 - Custom cost assumptions and powerplant lifetimes
 
