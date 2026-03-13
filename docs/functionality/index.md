@@ -1,10 +1,8 @@
 # Model Functionality Overview
 
 This section describes the key extensions and modifications made to the
-[PyPSA-Eur v0.10.0](https://github.com/PyPSA/pypsa-eur/tree/v0.10.0) base model for the PyPSA-IEI
-study. Each sub-page covers one topic with a description, the relevant
-Snakemake rule(s), and code/config snippets for reproducibility and future
-modification.
+[PyPSA-Eur v0.10.0](https://github.com/PyPSA/pypsa-eur/tree/v0.10.0) base model for the PyPSA-IEI study. 
+Each sub-page covers one topic with a description, the relevant Snakemake rule(s), and code/config snippets for reproducibility and future modification.
 
 ---
 

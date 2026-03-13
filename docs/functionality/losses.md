@@ -89,7 +89,7 @@ sector:
 
 ---
 
-## How to Change Loss Values
+## How to Change Transmission Loss Values
 
 Edit the efficiency values under `sector.transmission_efficiency` in
 `config/config.agora.yaml` or a scenario override file. Setting

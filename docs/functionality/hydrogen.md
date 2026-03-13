@@ -3,8 +3,8 @@
 ## Overview
 
 The hydrogen network is modelled in the **SN** and **SE** scenarios. It
-combines the German *Wasserstoffkernnetz* ([FNB-Gas](https://fnb-gas.de/))
-with the European hydrogen infrastructure map ([ENTSO-G](https://www.h2inframap.eu/)), enabling both
+combines the German *Wasserstoffkernnetz* ([FNB-Gas](https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Wasserstoff/Kernnetz/start.html))
+with the European [hydrogen infrastructure map](https://www.h2inframap.eu/), enabling both
 retrofitting of existing gas pipelines and construction of new H₂ pipelines.
 
 The scripts are adapted from [PyPSA-Ariadne](https://github.com/PyPSA/pypsa-ariadne).
@@ -95,9 +95,10 @@ res_h2_pipes_retrofitted = reduce_capacity(
 
 ---
 
-## How to Enable
+## How to Modify the Hydrogen Network
 
-The Wasserstoffkernnetz is controlled under `policy_plans` in the scenario config:
+### The Wasserstoffkernnetz 
+The Wasserstoffkernnetz integration is controlled under `policy_plans` in the scenario config:
 
 ```yaml title="config/scenarios/config.SE.yaml"
 policy_plans:
@@ -105,8 +106,8 @@ policy_plans:
     enable: true
     optimize_after: 2040  # pipelines are non-extendable until this year
 ```
-
-Gas-to-H₂ retrofitting is controlled separately under `sector:`:
+### Gas-to-H₂
+Pipeline retrofitting is controlled separately under `sector:`:
 
 ```yaml title="config/config.agora.yaml"
 sector:

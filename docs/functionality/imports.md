@@ -112,8 +112,9 @@ n.madd(
 
 ---
 
-## How to Modify
+## How to Modify Imports
 
+### Import Capacities and Costs
 To change import capacities or costs, edit the relevant year file:
 
 ```
@@ -121,7 +122,7 @@ data/import_nodes_tech_manipulated_s_62_2030.csv
 data/import_nodes_tech_manipulated_s_62_2035.csv
 ...
 ```
-
+### Import nodes
 To add a new import node, add a row with the correct bus name, technology,
 and capacity. Bus names must match nodes in the clustered network
 (`s_62` = 62-node clustering). To disable all imports, remove or comment out
