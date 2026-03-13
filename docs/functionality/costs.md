@@ -86,15 +86,15 @@ Example for 2030 (EUR/kW unless otherwise noted):
 
 ---
 
-## How to Change Costs
+## How to Modify the Cost Parameters
 
-### Step 1 — Find the correct technology name
+### Step 1: Find the correct technology name
 
 Technology names must exactly match the `technology` column in
 `data/costs_<year>.csv`, which in turn comes from
 [technology-data v0.9.0](https://github.com/PyPSA/technology-data/blob/v0.9.0/outputs/).
 
-### Step 2 — Edit the config
+### Step 2: Edit the scenario config file
 
 Add or update the technology under `costs.investment` in
 `config/config.agora.yaml` (base config, applies to all scenarios) or in a
