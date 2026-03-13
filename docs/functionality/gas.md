@@ -78,10 +78,12 @@ policy_plans:
 
 ---
 
-## How to Modify
+## How to Modify the Gas Network
 
-To change which TYNDP projects are included, set `allowed_statuses` in the
-scenario config file. To allow all maturity levels, omit the key entirely:
+### Change which TYNDP projects are included
+
+Set `allowed_statuses` in the scenario config file.
+To allow all maturity levels, omit the key entirely:
 
 ```yaml title="config/scenarios/config.CE.yaml"
 policy_plans:
@@ -93,7 +95,9 @@ policy_plans:
       - Less Advanced
 ```
 
-To control Russian import handling, override in the scenario config:
+### Control Russian import handling
+
+Override the parameter in the scenario config:
 
 ```yaml
 sector:
