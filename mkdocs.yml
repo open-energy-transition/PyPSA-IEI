@@ -1,0 +1,33 @@
+site_name: PyPSA-IEI Documentation
+repo_url: https://github.com/open-energy-transition/PyPSA-IEI
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Model Functionality:
+    - Overview: functionality/index.md
+    - Costs: functionality/costs.md
+    - Lifetimes: functionality/lifetimes.md
+    - Gas: functionality/gas.md
+    - Hydrogen: functionality/hydrogen.md
+    - Industrial Demand: functionality/industry.md
+    - Imports: functionality/imports.md
+    - Losses: functionality/losses.md
+    - Electricity Network: functionality/electricity.md
+    - Myopic Optimization: functionality/myopic.md
+    - Expansion Limits: functionality/expansion.md
