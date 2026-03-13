@@ -93,19 +93,19 @@ policy_plans:
 
 ---
 
-## How to Change
+## How to Change the TYNDP enforcement
 
-### Which TYNDP projects are enforced
+### Configure which TYNDP projects are enforced
 
 Edit `policy_plans.include_tyndp_elec.allowed_statuses` in the scenario config.
 Only projects whose TYNDP status tag matches an entry in this list are enforced.
 
-### When cross-border links become extendable
+### Configure when cross-border links become extendable
 
 Set `policy_plans.include_tyndp_elec.optimize_after` to `true` (all horizons)
 or to an integer year (e.g., `2040`) in the scenario config.
 
-### Capacity values per horizon
+### Modify apacity values per horizon
 
 Edit the year columns in `data/links_2020-2050.csv` (DC links) or the
 `{year}{status}` columns in `data/lines_2020-2050.csv` (AC lines).
