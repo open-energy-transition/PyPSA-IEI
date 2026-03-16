@@ -8,6 +8,7 @@ horizon.
 """
 
 import logging
+import re
 from types import SimpleNamespace
 
 import country_converter as coco
@@ -167,9 +168,8 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
     phased_out = df_agg[df_agg["DateOut"] < baseyear].index
     df_agg.drop(phased_out, inplace=True)
 
-    # calculate remaining lifetime before phase-out (+1 because assuming
-    # phase out date at the end of the year)
-    df_agg["lifetime"] = df_agg.DateOut - df_agg.DateIn + 1
+    # calculate remaining lifetime before phase-out
+    df_agg["lifetime"] = df_agg.DateOut - df_agg.DateIn
 
     # assign clustered bus
     busmap_s = pd.read_csv(snakemake.input.busmap_s, index_col=0).squeeze()
@@ -205,6 +205,12 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
         aggfunc="mean",  # currently taken mean for clustering lifetimes
     )
 
+    build_year = df_agg.pivot_table(
+        index=["grouping_year", "Fueltype"],
+        columns="cluster_bus",
+        values="DateIn",
+        aggfunc="mean",  # currently taken mean for clustering build year
+    )
     carrier = {
         "OCGT": "gas",
         "CCGT": "gas",
@@ -287,7 +293,7 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
                         new_capacity.index,
                         suffix=" " + name_suffix,
                         bus=new_capacity.index,
-                        carrier=generator,
+                        carrier=generator + suffix,
                         p_nom=new_capacity,
                         marginal_cost=marginal_cost,
                         capital_cost=capital_cost,
@@ -317,6 +323,7 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
             already_build = n.links.index.intersection(asset_i)
             new_build = asset_i.difference(n.links.index)
             lifetime_assets = lifetime.loc[grouping_year, generator].dropna()
+            build_year_assets = build_year.loc[grouping_year, generator].dropna()
 
             # this is for the year 2020
             if not already_build.empty:
@@ -326,7 +333,6 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
 
             if not new_build.empty:
                 new_capacity = capacity.loc[new_build.str.replace(name_suffix, "")]
-
                 if generator != "urban central solid biomass CHP":
                     n.madd(
                         "Link",
@@ -343,18 +349,25 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
                         p_nom=new_capacity / costs.at[generator, "efficiency"],
                         efficiency=costs.at[generator, "efficiency"],
                         efficiency2=costs.at[carrier[generator], "CO2 intensity"],
-                        build_year=grouping_year,
+                        build_year=build_year_assets,
                         lifetime=lifetime_assets.loc[new_capacity.index],
                     )
                 else:
                     key = "central solid biomass CHP"
+                    central_heat = n.buses.query(
+                        "carrier == 'urban central heat'"
+                    ).location.unique()
+                    heat_buses = new_capacity.index.map(
+                        lambda i: i + " urban central heat" if i in central_heat else ""
+                    )
+
                     n.madd(
                         "Link",
                         new_capacity.index,
                         suffix=name_suffix,
                         bus0=spatial.biomass.df.loc[new_capacity.index]["nodes"].values,
                         bus1=new_capacity.index,
-                        bus2=new_capacity.index + " urban central heat",
+                        bus2=heat_buses,
                         carrier=generator,
                         p_nom=new_capacity / costs.at[key, "efficiency"],
                         capital_cost=costs.at[key, "fixed"]
@@ -378,7 +391,20 @@ def add_power_capacities_installed_before_baseyear(n, grouping_years, costs, bas
                 existing_large, "p_nom_min"
             ]
 
+    # save with all the powerplants
+    n.export_to_netcdf(snakemake.output.base_capacities)
 
+    # remove powerplants that are not built yet
+    for c in n.iterate_components(["Link", "Generator"]):
+        later_than_baseyear = c.df.index.to_series().apply(ends_with_year) & (c.df.index.str[-4:] > str(baseyear))
+        if c.name == "Link":
+            n.links.loc[later_than_baseyear, 'p_nom'] = 0
+        if c.name == "Generator":
+            n.generators.loc[later_than_baseyear, 'p_nom'] = 0
+
+
+def ends_with_year(s):
+    return bool(re.search('-\d{4}$', s))
 def add_heating_capacities_installed_before_baseyear(
     n,
     baseyear,
@@ -543,12 +569,7 @@ if __name__ == "__main__":
 
         snakemake = mock_snakemake(
             "add_existing_baseyear",
-            # configfiles="config/test/config.myopic.yaml",
-            simpl="",
-            clusters="37",
-            ll="v1.0",
-            opts="",
-            sector_opts="1p7-4380H-T-H-B-I-A-dist1",
+            configfile=r"...",  # insert path to config that should be debugged
             planning_horizons=2020,
         )
 
@@ -613,4 +634,4 @@ if __name__ == "__main__":
 
     sanitize_carriers(n, snakemake.config)
 
-    n.export_to_netcdf(snakemake.output[0])
+    n.export_to_netcdf(snakemake.output.brownfield)

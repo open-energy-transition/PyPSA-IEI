@@ -13,6 +13,8 @@ import sys
 import numpy as np
 import pandas as pd
 import pypsa
+from pathlib import Path
+import os
 from prepare_sector_network import prepare_costs
 
 idx = pd.IndexSlice
@@ -292,9 +294,11 @@ def calculate_energy(n, label, energy):
                     .sum()
                 )
                 # remove values where bus is missing (bug in nomopyomo)
+                if totals.empty:
+                    continue
                 no_bus = c.df.index[c.df["bus" + port] == ""]
                 totals.loc[no_bus] = float(
-                    n.component_attrs[c.name].loc["p" + port, "default"]
+                n.component_attrs[c.name].loc["p" + port, "default"]
                 )
                 c_energies -= totals.groupby(c.df.carrier).sum()
 
@@ -341,7 +345,7 @@ def calculate_supply(n, label, supply):
             for end in [col[3:] for col in c.df.columns if col[:3] == "bus"]:
                 items = c.df.index[c.df["bus" + end].map(bus_map).fillna(False)]
 
-                if len(items) == 0:
+                if (len(items) == 0) or c.pnl["p" + end].empty:
                     continue
 
                 # lots of sign compensation for direction and to do maximums
@@ -393,7 +397,7 @@ def calculate_supply_energy(n, label, supply_energy):
             for end in [col[3:] for col in c.df.columns if col[:3] == "bus"]:
                 items = c.df.index[c.df[f"bus{str(end)}"].map(bus_map).fillna(False)]
 
-                if len(items) == 0:
+                if (len(items) == 0) or c.pnl["p" + end].empty:
                     continue
 
                 s = (-1) * c.pnl["p" + end][items].multiply(
@@ -671,10 +675,20 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("make_summary")
+        snakemake = mock_snakemake("make_summary",
+                                   configfile = "...")
 
     logging.basicConfig(level=snakemake.config["logging"]["level"])
-
+    script_dir = Path(__file__).parent.resolve()
+    root_dir = script_dir.parent
+    user_in_script_dir = Path.cwd().resolve() == script_dir
+    if user_in_script_dir:
+        os.chdir(root_dir)
+    elif Path.cwd().resolve() != root_dir:
+        raise RuntimeError(
+            "mock_snakemake has to be run from the repository root"
+            f" {root_dir} or scripts directory {script_dir}"
+        )
     networks_dict = {
         (cluster, ll, opt + sector_opt, planning_horizon): "results/"
         + snakemake.params.RDIR

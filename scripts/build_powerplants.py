@@ -100,7 +100,7 @@ logger = logging.getLogger(__name__)
 def add_custom_powerplants(ppl, custom_powerplants, custom_ppl_query=False):
     if not custom_ppl_query:
         return ppl
-    add_ppls = pd.read_csv(custom_powerplants, dtype={"bus": "str"})
+    add_ppls = pd.read_csv(custom_powerplants, dtype={"bus": "str"}, index_col=False)
     if isinstance(custom_ppl_query, str):
         add_ppls.query(custom_ppl_query, inplace=True)
     return pd.concat(
@@ -159,11 +159,127 @@ def replace_natural_gas_fueltype(df):
     )
 
 
+def manipulate_lifetimes(ppl_lifetime, path_lifetimes):
+    """
+    Manipulate lifetime of powerplants based on provided data.
+
+    This function processes the `ppl_lifetime` to calculate and return it with lifetimes updated according to
+    the `path_lifetimes` data.
+
+    Parameters:
+    ----------
+    ppl_lifetime : pandas.DataFrame
+        DataFrame containing all the electricity powerplants and their relevant information.
+
+    path_lifetimes : str
+        Path to the file specifying lifetime manipulations.
+
+    Returns:
+    -------
+    pp_lifetime : pandas.DataFrame
+        The powerplant data with lifetimes adjusted according to user input.
+
+    """
+    # Function implementation goes here.
+
+    # return undone if no filepath is specified in config
+    if len(path_lifetimes) == 0:
+        return ppl_lifetime
+
+    # load user specific lifetime data
+    lifetime_data = pd.read_csv(path_lifetimes)
+    lifetime_data.DateOut = lifetime_data.DateOut.astype(float)
+
+    # categorize data into different handling options
+    # lifetime should be limited for specific power plants
+    ppl_specific_lifetimes_limit = lifetime_data.query("(Name!='all') & (status=='limit')")
+    # lifetime should be limited on country level
+    country_level_lifetimes_limit = lifetime_data.query("(Name=='all') & (status=='limit')")
+    # lifetime should be extended for specific power plants
+    ppl_specific_lifetimes_ext = lifetime_data.query("(Name!='all') & (status=='extend')")
+    # lifetime should be extendend on country level
+    country_level_lifetimes_ext = lifetime_data.query("(Name=='all') & (status=='extend')")
+
+    # limit lifetimes on country level
+    if not country_level_lifetimes_limit.empty:
+        # Merge the DataFrames for relevant columns and specify new DateOut from user input with '_country'.
+        merged_df = ppl_lifetime.merge(
+            country_level_lifetimes_limit[['Country', 'Fueltype', 'DateOut']],
+            on=['Country', 'Fueltype'],
+            suffixes=('', '_country'),
+            how='left'
+        )
+        #  check for each power plant, whether old or new DateOut is more recent and keep the more recent one.
+        new_dates = []
+        for idx, row in merged_df.iterrows():
+            new_dates.append(row['DateOut_country'] if (pd.notna(row['DateOut_country'])
+                                                    and (row['DateOut'] > row['DateOut_country']
+                                                         or pd.isna(row['DateOut']))) else row['DateOut'])
+        # Replace 'DateOut' in 'ppl' based on the privious condition
+        ppl_lifetime['DateOut'] = new_dates
+
+    # extend lifetimes on country level
+    if not country_level_lifetimes_ext.empty:
+        # Merge the DataFrames for relevant columns and specify new DateOut from user input with '_country'.
+        merged_df = ppl_lifetime.merge(
+            country_level_lifetimes_ext[['Country', 'Fueltype', 'DateOut']],
+            on=['Country', 'Fueltype'],
+            suffixes=('', '_country'),
+            how='left'
+        )
+        #  check for each power plant, whether old or new DateOut is more recent and keep the more recent one.
+        new_dates = []
+        for idx, row in merged_df.iterrows():
+            new_dates.append(row['DateOut_country'] if (pd.notna(row['DateOut_country'])
+                                                    and (row['DateOut'] < row['DateOut_country']
+                                                         or pd.isna(row['DateOut']))) else row['DateOut'])
+        # Replace 'DateOut' in 'ppl' based on the privious condition
+        ppl_lifetime['DateOut'] = new_dates
+
+    # limit lifetime for specific power plants
+    if not ppl_specific_lifetimes_limit.empty:
+        # Merge the DataFrames for relevant columns and specify new DateOut from user input with '_ppl'.
+        merged_df = ppl_lifetime.merge(
+            ppl_specific_lifetimes_limit[['Name', 'DateOut']],
+            on=['Name'],
+            suffixes=('', '_ppl'),
+            how='left'
+        )
+        #  check for each power plant, whether old or new DateOut is more recent and keep the more recent one.
+        new_dates = []
+        for idx, row in merged_df.iterrows():
+            new_dates.append(row['DateOut_ppl'] if (pd.notna(row['DateOut_ppl'])
+                                                    and (row['DateOut'] > row['DateOut_ppl']
+                                                         or pd.isna(row['DateOut']))) else row['DateOut'])
+        # Replace 'DateOut' in 'ppl' based on the condition above
+        ppl_lifetime['DateOut'] = new_dates
+
+    # extend lifetime for specific power plants
+    if not ppl_specific_lifetimes_ext.empty:
+        # Merge the DataFrames for relevant columns and specify new DateOut from user input with '_ppl'.
+        merged_df = ppl_lifetime.merge(
+            ppl_specific_lifetimes_ext[['Name', 'DateOut']],
+            on=['Name'],
+            suffixes=('', '_ppl'),
+            how='left'
+        )
+        #  check for each power plant, whether old or new DateOut is more recent and keep the more later one.
+        new_dates = []
+        for idx, row in merged_df.iterrows():
+            new_dates.append(row['DateOut_ppl'] if (pd.notna(row['DateOut_ppl'])
+                                                    and (row['DateOut'] < row['DateOut_ppl']
+                                                         or pd.isna(row['DateOut']))) else row['DateOut'])
+        # Replace 'DateOut' in 'ppl' based on the condition above
+        ppl_lifetime['DateOut'] = new_dates
+
+    return ppl_lifetime
+
 if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("build_powerplants")
+        snakemake = mock_snakemake("build_powerplants",
+            configfile=r"...",)   # add path to custom config
     configure_logging(snakemake)
 
     n = pypsa.Network(snakemake.input.base_network)
@@ -219,5 +335,7 @@ if __name__ == "__main__":
     # TODO: This has to fixed in PPM, some powerplants are still duplicated
     cumcount = ppl.groupby(["bus", "Fueltype"]).cumcount() + 1
     ppl.Name = ppl.Name.where(cumcount == 1, ppl.Name + " " + cumcount.astype(str))
+
+    ppl = manipulate_lifetimes(ppl, snakemake.input.new_ppl_lifetimes)
 
     ppl.reset_index(drop=True).to_csv(snakemake.output[0])

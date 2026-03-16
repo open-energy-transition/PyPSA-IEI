@@ -1,0 +1,11 @@
+The model PyPSA-IEI developed for the study “Fraunhofer IEG/Fraunhofer ISI/d-fine (2025): Integrated Infrastructure Planning and 2050 Climate Neutrality: Deriving Future-Proof European Energy Infrastructures”, based on the PyPSA-model, is licensed under the open-source MIT license:
+ 
+Copyright (c) 2025 Fraunhofer-Research Institution for Energy Infrastructures and Geothermal Energy IEG
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated input/output and parameter documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
+The modelling approach in the above mentioned study is based on PyPSA-Eur, which requires a mathematical solver for the underlying optimization problems. We acknowledge the support of Gurobi Optimization (https://www.gurobi.com) for providing a scientific license for the Gurobi Optimizer. Any user of the model will need to establish the most suitable solver in combination with the model and undertake steps to identify licence conditions for use of the appropriate optimiser.
+ 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

@@ -30,7 +30,7 @@ if config["enable"]["retrieve"] and config["enable"].get("retrieve_databundle", 
 
     rule retrieve_databundle:
         output:
-            protected(expand("data/bundle/{file}", file=datafiles)),
+            expand("data/bundle/{file}", file=datafiles),
         log:
             LOGS + "retrieve_databundle.log",
         resources:
@@ -69,7 +69,7 @@ if config["enable"]["retrieve"] and config["enable"].get("retrieve_cutout", True
                 static=True,
             ),
         output:
-            protected("cutouts/" + CDIR + "{cutout}.nc"),
+            "cutouts/" + CDIR + "{cutout}.nc",
         log:
             "logs/" + CDIR + "retrieve_cutout_{cutout}.log",
         resources:
@@ -140,18 +140,14 @@ if config["enable"]["retrieve"] and config["enable"].get(
     ]
 
     datafolders = [
-        protected(
-            directory("data/bundle-sector/eurostat-energy_balances-june_2016_edition")
-        ),
-        protected(
-            directory("data/bundle-sector/eurostat-energy_balances-may_2018_edition")
-        ),
-        protected(directory("data/bundle-sector/jrc-idees-2015")),
+        directory("data/bundle-sector/eurostat-energy_balances-june_2016_edition"),
+        directory("data/bundle-sector/eurostat-energy_balances-may_2018_edition"),
+        directory("data/bundle-sector/jrc-idees-2015"),
     ]
 
     rule retrieve_sector_databundle:
         output:
-            protected(expand("data/bundle-sector/{files}", files=datafiles)),
+            expand("data/bundle-sector/{files}", files=datafiles),
             *datafolders,
         log:
             LOGS + "retrieve_sector_databundle.log",
@@ -173,9 +169,7 @@ if config["enable"]["retrieve"]:
 
     rule retrieve_gas_infrastructure_data:
         output:
-            protected(
-                expand("data/gas_network/scigrid-gas/data/{files}", files=datafiles)
-            ),
+            expand("data/gas_network/scigrid-gas/data/{files}", files=datafiles),
         log:
             LOGS + "retrieve_gas_infrastructure_data.log",
         retries: 2
@@ -211,7 +205,7 @@ if config["enable"]["retrieve"]:
                 static=True,
             ),
         output:
-            protected("data/shipdensity_global.zip"),
+            "data/shipdensity_global.zip",
         log:
             LOGS + "retrieve_ship_raster.log",
         resources:
@@ -299,7 +293,7 @@ if config["enable"]["retrieve"]:
             zip="data/WDPA_shp.zip",
             folder=directory("data/WDPA"),
         output:
-            gpkg=protected("data/WDPA.gpkg"),
+            gpkg="data/WDPA.gpkg",
         run:
             shell("cp {input} {params.zip}")
             shell("unzip -o {params.zip} -d {params.folder}")
@@ -325,7 +319,7 @@ if config["enable"]["retrieve"]:
             zip="data/WDPA_WDOECM_marine.zip",
             folder=directory("data/WDPA_WDOECM_marine"),
         output:
-            gpkg=protected("data/WDPA_WDOECM_marine.gpkg"),
+            gpkg="data/WDPA_WDOECM_marine.gpkg",
         run:
             shell("cp {input} {params.zip}")
             shell("unzip -o {params.zip} -d {params.folder}")

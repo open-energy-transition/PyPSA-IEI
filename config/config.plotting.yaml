@@ -1,0 +1,730 @@
+# Adapted from
+# Fabian Hofmann, Christoph Tries, Fabian Neumann, Elisabeth Zeyen, Tom
+# Brown (2024). Code for "H2 and CO2 Network Strategies for the European
+# Energy System". https://arxiv.org/abs/2402.19042v2;
+# https://github.com/FabianHofmann/carbon-networks
+
+labels:
+  carbon: "Captured Carbon"
+  hydrogen: "Hydrogen"
+  electricity: "Electricity"
+  gas: "Natural Gas"
+  co2: "Atm. CO$_2$"
+
+constants:
+  carrier_to_buses:
+    carbon:
+      - co2 stored
+      - co2 sequestered
+    hydrogen:
+      - H2
+    electricity:
+      - AC
+      - DC
+      # - low voltage
+    gas:
+      - gas
+    co2:
+      - co2
+
+  kinds:
+    - electricity
+    - gas
+    - hydrogen
+    - carbon
+    - co2
+
+
+plotting:
+  theme:
+    style: white
+    context: paper
+    font: sans-serif
+    rc:
+      patch.linewidth: 0.2
+      savefig.bbox: "tight"
+      savefig.dpi: 350
+      ytick.left: True
+      ytick.major.width: 0.4
+      ytick.major.size: 2.5
+      xtick.major.pad: 0
+
+  extent: [-12,  30,  35 ,  73]
+
+  balance_map:
+    compare:
+      EU27:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [ 5, 6.5 ]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 2e-8
+          branch_scale: 5e-7
+          flow_scale: 6e-4
+          bus_sizes:
+            - 150
+            - 50
+          branch_sizes:
+            - 15
+            - 5
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 2e-9
+          branch_scale: 2e-8
+          flow_scale: 2e-5
+          bus_sizes:
+            - 500
+            - 100
+          branch_sizes:
+            - 50
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 3e-9
+          branch_scale: 8e-8
+          flow_scale: 7e-5 #
+          bus_sizes:
+            - 400
+            - 100
+          branch_sizes:
+            - 100
+            - 20
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/h
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 1.5e-8
+          branch_scale: 6e-8
+          flow_scale: 7e-5
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 50
+            - 10
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2e-8
+          branch_scale: 5e-7
+          flow_scale: 2e-4
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 10
+            - 5
+      Benelux:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [ 5, 6.5 ]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 1.5e-8
+          branch_scale: 2e-6
+          flow_scale: 1e-5
+          bus_sizes:
+            - 300
+            - 100
+          branch_sizes:
+            - 30
+            - 10
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 1.5e-8
+          branch_scale: 3e-6
+          flow_scale: 1e-5
+          bus_sizes:
+            - 300
+            - 100
+          branch_sizes:
+            - 30
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 2e-6
+          flow_scale: 8e-6 #
+          bus_sizes:
+            - 100
+            - 30
+          branch_sizes:
+            - 60
+            - 20
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2e-7
+          branch_scale: 3e-6
+          flow_scale: 3e-5
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 20
+            - 5
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2.5e-7
+          branch_scale: 5e-6
+          flow_scale: 2e-4
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 10
+            - 5
+      PL_and_Baltics:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [ 5, 6.5 ]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 3e-6
+          flow_scale: 4e-5
+          bus_sizes:
+            - 150
+            - 50
+          branch_sizes:
+            - 15
+            - 5
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 6e-7
+          flow_scale: 6e-6
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 50
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 2e-7
+          branch_scale: 2e-6
+          flow_scale: 5e-5 #
+          bus_sizes:
+            - 40
+            - 10
+          branch_sizes:
+            - 50
+            - 10
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 3e-7
+          branch_scale: 3e-6
+          flow_scale: 3e-5
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 20
+            - 5
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 4e-7
+          branch_scale: 5e-6
+          flow_scale: 2e-4
+          bus_sizes:
+            - 10
+            - 3
+          branch_sizes:
+            - 10
+            - 5
+    single:
+      EU27:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [ 5, 6.5 ]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 1.5e-9
+          branch_scale: 7e-8
+          flow_scale: 9e-5
+          bus_sizes:
+            - 1500
+            - 220
+          branch_sizes:
+            - 100
+            - 10
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 2e-9
+          branch_scale: 3e-8
+          flow_scale: 2e-5
+          bus_sizes:
+            - 500
+            - 100
+          branch_sizes:
+            - 50
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 4e-9
+          branch_scale: 8e-8
+          flow_scale: 7e-5 #
+          bus_sizes:
+            - 700
+            - 100
+          branch_sizes:
+            - 80
+            - 20
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 1.5e-8
+          branch_scale: 6e-8
+          flow_scale: 7e-5
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 50
+            - 10
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2e-8
+          branch_scale: 5e-7
+          flow_scale: 2e-4
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 10
+            - 5
+      Benelux:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [5, 6.5]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 1.5e-8
+          branch_scale: 2e-6
+          flow_scale: 1e-5
+          bus_sizes:
+            - 300
+            - 100
+          branch_sizes:
+            - 80
+            - 20
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 1.5e-8
+          branch_scale: 3e-6
+          flow_scale: 1e-5
+          bus_sizes:
+            - 300
+            - 100
+          branch_sizes:
+            - 30
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 2e-6
+          flow_scale: 8e-6 #
+          bus_sizes:
+            - 100
+            - 30
+          branch_sizes:
+            - 60
+            - 20
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2e-7
+          branch_scale: 3e-6
+          flow_scale: 3e-5
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 50
+            - 10
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 2.5e-7
+          branch_scale: 5e-6
+          flow_scale: 2e-4
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 10
+            - 5
+      PL_and_Baltics:
+        title: True
+        alpha: 1
+        region_alpha: 1
+        figsize: [5, 6.5]
+        electricity:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Greens
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 3e-6
+          flow_scale: 4e-5
+          bus_sizes:
+            - 150
+            - 50
+          branch_sizes:
+            - 15
+            - 5
+        gas:
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/MWh
+          bus_scale: 4e-8
+          branch_scale: 6e-7
+          flow_scale: 6e-6
+          bus_sizes:
+            - 50
+            - 10
+          branch_sizes:
+            - 50
+            - 10
+        hydrogen:
+          vmin: 60
+          vmax: 95
+          unit_line: TWh
+          unit_pie: TWh
+          unit_conversion: 1e6
+          region_cmap: Blues
+          region_unit: €/MWh
+          bus_scale: 2e-7
+          branch_scale: 4e-6
+          flow_scale: 5e-5 #
+          bus_sizes:
+            - 40
+            - 10
+          branch_sizes:
+            - 20
+            - 5
+        carbon:
+          vmin: 100
+          vmax: 160
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 3e-7
+          branch_scale: 3e-6
+          flow_scale: 3e-5
+          bus_sizes:
+            - 20
+            - 5
+          branch_sizes:
+            - 20
+            - 5
+        co2:
+          unit_line: Mt/yr.
+          unit_pie: Mt/yr.
+          unit_conversion: 1e6
+          region_cmap: Purples
+          region_unit: €/t
+          bus_scale: 4e-7
+          branch_scale: 5e-6
+          flow_scale: 2e-4
+          bus_sizes:
+            - 10
+            - 3
+          branch_sizes:
+            - 10
+            - 5
+
+  nice_names:
+    Biomass-based Industry Process: "Industry Biomass"
+    Biomass-based Industry Process CC: "Industry Biomass CC"
+    Electricity Distribution Grid: "Distrib. Grid$^1$"
+    AC: Transm. Losses
+    Gas-based Industry Process: "Industry Gas"
+    Gas-based Industry Process CC: "Industry Gas CC"
+    Biosng: "BioSNG"
+    Methanolisation: "Methanol Production"
+
+
+  tech_colors:
+    biogas: '#0e803d'
+    biomass: '#008020'
+    biogas to gas: '#805500'
+    solid biomass: '#008020'
+    solid biomass transport: '#008020'
+    solid biomass for industry: '#008010'
+    solid biomass for industry CC: '#00600c'
+    solid biomass for industry co2 from atmosphere: '#008008'
+    solid biomass for industry co2 to stored: '#00600c'
+    urban central solid biomass CHP: '#007008'
+    urban central solid biomass CHP CC: '#004008'
+    biomass boiler: '#006030'
+    residential rural biomass boiler: '#006030'
+    residential urban decentral biomass boiler: '#006020'
+    services rural biomass boiler: '#006030'
+    services urban decentral biomass boiler: '#004020'
+    SMR: '#870c71'
+    SMR CC: '#4f1745'
+    AC: '#967969'
+    DC: '#967969'
+    CO2 pipeline: '#f5627f' # needed as inserted flexibly post-optimization
+    H2 pipeline (Kernnetz): '#ba99b5'
+    import pipeline-H2: '#25c49a'
+    import lng-H2: '#98FB98'
+    Fischer-Tropsch: '#0096FF'
+    land transport fuel cell: '#00008B'
+    H2 for industry: '#6082B6'
+    H2 turbine: '#5D3FD3'
+    electricity distribution grid: '#9F2B68'
+    BioSNG: '#C1E1C1'
+    battery charger: '#50C878'
+    battery discharger: '#097969'
+    allam: '#EADDCA'
+    gas for industry: '#E1C16E'
+    air heat pump: '#50C878'
+  transmission_colors:
+    electricity: '#D2B48C'
+    hydrogen: '#ba99b5'
+    CO2: '#f5627f'
+    carbon: '#f5627f'
+    gas: '#a87c62'
+  technology_groups:
+    AC: Electricity Grid
+    BEV charger: Battery Infrastructure
+    DAC: DAC
+    DC: Electricity Grid
+    Fischer-Tropsch: Fischer-Tropsch
+    H2: H$_2$ Infrastructure
+    H2 Electrolysis: Electrolysis
+    H2 Fuel Cell: H$_2$ Infrastructure
+    H2 Store: H$_2$ Infrastructure
+    H2 for industry: H$_2$ Infrastructure
+    H2 pipeline: H$_2$ Infrastructure
+    H2 pipeline retrofitted: H$_2$ Infrastructure
+    H2 pipeline (Kernnetz): H$_2$ Infrastructure
+    Li ion: Battery Infrastructure
+    OCGT: Gas Infrastructure
+    PHS: Hydro Energy
+    SMR: Other
+    SMR CC: Carbon Capt. at Point Sources
+    Sabatier: Methanation
+    V2G: Battery Infrastructure
+    agriculture electricity: Other
+    agriculture heat: Other
+    agriculture machinery oil: Other
+    agriculture machinery oil emissions: Other
+    air heat pump: Heat Pump
+    allam: Carbon Capt. at Point Sources
+    battery: Battery Infrastructure
+    battery charger: Battery Infrastructure
+    battery discharger: Battery Infrastructure
+    battery storage: Battery Infrastructure
+    biogas: Bioenergy
+    biogas to gas: Bioenergy
+    biogas to gas CC: Carbon Capt. at Point Sources
+    biomass boiler: Bioenergy
+    co2: CO$_2$ Infrastructure
+    CO2 pipeline: CO$_2$ Infrastructure
+    co2 sequestered: Other
+    co2 stored: CO$_2$ Infrastructure
+    electricity: Electricity Grid
+    electricity distribution grid: Electricity Grid
+    gas: Gas Infrastructure
+    gas pipeline: Gas Infrastructure
+    gas pipeline new: Gas Infrastructure
+    gas CHP: Gas Infrastructure
+    gas CHP CC: Carbon Capt. at Point Sources
+    gas boiler: Gas Infrastructure
+    gas for industry: Gas Infrastructure
+    gas for industry CC: Carbon Capt. at Point Sources
+    geothermal: Other
+    ground heat pump: Heat Pump
+    heat: Other
+    heat waste: Other
+    home battery: Battery Infrastructure
+    home battery charger: Battery Infrastructure
+    home battery discharger: Battery Infrastructure
+    hydro: Hydro Energy
+    industry electricity: Other
+    kerosene for aviation: Other
+    land transport EV: Other
+    land transport fuel cell: Other
+    low voltage: Electricity Grid
+    low-temperature heat for industry: Other
+    methanol: Methanol
+    methanolisation: Methanolisation
+    naphtha for industry: Other
+    nuclear: Nuclear
+    offwind: Wind
+    oil: Oil
+    oil emissions: Other
+    onwind: Wind
+    other: Other
+    process emissions: Other
+    process emissions CC: Carbon Capt. at Point Sources
+    resistive heater: Other
+    ror: Other
+    shipping methanol: Shipping
+    shipping methanol emissions: Shipping
+    solar: Solar
+    solar rooftop: Solar
+    solar thermal: Solar
+    solid biomass: Bioenergy
+    solid biomass CHP: Bioenergy
+    solid biomass CHP CC: Carbon Capt. at Point Sources
+    solid biomass for industry: Bioenergy
+    solid biomass for industry CC: Carbon Capt. at Point Sources
+    water tanks: Other
+    water tanks charger: Other
+    water tanks discharger: Other
+  technology_group_colors:
+    Hydro Energy: "#298c81"
+    Battery Infrastructure: "#ace37f"
+    Resistive Heater: "#d8f9b8"
+    Methanolisation: "#57aac1"
+    Methanation: "#c44ce6"
+    Methanol: "#57aac1"
+    Electricity Grid: "#97ad8c"
+    Electrolysis: "#b3e6ff"
+    CO$_2$ Infrastructure: "#cc99ff"
+    CO$_2$ Sequestration: "#f29dae"
+    Carbon Capt. at Point Sources: "#f29dae"
+    Heat Pump: "#2fb537"
+    Fischer-Tropsch: "#25c49a"
+    DAC: "#ff5270"
+    Bioenergy: "#baa741"
+    H$_2$ Infrastructure: "#bf13a0"
+    Gas Infrastructure: "#e05b09"
+    Shipping: "#ff8c00"
+    Wind: "#66b5ff"
+    Oil: "#001a33"
+    Solar: "#ffe066"
+    Process Emissions: '#222222'
+    Other: '#aaaaaa'
+    Nuclear: '#faa945'
+    Micro Gas CHP: '#f9cea0'
+

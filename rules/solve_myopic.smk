@@ -16,7 +16,7 @@ rule add_existing_baseyear:
         busmap_s=RESOURCES + "busmap_elec_s{simpl}.csv",
         busmap=RESOURCES + "busmap_elec_s{simpl}_{clusters}.csv",
         clustered_pop_layout=RESOURCES + "pop_layout_elec_s{simpl}_{clusters}.csv",
-        costs="data/costs_{}.csv".format(config["scenario"]["planning_horizons"][0]),
+        costs=RESOURCES + "costs_{}.csv".format(config["scenario"]["planning_horizons"][0]),
         cop_soil_total=RESOURCES + "cop_soil_total_elec_s{simpl}_{clusters}.nc",
         cop_air_total=RESOURCES + "cop_air_total_elec_s{simpl}_{clusters}.nc",
         existing_heating_distribution=RESOURCES
@@ -25,7 +25,9 @@ rule add_existing_baseyear:
         existing_onwind="data/existing_infrastructure/onwind_capacity_IRENA.csv",
         existing_offwind="data/existing_infrastructure/offwind_capacity_IRENA.csv",
     output:
-        RESULTS
+        base_capacities = RESULTS
+        + "base_year_capacities/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
+        brownfield = RESULTS
         + "prenetworks-brownfield/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
     wildcard_constraints:
         planning_horizons=config["scenario"]["planning_horizons"][0],  #only applies to baseyear
@@ -64,7 +66,8 @@ rule add_brownfield:
         network=RESULTS
         + "prenetworks/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
         network_p=solved_previous_horizon,  #solved network at previous time step
-        costs="data/costs_{planning_horizons}.csv",
+        base_powerplants= network_base_powerplants,
+        costs=RESOURCES + "costs_{planning_horizons}.csv",
         cop_soil_total=RESOURCES + "cop_soil_total_elec_s{simpl}_{clusters}.nc",
         cop_air_total=RESOURCES + "cop_air_total_elec_s{simpl}_{clusters}.nc",
     output:
@@ -89,6 +92,23 @@ rule add_brownfield:
 
 ruleorder: add_existing_baseyear > add_brownfield
 
+rule modify_prenetwork:
+	params:
+		enable_kernnetz=config["policy_plans"]["wasserstoff_kernnetz"]["enable"],
+		optimize_after=config["policy_plans"]["wasserstoff_kernnetz"]["optimize_after"],
+		costs=config["costs"],
+	input:
+		network=RESULTS
+		+ "prenetworks-brownfield/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
+		wkn=RESOURCES + "wasserstoff_kernnetz_elec_s{simpl}_{clusters}.csv" if config["policy_plans"]["wasserstoff_kernnetz"]["enable"] else [],
+		costs=RESOURCES + "costs_{planning_horizons}.csv",
+	output:
+		network=RESULTS
+		+ "prenetworks-final/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc"
+	resources:
+		mem_mb=1000
+	script:
+		"../scripts/modify_prenetwork.py"
 
 rule solve_sector_network_myopic:
     params:
@@ -101,8 +121,8 @@ rule solve_sector_network_myopic:
         custom_extra_functionality=input_custom_extra_functionality,
     input:
         network=RESULTS
-        + "prenetworks-brownfield/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
-        costs="data/costs_{planning_horizons}.csv",
+        + "prenetworks-final/elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}.nc",
+        costs=RESOURCES + "costs_{planning_horizons}.csv",
         config=RESULTS + "config.yaml",
     output:
         RESULTS
@@ -114,6 +134,8 @@ rule solve_sector_network_myopic:
         + "elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}_solver.log",
         python=LOGS
         + "elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}_python.log",
+        memory=LOGS
+        + "elec_s{simpl}_{clusters}_l{ll}_{opts}_{sector_opts}_{planning_horizons}_memory.log",
     threads: solver_threads
     resources:
         mem_mb=config["solving"]["mem"],

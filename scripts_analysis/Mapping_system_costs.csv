@@ -1,0 +1,144 @@
+﻿carrier;carrier type;capex;opex
+AC;lines;infrastructure;operational costs
+agriculture machinery oil;links;others;operational costs
+allam;links;power generation;operational costs
+battery;stores;others;operational costs
+battery charger;links;others;operational costs
+battery discharger;links;others;operational costs
+BEV charger;links;others;operational costs
+biogas;stores;import;import
+biogas to gas;links;others;operational costs
+biogas to gas CC;links;others;operational costs
+biomass to liquid;links;transformation;operational costs
+BioSNG;links;transformation;operational costs
+CCGT;links;power generation;operational costs
+co2;stores;others;operational costs
+CO2 pipeline;links;infrastructure;operational costs
+co2 sequestered;stores;others;operational costs
+co2 sequestered;links;others;operational costs
+co2 stored;stores;others;operational costs
+co2 vent;links;others;operational costs
+coal;generators;import;import
+coal;links;power generation;operational costs
+coal;stores;others;operational costs
+coal for industry;links;others;operational costs
+DAC;links;others;operational costs
+DC;links;infrastructure;operational costs
+electricity distribution grid;links;infrastructure;operational costs
+Fischer-Tropsch;links;transformation;operational costs
+gas;stores;others;operational costs
+gas for industry;links;others;operational costs
+gas for industry CC;links;others;operational costs
+gas pipeline;links;infrastructure;operational costs
+gas pipeline tyndp;links;infrastructure;operational costs
+gas pipeline new;links;infrastructure;operational costs
+H2;stores;others;operational costs
+H2 Electrolysis;links;transformation;operational costs
+H2 Fuel Cell;links;power generation;operational costs
+H2 pipeline;links;infrastructure;operational costs
+H2 pipeline (Kernnetz);links;infrastructure;operational costs
+H2 pipeline retrofitted;links;infrastructure;operational costs
+H2 turbine;links;power generation;operational costs
+home battery;stores;others;operational costs
+home battery charger;links;others;operational costs
+home battery discharger;links;others;operational costs
+hydro;storage_units;power generation;operational costs
+import lng gas;generators;import;import
+import pipeline gas;generators;import;import
+import pipeline-H2;generators;import;import
+import pipeline-syngas;generators;import;import
+import shipping-H2;generators;import;import
+import shipping-syngas;generators;import;import
+kerosene for aviation;links;others;operational costs
+land transport oil;links;others;operational costs
+Li ion;stores;others;operational costs
+lignite;stores;others;operational costs
+lignite;generators;import;import
+lignite;links;power generation;operational costs
+methanol;stores;others;operational costs
+methanolisation;links;transformation;operational costs
+naphtha for industry;links;others;operational costs
+nuclear;links;power generation;operational costs
+OCGT;links;power generation;operational costs
+offwind-ac;generators;power generation;operational costs
+offwind-dc;generators;power generation;operational costs
+oil;links;power generation;operational costs
+oil;stores;others;operational costs
+oil;generators;import;import
+onwind;generators;power generation;operational costs
+PHS;storage_units;others;operational costs
+process emissions;links;others;operational costs
+process emissions CC;links;others;operational costs
+production gas;generators;others;operational costs
+residential rural air heat pump;links;heat generation;operational costs
+residential rural biomass boiler;links;heat generation;operational costs
+residential rural gas boiler;links;heat generation;operational costs
+residential rural ground heat pump;links;heat generation;operational costs
+residential rural micro gas CHP;links;power generation;operational costs
+residential rural oil boiler;links;heat generation;operational costs
+residential rural resistive heater;links;heat generation;operational costs
+residential rural solar thermal;generators;heat generation;operational costs
+residential rural water tanks;stores;others;operational costs
+residential rural water tanks charger;links;others;operational costs
+residential rural water tanks discharger;links;others;operational costs
+residential urban decentral air heat pump;links;heat generation;operational costs
+residential urban decentral biomass boiler;links;heat generation;operational costs
+residential urban decentral gas boiler;links;heat generation;operational costs
+residential urban decentral micro gas CHP;links;power generation;operational costs
+residential urban decentral oil boiler;links;heat generation;operational costs
+residential urban decentral resistive heater;links;heat generation;operational costs
+residential urban decentral solar thermal;generators;heat generation;operational costs
+residential urban decentral water tanks;stores;others;operational costs
+residential urban decentral water tanks charger;links;heat generation;operational costs
+residential urban decentral water tanks discharger;links;others;others
+ror;generators;power generation;operational costs
+Sabatier;links;transformation;operational costs
+services rural air heat pump;links;heat generation;operational costs
+services rural biomass boiler;links;heat generation;operational costs
+services rural gas boiler;links;heat generation;operational costs
+services rural ground heat pump;links;heat generation;operational costs
+services rural micro gas CHP;links;power generation;operational costs
+services rural oil boiler;links;heat generation;operational costs
+services rural resistive heater;links;heat generation;operational costs
+services rural solar thermal;generators;heat generation;operational costs
+services rural water tanks;stores;others;operational costs
+services rural water tanks charger;links;others;operational costs
+services rural water tanks discharger;links;others;operational costs
+services urban decentral air heat pump;links;heat generation;operational costs
+services urban decentral biomass boiler;links;heat generation;operational costs
+services urban decentral gas boiler;links;heat generation;operational costs
+services urban decentral micro gas CHP;links;power generation;operational costs
+services urban decentral oil boiler;links;heat generation;operational costs
+services urban decentral resistive heater;links;heat generation;operational costs
+services urban decentral solar thermal;generators;heat generation;operational costs
+services urban decentral water tanks;stores;others;operational costs
+services urban decentral water tanks charger;links;others;operational costs
+services urban decentral water tanks discharger;links;others;operational costs
+shipping methanol;links;others;operational costs
+shipping oil;links;others;operational costs
+SMR;links;transformation;operational costs
+SMR CC;links;transformation;operational costs
+solar;generators;power generation;operational costs
+solar rooftop;generators;power generation;operational costs
+solid biomass;stores;import;import
+solid biomass for industry;links;others;operational costs
+solid biomass for industry CC;links;others;operational costs
+solid biomass transport;links;infrastructure;operational costs
+synfuel;generators;import;import
+synfuel to oil;links;others;operational costs
+syngas to gas;links;others;operational costs
+uranium;generators;import;import
+uranium;stores;others;operational costs
+urban central air heat pump;links;heat generation;operational costs
+urban central gas boiler;links;heat generation;operational costs
+urban central gas CHP;links;power generation;operational costs
+urban central gas CHP CC;links;power generation;operational costs
+urban central heat vent;generators;others;operational costs
+urban central resistive heater;links;heat generation;operational costs
+urban central solar thermal;generators;heat generation;operational costs
+urban central solid biomass CHP;links;power generation;operational costs
+urban central solid biomass CHP CC;links;power generation;operational costs
+urban central water tanks;stores;others;operational costs
+urban central water tanks charger;links;others;operational costs
+urban central water tanks discharger;links;others;operational costs
+V2G;links;others;operational costs

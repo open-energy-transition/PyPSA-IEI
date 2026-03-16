@@ -19,6 +19,7 @@ assuming as an approximation energy content of wood pellets
 
 import pandas as pd
 import tabula as tbl
+import os
 
 ENERGY_CONTENT = 4.8  # unit MWh/t (wood pellets)
 
@@ -26,11 +27,17 @@ ENERGY_CONTENT = 4.8  # unit MWh/t (wood pellets)
 def get_countries():
     pandas_options = dict(skiprows=range(6), header=None, index_col=0)
 
+    if os.name == 'nt':
+        encoding_for_os = 'cp1252'
+    elif os.name == 'posix':
+        encoding_for_os = 'utf-8'
+
     return tbl.read_pdf(
         str(snakemake.input.transport_cost_data),
         pages="145",
         multiple_tables=False,
         pandas_options=pandas_options,
+        encoding=encoding_for_os,
     )[0].index
 
 
@@ -43,11 +50,17 @@ def get_cost_per_tkm(page, countries):
         index_col=False,
     )
 
+    if os.name == 'nt':
+        encoding_for_os = 'cp1252'
+    elif os.name == 'posix':
+        encoding_for_os = 'utf-8'
+
     sc = tbl.read_pdf(
         str(snakemake.input.transport_cost_data),
         pages=page,
         multiple_tables=False,
         pandas_options=pandas_options,
+        encoding=encoding_for_os,
     )[0]
     sc.index = countries
     sc.columns = sc.columns.str.replace("€", "EUR")
