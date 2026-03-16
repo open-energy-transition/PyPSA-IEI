@@ -37,6 +37,8 @@ import numpy as np
 import pandas as pd
 import pypsa
 import xarray as xr
+from linopy.oetc import OetcHandler, OetcSettings, OetcCredentials
+
 from _benchmark import memory_logger
 from _helpers import configure_logging, get_opt, update_config_with_sector_opts
 from pypsa.descriptors import get_activity_mask
@@ -1668,6 +1670,18 @@ def solve_network(n, config, solving, opts="", **kwargs):
     )
     kwargs["assign_all_duals"] = cf_solving.get("assign_all_duals", False)
     kwargs["io_api"] = cf_solving.get("io_api", None)
+
+    oetc = solving.get("oetc", None)
+    if oetc:
+        oetc = dict(oetc)
+        oetc["credentials"] = OetcCredentials(
+            email=os.environ["OETC_EMAIL"], password=os.environ["OETC_PASSWORD"]
+        )
+        oetc["solver"] = kwargs["solver_name"]
+        oetc["solver_options"] = kwargs["solver_options"]
+        oetc_settings = OetcSettings(**oetc)
+        oetc_handler = OetcHandler(oetc_settings)
+        kwargs["remote"] = oetc_handler
 
     if kwargs["solver_name"] == "gurobi":
         logging.getLogger("gurobipy").setLevel(logging.CRITICAL)
