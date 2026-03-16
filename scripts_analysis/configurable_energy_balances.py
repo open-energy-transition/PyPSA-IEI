@@ -13,6 +13,7 @@ import plotly.io as pio
 import pypsa
 from matplotlib import pyplot as plt
 
+from common import log
 from energy_balance_dictionaries import get_components_for_carrier
 from energy_balance_functions import (
     calculate_crossborder_transmission_losses,
@@ -208,6 +209,8 @@ def get_standard_balances(
     -------
     None
     """
+    log(f"Starting: get_standard_balances — {carrier_for_balance}")
+
     # Calculate data
     #   - df: index -> country/carrier/(Generation or Demand)
     #         columns -> scenario/year
@@ -268,6 +271,8 @@ def get_standard_balances(
             country_to_plot,
             compare_scenarios,
         )
+
+    log(f"Done: get_standard_balances — {carrier_for_balance}")
 
 
 def create_and_save_balance(

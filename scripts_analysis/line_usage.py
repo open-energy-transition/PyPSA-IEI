@@ -10,7 +10,7 @@ import pypsa
 from matplotlib.colors import LinearSegmentedColormap
 
 from networks_regional_dictionary import boundary_network_plots
-
+from common import log
 
 
 def evaluate_line_usage(networks_year, years, scenarios, resultdir):
@@ -33,6 +33,7 @@ def evaluate_line_usage(networks_year, years, scenarios, resultdir):
     -------
     None
     """
+    log("Starting: evaluate_line_usage")
 
     for year in years:
         updated_networks = {}
@@ -45,6 +46,8 @@ def evaluate_line_usage(networks_year, years, scenarios, resultdir):
             filename = f"{resultdir}/ch4_utilization_map_{scen}_{year}.png"
             plot_ch4_utilization_map(this_network, filename)
             updated_networks[scen] = this_network
+
+    log("Done: evaluate_line_usage")
 
 
 def plot_ch4_utilization_map(network, filename):

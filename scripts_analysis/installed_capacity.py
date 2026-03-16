@@ -7,6 +7,8 @@ import pandas as pd
 import pypsa
 from matplotlib import pyplot as plt
 
+from common import log
+
 # Stylesheet for colors
 plt.style.use("./plot_stylesheets/style_rectanglecharts.mplstyle")
 COLORS = plt.rcParams["axes.prop_cycle"].by_key()["color"]
@@ -38,6 +40,8 @@ def call_installed_capacity_plot(
     -------
     None
     """
+    log("Starting: call_installed_capacity_plot")
+
     # EU-countries aside from Cyprus and Malta
     EU27_countries = [
         "DK",
@@ -122,6 +126,8 @@ def call_installed_capacity_plot(
         plot_installed_capacities(
             filter, storage_capacities, resultdir, "storage"
         )
+
+    log("Done: call_installed_capacity_plot")
 
 
 def plot_installed_capacities(filter, per_scenario, resultdir, type):

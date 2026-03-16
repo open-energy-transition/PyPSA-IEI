@@ -8,6 +8,7 @@ import pandas as pd
 import pypsa
 
 from networks_regional_dictionary import boundary_network_plots
+from common import log
 
 
 def plot_grid_comparisons(
@@ -40,6 +41,8 @@ def plot_grid_comparisons(
     -------
     None
     """
+    log(f"Starting: plot_grid_comparisons — {scenario_colors_comp.keys()}")
+
     # Get scenario names to compare
     scenarios_for_comp = [scen for scen, color in scenario_colors_comp.items()]
     scenario1 = scenarios_for_comp[0]
@@ -107,6 +110,8 @@ def plot_grid_comparisons(
         plot_h2_map_comp(
             n_comp, FN, color1, color2, scenario1, scenario2, country_to_plot
         )
+
+    log(f"Done: plot_grid_comparisons — {scenario_colors_comp.keys()}")
 
 
 def plot_map_elec_comp(

@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pypsa
 
+from common import log
+
 # Stylesheet for plot
 plt.style.use("./plot_stylesheets/style_squarecharts.mplstyle")
 
@@ -30,6 +32,7 @@ def get_transport_demand_plot(networks, years, sel_scen, demand_resultdir):
     -------
     None
     """
+    log("Starting: get_transport_demand_plot")
 
     # Transport fossil energy sources and energy
     transport_loads = [
@@ -114,6 +117,8 @@ def get_transport_demand_plot(networks, years, sel_scen, demand_resultdir):
         # Save plot and excel
         plt.savefig(f"{demand_resultdir}/Transport_demand_exogenous.png")
         df.to_excel(f"{demand_resultdir}/Transport_demand_exogenous.xlsx")
+
+    log("Done: get_transport_demand_plot")
 
 
 if __name__ == "__main__":

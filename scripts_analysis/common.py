@@ -2,6 +2,7 @@ import logging
 import os
 import textwrap
 import warnings
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -19,6 +20,11 @@ from snakemake.utils import update_config
 # https://github.com/FabianHofmann/carbon-networks
 
 logger = logging.getLogger(__name__)
+
+
+def log(msg):
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
+
 
 root = Path(__file__).parent.parent.parent.resolve()
 pypsa_eur = root / "workflow/subworkflows/pypsa-eur"
