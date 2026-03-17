@@ -1,0 +1,49 @@
+# PyPSA-IEI Documentation
+
+**PyPSA-IEI** is an energy-system model based on the open-source
+[PyPSA-Eur](https://github.com/PyPSA/pypsa-eur) framework (release 0.10),
+extended to meet the needs of the study:
+
+> *"Integrated Infrastructure Planning and 2050 Climate Neutrality:
+> Deriving Future-Proof European Energy Infrastructures"*
+> — Fraunhofer IEG, Fraunhofer ISI and d-fine (November 2025)
+>
+> [Download report (PDF)](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf)
+
+---
+
+## About the Model
+
+PyPSA-IEI performs **myopic pathway optimisation** of the European energy
+system across multiple planning horizons between 2020 and 2050 in 5 year increments. It co-optimizes the electricity, hydrogen, gas, heat, and industry sectors within an integrated framework to identify the least-cost configuration of the overall energy system.
+
+Key extensions on top PyPSA-Eur v0.10 include:
+
+- TYNDP-based electricity and gas network enforcement
+- Hydrogen network (European Hydrogen Backbone + ENTSO-G)
+- Energy import modelling (hydrogen, syngas, synfuel)
+- TransHyDe-based industrial demand
+- Custom cost assumptions and powerplant lifetimes
+
+---
+
+## Quick Links
+
+- [Installation](installation.md) — set up the environment and input data
+- [Model Functionality](functionality/index.md) — detailed description of model extensions
+
+---
+
+## Contributors
+
+**d-fine GmbH** — Robert Beestermöller, Caroline Blocher, Lukas Czygan,
+Linus Erdmann, Felix Greven, Paula Hartnagel, Julian Hohmann, Paul Kock,
+Julius Meyer, Ari Pankiewicz, Anna Thünen
+
+**Fraunhofer IEG** — Benjamin Pfluger, Mario Ragwitz, Caspar Schauß
+
+**Fraunhofer ISI** — Khaled Al-Dabbas, Sirin Alibas, Wolfgang Eichhammer,
+Tobias Fleiter
+
+For inquiries: [wolfgang.eichhammer@isi.fraunhofer.de](mailto:wolfgang.eichhammer@isi.fraunhofer.de)
+or [info@d-fine.com](mailto:info@d-fine.com)
