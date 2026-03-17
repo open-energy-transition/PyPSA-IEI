@@ -27,6 +27,7 @@ gurobi.log
 /slurm_logs
 
 doc/_build
+/site
 
 config.yaml
 config/config.yaml
