@@ -34,4 +34,5 @@ nav:
 - Post-Analysis:
   - Overview: analysis/index.md
   - System Costs: analysis/costs.md
+  - Energy Balance: analysis/balances.md
 - Release Notes: release_notes.md
