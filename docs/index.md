@@ -1,6 +1,6 @@
 # PyPSA-IEI Documentation
 
-**PyPSA-Eur-IEI** is an energy-system model based on the open-source
+**PyPSA-IEI** is an energy-system model based on the open-source
 [PyPSA-Eur](https://github.com/PyPSA/pypsa-eur) framework (release 0.10),
 extended to meet the needs of the study:
 
@@ -30,7 +30,7 @@ Key extensions on top PyPSA-Eur v0.10 include:
 ## Quick Links
 
 - [Installation](installation.md) — set up the environment and input data
-- [Model Functionality](functionality.md) — detailed description of model extensions
+- [Model Functionality](functionality/index.md) — detailed description of model extensions
 
 ---
 

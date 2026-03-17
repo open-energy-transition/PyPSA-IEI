@@ -31,3 +31,4 @@ nav:
     - Electricity Network: functionality/electricity.md
     - Myopic Optimization: functionality/myopic.md
     - Expansion Limits: functionality/expansion.md
+  - Release Notes: release_notes.md
