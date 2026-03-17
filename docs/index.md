@@ -30,7 +30,7 @@ Key extensions on top PyPSA-Eur v0.10 include:
 ## Quick Links
 
 - [Installation](installation.md) — set up the environment and input data
-- [Model Functionality](functionality.md) — detailed description of model extensions
+- [Model Functionality](functionality/index.md) — detailed description of model extensions
 
 ---
 
