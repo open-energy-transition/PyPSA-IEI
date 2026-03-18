@@ -46,4 +46,5 @@ nav:
   - Overview: analysis/index.md
   - System Costs: analysis/costs.md
   - Energy Balance: analysis/balances.md
+  - Balance Maps: analysis/balance_maps.md
 - 📝 Release Notes: release_notes.md
