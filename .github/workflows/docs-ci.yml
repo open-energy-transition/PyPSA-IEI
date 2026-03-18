@@ -31,9 +31,13 @@ jobs:
       if: github.event.action != 'closed'
       run: pip install -r docs/requirements.txt
 
-    - name: Build docs
+    - name: Validate docs (strict)
       if: github.event.action != 'closed'
       run: mkdocs build --strict
+
+    - name: Build docs with PDF
+      if: github.event.action != 'closed'
+      run: mkdocs build
       env:
         BUILD_PDF: "1"
 
