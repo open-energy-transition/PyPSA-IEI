@@ -2,9 +2,15 @@ site_name: PyPSA-IEI Documentation
 repo_url: https://github.com/open-energy-transition/PyPSA-IEI
 theme:
   name: material
+  font:
+    text: Nunito
+    code: Roboto Mono
   features:
-  - navigation.sections
-  - navigation.expand
+  - navigation.indexes
+  - navigation.top
+  - navigation.footer
+  - navigation.tracking
+  - toc.follow
   - content.code.copy
 
 markdown_extensions:
@@ -16,10 +22,15 @@ markdown_extensions:
 - pymdownx.inlinehilite
 - tables
 
+extra_css:
+- assets/css/custom.css
+- https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+- https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+
 nav:
-- Home: index.md
-- Installation: installation.md
-- Model Functionality:
+- 🏠 Home: index.md
+- 🚀 Installation: installation.md
+- ⚙️ Model Functionality:
   - Overview: functionality/index.md
   - Costs: functionality/costs.md
   - Lifetimes: functionality/lifetimes.md
@@ -31,8 +42,8 @@ nav:
   - Electricity Network: functionality/electricity.md
   - Myopic Optimization: functionality/myopic.md
   - Expansion Limits: functionality/expansion.md
-- Post-Analysis:
+- 📊 Post-Analysis:
   - Overview: analysis/index.md
   - System Costs: analysis/costs.md
   - Energy Balance: analysis/balances.md
-- Release Notes: release_notes.md
+- 📝 Release Notes: release_notes.md
