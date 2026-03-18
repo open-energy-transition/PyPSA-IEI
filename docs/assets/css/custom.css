@@ -25,3 +25,9 @@
   color: #1565c0;
   letter-spacing: 0.01em;
 }
+
+/* Site title at top of navigation */
+.md-nav--primary .md-nav__title {
+  font-size: 0.80rem !important;
+  font-weight: 700 !important;
+}
