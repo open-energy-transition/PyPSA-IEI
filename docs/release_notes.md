@@ -1,5 +1,7 @@
 # Release Notes
 
+* Enable download of documentation as PDF using `mkdocs-to-pdf` and enable documentation preview in PRs [PR #14](https://github.com/open-energy-transition/PyPSA-IEI/pull/14)
+
 * Deploy documentation and add documentation preview [PR #7](https://github.com/open-energy-transition/PyPSA-IEI/pull/7)
 
 * Add documentation [PR #5](https://github.com/open-energy-transition/PyPSA-IEI/pull/5)

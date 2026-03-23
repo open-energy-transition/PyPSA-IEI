@@ -6,11 +6,8 @@ theme:
     text: Nunito
     code: Roboto Mono
   features:
-  - navigation.indexes
-  - navigation.top
-  - navigation.footer
-  - navigation.tracking
-  - toc.follow
+  - navigation.sections
+  - navigation.expand
   - content.code.copy
 
 markdown_extensions:
@@ -26,6 +23,17 @@ extra_css:
 - assets/css/custom.css
 - https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
 - https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+
+plugins:
+- search
+- to-pdf:
+    enabled_if_env: BUILD_PDF
+    author: Open Energy Transition
+    cover_title: PyPSA-IEI Documentation
+    cover_subtitle: Integrated Energy Infrastructure Model
+    output_path: pdf/pypsa-iei-documentation.pdf
+    download_link: header
+    toc_level: 3
 
 nav:
 - 🏠 Home: index.md
