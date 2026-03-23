@@ -10,6 +10,10 @@ build:
     python: "3.11"
   apt_packages:
   - graphviz
+  - libpango-1.0-0
+  - libpangoft2-1.0-0
+  - libharfbuzz0b
+  - libfontconfig1
 
 python:
   install:

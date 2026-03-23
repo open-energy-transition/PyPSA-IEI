@@ -1,11 +1,9 @@
 name: pypsa-iei-docs
 channels:
-  - conda-forge
+- conda-forge
 dependencies:
-  - python=3.11
-  - pip
-  - pip:
-      - mkdocs==1.5.3
-      - mkdocs-material==9.5.3
-      - mkdocstrings==0.24.0
-      - mkdocstrings-python==1.8.0
+- python=3.11
+- pip
+- weasyprint    # conda-forge version bundles GTK libs needed on Windows
+- pip:
+  - -r ../docs/requirements.txt
