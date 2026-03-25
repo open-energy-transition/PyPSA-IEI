@@ -48,6 +48,7 @@ nav:
   - Electricity Network: functionality/electricity.md
   - Myopic Optimization: functionality/myopic.md
   - Expansion Limits: functionality/expansion.md
+  - Curtailment Mode: functionality/curtailment_load_shedding.md
 - 📊 Post-Analysis:
   - Overview: analysis/index.md
   - System Costs: analysis/costs.md
