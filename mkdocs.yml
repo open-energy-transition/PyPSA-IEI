@@ -57,4 +57,5 @@ nav:
   - KPIs: analysis/kpis.md
   - Imports: analysis/imports.md
   - Balance Maps: analysis/balance_maps.md
+  - Network Maps: analysis/networks.md
 - 📝 Release Notes: release_notes.md

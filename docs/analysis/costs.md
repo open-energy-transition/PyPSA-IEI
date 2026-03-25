@@ -7,9 +7,9 @@ and operational expenditure by technology group. Costs are shown both as
 annual values and as integrated cumulative costs from the start year to each
 planning horizon.
 
-**Script:** `scripts_analysis/analyze_total_system_cost.py`
-**Function:** `analyze_system_cost()`
-**Output:** `costs/`
+**Script:** `scripts_analysis/analyze_total_system_cost.py`  
+**Function:** `analyze_system_cost()`  
+**Output:** `costs/`  
 
 ---
 

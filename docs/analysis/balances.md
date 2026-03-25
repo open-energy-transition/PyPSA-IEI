@@ -7,9 +7,9 @@ regions (all countries, EU27, and one configurable country) per scenario and
 year. Results are saved as PNG bar charts, interactive HTML timeseries, and
 Excel files.
 
-**Script:** `scripts_analysis/configurable_energy_balances.py`
-**Function:** `get_standard_balances()`
-**Output:** `Balances/`
+**Script:** `scripts_analysis/configurable_energy_balances.py`  
+**Function:** `get_standard_balances()`  
+**Output:** `Balances/`  
 
 ---
 

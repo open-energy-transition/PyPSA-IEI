@@ -9,9 +9,9 @@ capacity, infrastructure volume, dispatch, and summary system metrics.
 
 ## Installed Capacity
 
-**Script:** `installed_capacity.py`
-**Function:** `call_installed_capacity_plot()`
-**Output:** `KPIs/`
+**Script:** `installed_capacity.py`  
+**Function:** `call_installed_capacity_plot()`  
+**Output:** `KPIs/`  
 
 Installed capacity by technology, planning year, and scenario. Controlled
 by `plot_backup_capas` (boolean) in `analysis_main.py` to optionally

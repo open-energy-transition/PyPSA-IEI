@@ -5,9 +5,9 @@
 Energy import volumes (TWh) per import technology across planning years and
 scenarios.
 
-**Script:** `scripts_analysis/import_analysis.py`
-**Function:** `analyze_imports()`
-**Output:** `Import/`
+**Script:** `scripts_analysis/import_analysis.py`  
+**Function:** `analyze_imports()`  
+**Output:** `Import/`  
 
 ---
 

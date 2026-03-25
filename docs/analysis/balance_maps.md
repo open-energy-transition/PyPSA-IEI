@@ -6,9 +6,9 @@ Spatial maps of energy balances overlaid on the European grid, produced for
 each carrier, scenario, and year. A second set of difference maps compares
 the selected reference scenario against all other scenarios.
 
-**Script:** `scripts_analysis/plot_balance_map.py`
-**Function:** `plot_balance_map_years()`
-**Output:** `balance_maps/`
+**Script:** `scripts_analysis/plot_balance_map.py`  
+**Function:** `plot_balance_map_years()`  
+**Output:** `balance_maps/`  
 
 ---
 
