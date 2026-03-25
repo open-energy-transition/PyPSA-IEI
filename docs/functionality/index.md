@@ -17,7 +17,8 @@ Each sub-page covers one topic with a description, the relevant Snakemake rule(s
 | [Industrial Demand](industry.md) | TransHyDe-based industrial energy demand |
 | [Imports](imports.md) | H₂, syngas, and synfuel import nodes |
 | [Losses](losses.md) | Transmission efficiency and compression losses |
-| [Electricity Network](electricity.md) | TYNDP line enforcement and extendability |
+| [TYNDP Electricity Projects](electricity.md) | Cross-border TYNDP transmission enforcement |
+| [National Grid Plans](national_grid_plans.md) | National transmission expansion factors per country |
 | [Myopic Optimization](myopic.md) | Brownfield capacity accounting across horizons |
 | [Expansion Limits](expansion.md) | Min/max capacity constraints per carrier and country |
 | [Curtailment Mode](curtailment_load_shedding.md) | Explicit renewable curtailment modeling |

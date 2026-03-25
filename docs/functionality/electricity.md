@@ -1,4 +1,4 @@
-# Electricity Network
+# TYNDP Electricity Projects
 
 ## Overview
 
@@ -6,6 +6,9 @@ TYNDP electricity transmission projects are enforced on the network in
 `prepare_sector_network`. Per-project capacity limits are read from two CSV
 files and applied for each planning horizon. Cross-border lines and links can
 optionally be made extendable from a given year onwards.
+
+This covers **cross-border** TYNDP transmission projects. National (intra-country)
+transmission is handled separately via [National Grid Plans](national_grid_plans.md).
 
 ---
 
