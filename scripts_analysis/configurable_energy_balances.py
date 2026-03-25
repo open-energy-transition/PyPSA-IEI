@@ -1639,6 +1639,9 @@ def get_energy_balance_df(
                 helper_to_check_completeness = copy.deepcopy(
                     sub_component_typ_dict
                 )
+                helper_to_check_completeness_hourly = copy.deepcopy(
+                    sub_component_typ_dict
+                )
                 for comp in components:
                     # Retrieve all values that can be found
                     # in n.statistics energy balance
@@ -1675,7 +1678,7 @@ def get_energy_balance_df(
                         sub_component_typ_dict,
                         geo_resolution,
                         y,
-                        helper_to_check_completeness,
+                        helper_to_check_completeness_hourly,
                         extra_sub_comps,
                         curr_carrier,
                     )
