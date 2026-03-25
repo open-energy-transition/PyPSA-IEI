@@ -3,32 +3,43 @@ repo_url: https://github.com/open-energy-transition/PyPSA-IEI
 theme:
   name: material
   features:
-    - navigation.sections
-    - navigation.expand
-    - content.code.copy
+  - navigation.sections
+  - navigation.expand
+  - content.code.copy
 
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - tables
+- admonition
+- pymdownx.details
+- pymdownx.superfences
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.inlinehilite
+- tables
+
+plugins:
+- search
+- to-pdf:
+    enabled_if_env: BUILD_PDF
+    author: Open Energy Transition
+    cover_title: PyPSA-IEI Documentation
+    cover_subtitle: Integrated Energy Infrastructure Model
+    output_path: pdf/pypsa-iei-documentation.pdf
+    download_link: header
+    toc_level: 3
 
 nav:
-  - Home: index.md
-  - Installation: installation.md
-  - Model Functionality:
-    - Overview: functionality/index.md
-    - Costs: functionality/costs.md
-    - Lifetimes: functionality/lifetimes.md
-    - Gas: functionality/gas.md
-    - Hydrogen: functionality/hydrogen.md
-    - Industrial Demand: functionality/industry.md
-    - Imports: functionality/imports.md
-    - Losses: functionality/losses.md
-    - Electricity Network: functionality/electricity.md
-    - Myopic Optimization: functionality/myopic.md
-    - Expansion Limits: functionality/expansion.md
-  - Release Notes: release_notes.md
+- Home: index.md
+- Installation: installation.md
+- Model Functionality:
+  - Overview: functionality/index.md
+  - Costs: functionality/costs.md
+  - Lifetimes: functionality/lifetimes.md
+  - Gas: functionality/gas.md
+  - Hydrogen: functionality/hydrogen.md
+  - Industrial Demand: functionality/industry.md
+  - Imports: functionality/imports.md
+  - Losses: functionality/losses.md
+  - Electricity Network: functionality/electricity.md
+  - Myopic Optimization: functionality/myopic.md
+  - Expansion Limits: functionality/expansion.md
+- Release Notes: release_notes.md
