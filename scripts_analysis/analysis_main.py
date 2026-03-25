@@ -1,19 +1,22 @@
+# -*- coding: utf-8 -*-
 import os
+import warnings
 from datetime import datetime
 from pathlib import Path
 
+warnings.filterwarnings("ignore")
+
 import geopandas as gpd
 import pypsa
-from matplotlib import pyplot as plt
-
 from analyze_total_system_cost import analyze_system_cost
-from common import import_network
+from common import import_network, log
 from compare_grids import plot_grid_comparisons
 from configurable_energy_balances import get_standard_balances
 from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
 from line_usage import evaluate_line_usage
+from matplotlib import pyplot as plt
 from plot_balance_map import load_config, plot_balance_map_years
 from plot_cases_KPIs import plot_case_study_KPIs
 from plot_ch4_network import plot_ch4_map_years
@@ -134,11 +137,10 @@ def load_all_network_files(
     for year in years:
         curr_networks = {}
         for scen in scenarios:
+            log(f"  Loading network: {year} / {scen}")
             run_name = runs[scen]
             sector_opts = sector[scen]
-            path_to_networks = Path(
-                f"{main_dir}/results/{run_name}/postnetworks"
-            )
+            path_to_networks = Path(f"{main_dir}/results/{run_name}/postnetworks")
             if off_region_seq is False:
                 n = pypsa.Network(
                     path_to_networks / f"{sector_opts}_{year}.nc"
@@ -196,9 +198,7 @@ if __name__ == "__main__":
         "scenario_4": "#854006",
     }
 
-    scenario_colors_comp = {
-        key: scenario_colors[key] for key in scenarios_for_comp
-    }
+    scenario_colors_comp = {key: scenario_colors[key] for key in scenarios_for_comp}
     # Directories
     main_dir = Path(os.getcwd()).parent
     resultdir = (
@@ -369,9 +369,7 @@ if __name__ == "__main__":
 
     for scen_comp in scenarios_compare:
         scenarios_for_comp = [sel_scen, scen_comp]
-        scenario_colors_comp = {
-            key: scenario_colors[key] for key in scenarios_for_comp
-        }
+        scenario_colors_comp = {key: scenario_colors[key] for key in scenarios_for_comp}
         plot_grid_comparisons(
             networks,
             years,
@@ -485,10 +483,7 @@ if __name__ == "__main__":
     plt.close("all")
     ## Balance Maps
     off_regions_path = (
-        main_dir
-        / "scripts_analysis"
-        / "shapes"
-        / "regions_offshore_elec_s_62.geojson"
+        main_dir / "scripts_analysis" / "shapes" / "regions_offshore_elec_s_62.geojson"
     )
     off_regions = gpd.read_file(off_regions_path).set_index("name")
     networks_off = load_all_network_files(
