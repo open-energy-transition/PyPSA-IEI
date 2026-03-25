@@ -6,7 +6,6 @@ theme:
     text: Nunito
     code: Roboto Mono
   features:
-  - navigation.sections
   - content.code.copy
 
 markdown_extensions:
