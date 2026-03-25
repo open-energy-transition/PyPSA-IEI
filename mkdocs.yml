@@ -55,6 +55,7 @@ nav:
   - System Costs: analysis/costs.md
   - Energy Balance: analysis/balances.md
   - KPIs: analysis/kpis.md
+  - Exogenous Demand: analysis/exogenous_demand.md
   - Imports: analysis/imports.md
   - Self-Sufficiency: analysis/self_sufficiency.md
   - Balance Maps: analysis/balance_maps.md
