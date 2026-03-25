@@ -56,6 +56,8 @@ nav:
   - Energy Balance: analysis/balances.md
   - KPIs: analysis/kpis.md
   - Imports: analysis/imports.md
+  - Self-Sufficiency: analysis/self_sufficiency.md
   - Balance Maps: analysis/balance_maps.md
   - Network Maps: analysis/networks.md
+  - Line Utilization: analysis/utilization.md
 - 📝 Release Notes: release_notes.md
