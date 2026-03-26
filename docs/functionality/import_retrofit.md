@@ -14,8 +14,10 @@ Two types of infrastructure can be retrofitted or shared:
 
 Additionally, natural gas infrastructure can be **dual-used** by syngas without retrofitting.
 
-This constraint is **always enabled** and applies wherever import generators
-for multiple gas types exist at the same location.
+**Scenario Behavior:** This constraint is **always enabled for all scenarios** 
+and applies automatically wherever import generators for multiple gas types 
+exist at the same location. Unlike other constraints, it cannot be disabled 
+via scenario configuration.
 
 ---
 

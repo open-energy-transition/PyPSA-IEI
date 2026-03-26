@@ -7,6 +7,10 @@ requiring sufficient dispatchable generation capacity to cover peak load
 plus a safety margin. Only **conventional (dispatchable) generation**
 counts toward the reserve; renewable and storage units are excluded.
 
+**Origin:** This constraint is from **PyPSA-Eur**, where it was originally
+called "SAFE" (capacity reserve). It has been renamed to `capacity_reserve`
+for clarity.
+
 This constraint models security-of-supply requirements or capacity markets
 where a minimum firm capacity must be maintained regardless of renewables
 penetration.
