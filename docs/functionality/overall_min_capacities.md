@@ -7,7 +7,11 @@ in the model. Unlike per-country expansion limits, this constraint sets a
 floor on the **aggregate capacity** for specific generation technologies
 across the entire system (e.g., all of Europe).
 
-This is useful for business-as-usual (BAU) scenarios or policy mandates
+**Origin:** This constraint is from **PyPSA-Eur**, where it was originally
+called "BAU" (business-as-usual). It has been renamed to `overall_min_capacities`
+for clarity, though the config parameter remains `BAU_mincapacities`.
+
+This is useful for business-as-usual scenarios or policy mandates
 that require a minimum deployment of certain technologies regardless of
 where they are located.
 

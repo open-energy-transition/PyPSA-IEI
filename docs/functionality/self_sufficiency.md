@@ -214,10 +214,6 @@ and follow the format `{country_code}{cluster_num} {sub_id}` with a space.
     Unlike the [expansion limits](expansion.md) which constrain installed **capacity** (MW),
     self-sufficiency constraints operate on annual **energy** (MWh) generation and demand.
 
-!!! warning "Empty CSV"
-    If `self_sufficiency_limits.csv` contains only headers (no constraint rows) and
-    the constraint is enabled, the optimization proceeds without self-sufficiency constraints.
-
 !!! note "External imports"
     External imports (from non-European regions) are represented by generators with carriers
     like `import pipeline-H2` and `import shipping-H2`. These count as imports for
