@@ -795,8 +795,10 @@ as energy carriers transition from fossil to renewable/synthetic fuels.</p>
 <li><strong>LNG terminals</strong>: Liquefied natural gas → Liquefied hydrogen  </li>
 </ol>
 <p>Additionally, natural gas infrastructure can be <strong>dual-used</strong> by syngas without retrofitting.</p>
-<p>This constraint is <strong>always enabled</strong> and applies wherever import generators
-for multiple gas types exist at the same location.</p>
+<p><strong>Scenario Behavior:</strong> This constraint is <strong>always enabled for all scenarios</strong> 
+and applies automatically wherever import generators for multiple gas types 
+exist at the same location. Unlike other constraints, it cannot be disabled 
+via scenario configuration.</p>
 <hr/>
 <h2 id="snakemake-rule">Snakemake Rule</h2>
 <p><strong>Script:</strong> <code>scripts/solve_network.py</code> — function
