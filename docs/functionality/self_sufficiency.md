@@ -76,15 +76,20 @@ For **synfuel**, the constraint compares:
 
 ## Constraint Levels
 
-The function applies constraints at **two levels** independently:
+The function can apply constraints at **multiple levels**:
 
 1. **Per-country** (ISO2 codes: `FR`, `DE`, `IT`, etc.)  
    Cross-border flows between countries count as imports/exports.
 
-2. **Per-cluster** (5-character cluster IDs: `DE123`, `FR045`, etc.)  
+2. **Per-cluster** (cluster IDs like `PL0 0`, `DE1 0`, etc.)  
    Flows between clusters count as imports/exports, even within the same country.
 
-Additionally, if multiple EU countries are specified, the constraint creates an **EU-wide aggregate** by summing generation and trade for all EU27 countries as a single entity.
+3. **EU-wide** (`EU` identifier)  
+   Aggregates generation and trade for all EU27 countries as a single entity.
+
+**Default configuration:** The provided `data/self_sufficiency_limits.csv` contains
+only **country-level** and **EU-wide** constraints. Cluster-level constraints
+are technically supported by the code but not configured in the default dataset.
 
 ---
 
@@ -108,27 +113,28 @@ Leave `min` or `max` blank (or empty rows) for no constraint in that direction.
 
 | Column | Description |
 |---|---|
-| `country` | ISO2 country code (e.g. `DE`, `FR`), cluster ID (e.g. `DE123`), or `EU` for EU-wide |
+| `country` | ISO2 country code (e.g. `DE`, `FR`), cluster ID (e.g. `PL0 0`), or `EU` for EU-wide |
 | `carrier` | Carrier: `H2`, `AC`, or `synfuel` |
 | `year` | Planning year (integer) |
 | `min` | Minimum self-sufficiency fraction [0–1] — blank = no minimum |
 | `max` | Maximum self-sufficiency fraction [0–1 or >1 for net exporters] — blank = no maximum |
 
-Example rows:
+**Default data** (excerpt from `data/self_sufficiency_limits.csv`):
 
 ```csv
 country,carrier,year,min,max
-DE,H2,2030,0.7,
-FR,AC,2040,,1.2
-EU,H2,2050,0.5,
-PL123,AC,2030,0.8,
+DE,AC,2030,0.8,1.1
+DE,AC,2050,1.0,1.1
+DE,H2,2030,0.7,1.1
+EU,AC,2030,0.8,1.1
+EU,H2,2030,0.7,1.1
 ```
 
-In this example:
-- Germany must produce ≥70% of H₂ demand in 2030  
-- France may produce up to 120% of electricity demand in 2040 (20% net exports allowed)  
-- EU-wide H₂ self-sufficiency must be ≥50% in 2050  
-- Cluster `PL123` must produce ≥80% of electricity demand in 2030  
+In this default configuration:
+- All countries must produce ≥80% of electricity demand in 2030 (increasing to 100% by 2050)
+- All countries must produce ≥70% of H₂ demand (constant 2025–2050)  
+- Maximum self-sufficiency is 110% (allowing 10% net exports)
+- EU-wide aggregates have the same targets as individual countries  
 
 ---
 
@@ -153,15 +159,24 @@ solving:
 
 ## How to Modify
 
-### Add self-sufficiency target for a country
+### Change existing targets
 
-Add a row to `data/self_sufficiency_limits.csv`:
+The default CSV contains uniform targets for all countries. To adjust, modify the
+`min` or `max` values for specific countries and years:
 
 ```csv
-DE,H2,2030,0.6,
+DE,H2,2030,0.8,1.1  # increase Germany's H₂ target from 0.7 to 0.8
+FR,AC,2050,0.9,1.2  # relax France's electricity target and allow more exports
 ```
 
-This enforces ≥60% domestic H₂ generation in Germany in 2030.
+### Add self-sufficiency target for a new country
+
+Add rows for a country not in the default data:
+
+```csv
+CH,H2,2030,0.6,1.0
+CH,AC,2030,0.85,1.1
+```
 
 ### Change EU-wide electricity target
 
@@ -181,12 +196,15 @@ FR,H2,2035,,
 
 ### Apply cluster-level constraints
 
-For finer-grained regional policy:
+For finer-grained regional policy (not in default config):
 
 ```csv
-DE123,AC,2030,0.9,
-DE456,AC,2030,0.5,
+PL0 0,AC,2030,0.9,
+PL1 0,AC,2030,0.5,
 ```
+
+Note: Cluster IDs must match the network clustering (e.g., `s_62` = 62 clusters)
+and follow the format `{country_code}{cluster_num} {sub_id}` with a space.
 
 ---
 
@@ -210,5 +228,5 @@ DE456,AC,2030,0.5,
     - [Expansion limits](expansion.md) (capacity bounds per technology)  
     - [National grid plans](national_grid_plans.md) (transmission expansion factors)  
     - [TYNDP projects](electricity.md) (cross-border transmission projects)  
-    
+
     All constraints are applied simultaneously during optimization.
