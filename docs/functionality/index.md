@@ -21,4 +21,8 @@ Each sub-page covers one topic with a description, the relevant Snakemake rule(s
 | [National Grid Plans](national_grid_plans.md) | National transmission expansion factors per country |
 | [Myopic Optimization](myopic.md) | Brownfield capacity accounting across horizons |
 | [Expansion Limits](expansion.md) | Min/max capacity constraints per carrier and country |
+| [Self-Sufficiency Constraints](self_sufficiency.md) | Minimum/maximum self-sufficiency targets per region |
+| [Overall Minimum Capacities](overall_min_capacities.md) | System-wide minimum capacity per carrier |
+| [Capacity Reserve Margin](capacity_reserve.md) | Reserve margin above peak demand for conventional generation |
+| [Import Infrastructure Retrofitting](import_retrofit.md) | Gas import infrastructure reuse for H₂ and syngas |
 | [Curtailment Mode](curtailment_load_shedding.md) | Explicit renewable curtailment modeling |

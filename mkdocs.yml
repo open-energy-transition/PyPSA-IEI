@@ -49,6 +49,10 @@ nav:
   - National Grid Plans: functionality/national_grid_plans.md
   - Myopic Optimization: functionality/myopic.md
   - Expansion Limits: functionality/expansion.md
+  - Self-Sufficiency Constraints: functionality/self_sufficiency.md
+  - Overall Minimum Capacities: functionality/overall_min_capacities.md
+  - Capacity Reserve Margin: functionality/capacity_reserve.md
+  - Import Infrastructure Retrofitting: functionality/import_retrofit.md
   - Curtailment Mode: functionality/curtailment_load_shedding.md
 - 📊 Post-Analysis:
   - Overview: analysis/index.md
