@@ -1,5 +1,7 @@
 # Release Notes
 
+* Add documentation on constraints and national grid expansion plan [PR #17](https://github.com/open-energy-transition/PyPSA-IEI/pull/17)
+
 * Add documentation on post-analysis scripts [PR #8](https://github.com/open-energy-transition/PyPSA-IEI/pull/8)
 
 * Enable download of documentation as PDF using `mkdocs-to-pdf` and enable documentation preview in PRs [PR #14](https://github.com/open-energy-transition/PyPSA-IEI/pull/14)
