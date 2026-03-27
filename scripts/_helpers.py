@@ -15,7 +15,15 @@ import pandas as pd
 import pytz
 import requests
 import yaml
+import numpy as np
 from tqdm import tqdm
+
+from linopy import Model
+import pypsa.optimization.constraints as cons
+import pypsa.optimization.global_constraints as gcons
+import pypsa.optimization.variables as vars
+from pypsa.pf import _as_snapshots
+from pypsa.optimization.optimize import lookup, define_objective
 
 logger = logging.getLogger(__name__)
 
@@ -267,8 +275,8 @@ def mock_snakemake(rulename, configfile, root_dir=None, **wildcards):
     else:
         root_dir = Path(root_dir).resolve()
 
-    run_name = yaml.safe_load(Path(configfile).read_text())['run']['name']
-    full_configfile = root_dir / 'results' / run_name / 'config.yaml'
+    run_name = yaml.safe_load(Path(configfile).read_text())["run"]["name"]
+    full_configfile = root_dir / "results" / run_name / "config.yaml"
     user_in_script_dir = Path.cwd().resolve() == script_dir
     if user_in_script_dir:
         os.chdir(root_dir)
@@ -286,7 +294,7 @@ def mock_snakemake(rulename, configfile, root_dir=None, **wildcards):
             dict(rerun_triggers=[]) if parse(sm.__version__) > Version("7.7.0") else {}
         )
 
-        shutil.copyfile(full_configfile, './config/config.yaml')
+        shutil.copyfile(full_configfile, "./config/config.yaml")
         workflow = sm.Workflow(snakefile, overwrite_configfiles=configfile, **kwargs)
         workflow.include(snakefile)
         workflow.configfile(configfile)
@@ -294,7 +302,7 @@ def mock_snakemake(rulename, configfile, root_dir=None, **wildcards):
         workflow.global_resources = {}
         rule = workflow.get_rule(rulename)
         dag = sm.dag.DAG(workflow, rules=[rule])
-        wc = Dict(workflow.config['scenario'])
+        wc = Dict(workflow.config["scenario"])
         for this_wildcard, elem in wc.items():
             if len(elem) == 1:
                 wc[this_wildcard] = str(elem[0])
@@ -436,6 +444,128 @@ def validate_checksum(file_path, zenodo_url=None, checksum=None):
         for chunk in iter(lambda: f.read(65536), b""):  # 64kb chunks
             hasher.update(chunk)
     calculated_checksum = hasher.hexdigest()
-    assert (
-        calculated_checksum == checksum
-    ), "Checksum is invalid. This may be due to an incomplete download. Delete the file and re-execute the rule."
+    assert calculated_checksum == checksum, (
+        "Checksum is invalid. This may be due to an incomplete download. Delete the file and re-execute the rule."
+    )
+
+
+def get_bus_counts(n) -> pd.Series:
+    all_buses = pd.Series(
+        np.hstack([np.ravel(c.df.filter(like="bus")) for c in n.iterate_components()])
+    )
+    all_buses = all_buses[all_buses != ""]
+    return all_buses.value_counts()
+
+
+def create_model(
+    n,
+    snapshots=None,
+    multi_investment_periods=False,
+    transmission_losses=0,
+    linearized_unit_commitment=False,
+    **kwargs,
+):
+    """
+    Create a linopy.Model instance from a pypsa network.
+
+    This function mirrors `pypsa.optimization.create_model` with a modification
+    to the nodal balance constraint formulation. The standard pypsa implementation
+    (~v0.27) uses two bus sets (strongly/weakly connected), which can cause high
+    memory usage in highly interconnected models. This version groups buses into
+    four sets using connectivity thresholds (30, 100, 400), reducing memory
+    footprint. See `get_bus_counts` for details.
+
+    Parameters
+    ----------
+    n : pypsa.Network
+    snapshots : list or index slice
+        A list of snapshots to optimise, must be a subset of
+        network.snapshots, defaults to network.snapshots
+    multi_investment_periods : bool, default False
+        Whether to optimise as a single investment period or to optimize in multiple
+        investment periods. Then, snapshots should be a ``pd.MultiIndex``.
+    transmission_losses : int, default 0
+    linearized_unit_commitment : bool, default False
+        Whether to optimise using the linearised unit commitment formulation or not.
+    **kwargs:
+        Keyword arguments used by `linopy.Model()`, such as `solver_dir` or `chunk`.
+
+    Returns
+    -------
+    linopy.model
+    """
+    sns = _as_snapshots(n, snapshots)
+    n._linearized_uc = int(linearized_unit_commitment)
+    n._multi_invest = int(multi_investment_periods)
+    n.consistency_check()
+
+    model_kwargs = kwargs.get("model_kwargs", {})
+    model_kwargs.setdefault("force_dim_names", True)
+    n.model = Model(**model_kwargs)
+    n.model.parameters = n.model.parameters.assign(snapshots=sns)
+
+    for c, attr in lookup.query("nominal").index:
+        vars.define_nominal_variables(n, c, attr)
+        vars.define_modular_variables(n, c, attr)
+
+    for c, attr in lookup.query("not nominal and not handle_separately").index:
+        vars.define_operational_variables(n, sns, c, attr)
+        vars.define_status_variables(n, sns, c)
+        vars.define_start_up_variables(n, sns, c)
+        vars.define_shut_down_variables(n, sns, c)
+
+    vars.define_spillage_variables(n, sns)
+    vars.define_operational_variables(n, sns, "Store", "p")
+
+    if transmission_losses:
+        for c in n.passive_branch_components:
+            vars.define_loss_variables(n, sns, c)
+
+    for c, attr in lookup.query("nominal").index:
+        cons.define_nominal_constraints_for_extendables(n, c, attr)
+        cons.define_fixed_nominal_constraints(n, c, attr)
+        cons.define_modular_constraints(n, c, attr)
+
+    for c, attr in lookup.query("not nominal and not handle_separately").index:
+        cons.define_operational_constraints_for_non_extendables(
+            n, sns, c, attr, transmission_losses
+        )
+        cons.define_operational_constraints_for_extendables(
+            n, sns, c, attr, transmission_losses
+        )
+        cons.define_operational_constraints_for_committables(n, sns, c)
+        cons.define_ramp_limit_constraints(n, sns, c, attr)
+        cons.define_fixed_operation_constraints(n, sns, c, attr)
+
+    thresholds = [30, 100, 400]
+    bus_counts = get_bus_counts(n)
+    prev = 0
+    for t in thresholds + [float("inf")]:
+        mask = (bus_counts > prev) & (bus_counts <= t) if t != float("inf") else (bus_counts > prev)
+        buses = bus_counts.index[mask]
+        suffix = f"-meshed-{prev}" if prev > 0 else ""
+        if not buses.empty:
+            cons.define_nodal_balance_constraints(
+                n, sns, transmission_losses=transmission_losses, buses=buses, suffix=suffix
+            )
+        prev = t
+
+    cons.define_kirchhoff_voltage_constraints(n, sns)
+    cons.define_storage_unit_constraints(n, sns)
+    cons.define_store_constraints(n, sns)
+
+    if transmission_losses:
+        for c in n.passive_branch_components:
+            cons.define_loss_constraints(n, sns, c, transmission_losses)
+
+    gcons.define_primary_energy_limit(n, sns)
+    gcons.define_transmission_expansion_cost_limit(n, sns)
+    gcons.define_transmission_volume_expansion_limit(n, sns)
+    gcons.define_tech_capacity_expansion_limit(n, sns)
+    gcons.define_operational_limit(n, sns)
+    gcons.define_nominal_constraints_per_bus_carrier(n, sns)
+    gcons.define_growth_limit(n, sns)
+
+    define_objective(n, sns)
+
+    return n.model
