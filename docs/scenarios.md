@@ -24,7 +24,7 @@ Infrastructure planning considers the interaction between sectors (electricity, 
 
 **Implementation:** The existing grid and already advanced TYNDP projects (i.e., with status "in construction" for electricity, "FID" for gas) form the lower boundary for endogenous transmission capacity expansions. The optimization model can freely expand transmission capacities for electricity, gas, hydrogen, and CO₂ networks beyond these baseline projects.
 
-See [Annex 2: Implementation of Current Infrastructure Planning](#) for detailed project lists.
+For detailed project lists, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 #### Sectoral View (Silos)
 
@@ -37,7 +37,7 @@ Infrastructure planning treats energy networks largely independently, with elect
 
 **Implementation:** The existing grid and all sectoral infrastructure projects (TYNDP, H2 Infrastructure Map, and German Hydrogen Core Network) are the only capacity expansions permitted in the system **until 2040**. This reflects network capacity expansion as envisioned by grid planners. After 2040, the optimization model can freely expand transmission capacities.
 
-For electricity networks, this includes less advanced TYNDP projects with maturity status "in permitting" and "under consideration". See [Annex 2: Implementation of Current Infrastructure Planning](#) for complete project listings.
+For electricity networks, this includes less advanced TYNDP projects with maturity status "in permitting" and "under consideration". For complete project listings, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 ---
 
@@ -73,7 +73,7 @@ This approach can lead to:
 
 **Implementation:** Self-sufficiency constraints are **activated** to require high shares of domestic generation for each country. These constraints operate on an **annual basis** (hourly imports/exports remain unrestricted).
 
-For detailed constraint formulation, see [Self-Sufficiency Constraints](functionality/self_sufficiency.md) or [Annex 1: A Short Description of the PyPSA Model](#).
+For detailed constraint formulation, see [Self-Sufficiency Constraints](functionality/self_sufficiency.md) or Annex 1 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 **Parameterization:**
 
