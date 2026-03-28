@@ -36,6 +36,7 @@ plugins:
 nav:
 - 🏠 Home: index.md
 - 🚀 Installation: installation.md
+- 🎯 Scenarios: scenarios.md
 - ⚙️ Model Functionality:
   - Overview: functionality/index.md
   - 📐 Parameters & Configuration:
