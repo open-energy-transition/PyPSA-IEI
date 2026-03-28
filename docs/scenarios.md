@@ -22,9 +22,11 @@ Infrastructure planning considers the interaction between sectors (electricity, 
 - Minimization of system-wide costs
 - Avoidance of grid bottlenecks and overcapacities
 
-**Implementation:** The existing grid and already advanced TYNDP projects (i.e., with status "in construction" for electricity, "FID" for gas) form the lower boundary for endogenous transmission capacity expansions. The optimization model can freely expand transmission capacities for electricity, gas, hydrogen, and CO₂ networks beyond these baseline projects.
-
-For detailed project lists, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
+??? details "Implementation Details"
+    
+    The existing grid and already advanced TYNDP projects (i.e., with status "in construction" for electricity, "FID" for gas) form the lower boundary for endogenous transmission capacity expansions. The optimization model can freely expand transmission capacities for electricity, gas, hydrogen, and CO₂ networks beyond these baseline projects.
+    
+    For detailed project lists, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 #### Sectoral View (Silos)
 
@@ -35,9 +37,11 @@ Infrastructure planning treats energy networks largely independently, with elect
 - Overcapacities in technologies and infrastructure
 - Lack of coordination between energy carriers
 
-**Implementation:** The existing grid and all sectoral infrastructure projects (TYNDP, H2 Infrastructure Map, and German Hydrogen Core Network) are the only capacity expansions permitted in the system **until 2040**. This reflects network capacity expansion as envisioned by grid planners. After 2040, the optimization model can freely expand transmission capacities.
-
-For electricity networks, this includes less advanced TYNDP projects with maturity status "in permitting" and "under consideration". For complete project listings, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
+??? details "Implementation Details"
+    
+    The existing grid and all sectoral infrastructure projects (TYNDP, H2 Infrastructure Map, and German Hydrogen Core Network) are the only capacity expansions permitted in the system **until 2040**. This reflects network capacity expansion as envisioned by grid planners. After 2040, the optimization model can freely expand transmission capacities.
+    
+    For electricity networks, this includes less advanced TYNDP projects with maturity status "in permitting" and "under consideration". For complete project listings, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 ---
 
@@ -54,7 +58,9 @@ The European internal market paradigm supports free trade and optimal resource a
 - Leverages regional comparative advantages
 - No self-sufficiency constraints are activated
 
-**Implementation:** Self-sufficiency constraints are **not activated**. The system freely optimizes imports and exports on both hourly and annual basis to minimize total system costs.
+??? details "Implementation Details"
+    
+    Self-sufficiency constraints are **not activated**. The system freely optimizes imports and exports on both hourly and annual basis to minimize total system costs.
 
 #### National View
 
@@ -71,20 +77,22 @@ This approach can lead to:
 - Excess regional capacities despite sub-optimal generation conditions
 - Underutilization of low-cost generation potentials in other countries
 
-**Implementation:** Self-sufficiency constraints are **activated** to require high shares of domestic generation for each country. These constraints operate on an **annual basis** (hourly imports/exports remain unrestricted).
-
-For detailed constraint formulation, see [Self-Sufficiency Constraints](functionality/self_sufficiency.md) or Annex 1 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
-
-**Parameterization:**
-
-| Year | Electricity Min. National Generation | Hydrogen Min. National Generation | Export Capacity Buffer |
-|------|-------------------------------------|----------------------------------|----------------------|
-| 2030 | 80% | 70% | +10% of demand |
-| 2050 | 100% | 70% | +10% of demand |
-
-- Electricity self-sufficiency increases linearly from 80% (2030) to 100% (2050)
-- Hydrogen self-sufficiency remains constant at 70%
-- Countries must build sufficient capacity to export 10% of their electricity/hydrogen demand
+??? details "Implementation Details"
+    
+    Self-sufficiency constraints are **activated** to require high shares of domestic generation for each country. These constraints operate on an **annual basis** (hourly imports/exports remain unrestricted).
+    
+    For detailed constraint formulation, see [Self-Sufficiency Constraints](functionality/self_sufficiency.md) or Annex 1 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
+    
+    **Parameterization:**
+    
+    | Year | Electricity Min. National Generation | Hydrogen Min. National Generation | Export Capacity Buffer |
+    |------|-------------------------------------|----------------------------------|----------------------|
+    | 2030 | 80% | 70% | +10% of demand |
+    | 2050 | 100% | 70% | +10% of demand |
+    
+    - Electricity self-sufficiency increases linearly from 80% (2030) to 100% (2050)
+    - Hydrogen self-sufficiency remains constant at 70%
+    - Countries must build sufficient capacity to export 10% of their electricity/hydrogen demand
 
 ---
 
@@ -136,24 +144,22 @@ Sectoral planning with self-sufficiency
 
 **Configuration file:** `config/scenarios/config.CE.yaml`
 
-The **CE scenario** represents fully integrated, cost-optimal European energy infrastructure planning.
+The **CE scenario** represents fully integrated, cost-optimal European energy infrastructure planning. This scenario serves as the **cost-optimal benchmark** against which other scenarios are compared.
 
-**Characteristics:**
+??? details "View Characteristics"
+    
+    - ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
+    - ✅ **No self-sufficiency constraints**
+    - ✅ Existing grid + advanced TYNDP projects form the lower bound
+    - ✅ Free optimization of import vs. domestic generation shares
 
-- ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
-- ✅ **No self-sufficiency constraints**
-- ✅ Existing grid + advanced TYNDP projects form the lower bound
-- ✅ Free optimization of import vs. domestic generation shares
-
-**Expected outcomes:**
-
-- Cost-optimal generation, storage, and sectorally-integrated grid expansion
-- Maximum utilization of regional comparative advantages
-- Lowest system-wide costs
-- High cross-border energy flows where economically efficient
-- Achievement of climate neutrality by 2050 at minimal cost
-
-This scenario serves as the **cost-optimal benchmark** against which other scenarios are compared.
+??? details "View Expected Outcomes"
+    
+    - Cost-optimal generation, storage, and sectorally-integrated grid expansion
+    - Maximum utilization of regional comparative advantages
+    - Lowest system-wide costs
+    - High cross-border energy flows where economically efficient
+    - Achievement of climate neutrality by 2050 at minimal cost
 
 ---
 
@@ -161,25 +167,23 @@ This scenario serves as the **cost-optimal benchmark** against which other scena
 
 **Configuration file:** `config/scenarios/config.CN.yaml`
 
-The **CN scenario** combines integrated infrastructure planning with national self-sufficiency objectives.
+The **CN scenario** combines integrated infrastructure planning with national self-sufficiency objectives. This scenario explores the **cost of energy sovereignty** within an otherwise optimally integrated system.
 
-**Characteristics:**
+??? details "View Characteristics"
+    
+    - ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
+    - ⚠️ **Self-sufficiency constraints activated**
+    - ✅ Existing grid + advanced TYNDP projects form the lower bound
+    - ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
 
-- ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
-- ⚠️ **Self-sufficiency constraints activated**
-- ✅ Existing grid + advanced TYNDP projects form the lower bound
-- ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
-
-**Expected outcomes:**
-
-- Sectorally-integrated grid expansion within national constraints
-- High level of national energy supply
-- Low import dependence (including intra-European)
-- Higher domestic generation and storage capacities
-- Increased system costs compared to CE due to sub-optimal resource allocation
-- Underutilization of cross-border transmission despite available capacity
-
-This scenario explores the **cost of energy sovereignty** within an otherwise optimally integrated system.
+??? details "View Expected Outcomes"
+    
+    - Sectorally-integrated grid expansion within national constraints
+    - High level of national energy supply
+    - Low import dependence (including intra-European)
+    - Higher domestic generation and storage capacities
+    - Increased system costs compared to CE due to sub-optimal resource allocation
+    - Underutilization of cross-border transmission despite available capacity
 
 ---
 
@@ -187,29 +191,27 @@ This scenario explores the **cost of energy sovereignty** within an otherwise op
 
 **Configuration file:** `config/scenarios/config.SE.yaml`
 
-The **SE scenario** reflects current infrastructure planning practices (e.g., TYNDP) with European market integration.
+The **SE scenario** reflects current infrastructure planning practices (e.g., TYNDP) with European market integration. This scenario evaluates the **cost of sectoral planning** under current institutional frameworks.
 
-**Characteristics:**
+??? details "View Characteristics"
+    
+    - ⚠️ **Fixed transmission expansion until 2040** based on:
+        - TYNDP electricity projects (including "in permitting" and "under consideration")
+        - TYNDP gas projects
+        - H2 Infrastructure Map
+        - German Hydrogen Core Network
+    - ✅ **No self-sufficiency constraints**
+    - ✅ Free optimization of import vs. domestic generation shares
+    - ✅ Free transmission expansion after 2040
 
-- ⚠️ **Fixed transmission expansion until 2040** based on:
-  - TYNDP electricity projects (including "in permitting" and "under consideration")
-  - TYNDP gas projects
-  - H2 Infrastructure Map
-  - German Hydrogen Core Network
-- ✅ **No self-sufficiency constraints**
-- ✅ Free optimization of import vs. domestic generation shares
-- ✅ Free transmission expansion after 2040
-
-**Expected outcomes:**
-
-- Good EU-wide coordination on trade and generation
-- Sub-optimal infrastructure due to sectoral planning silos
-- Networks may be insufficient or misaligned for integrated sector-coupling
-- Potential grid bottlenecks or stranded assets
-- Higher costs than CE due to lack of integrated infrastructure optimization
-- Increased reliance on generation and storage to compensate for grid constraints
-
-This scenario evaluates the **cost of sectoral planning** under current institutional frameworks.
+??? details "View Expected Outcomes"
+    
+    - Good EU-wide coordination on trade and generation
+    - Sub-optimal infrastructure due to sectoral planning silos
+    - Networks may be insufficient or misaligned for integrated sector-coupling
+    - Potential grid bottlenecks or stranded assets
+    - Higher costs than CE due to lack of integrated infrastructure optimization
+    - Increased reliance on generation and storage to compensate for grid constraints
 
 ---
 
@@ -217,26 +219,24 @@ This scenario evaluates the **cost of sectoral planning** under current institut
 
 **Configuration file:** `config/scenarios/config.SN.yaml`
 
-The **SN scenario** represents the most constrained policy pathway, combining sectoral planning with national protectionism.
+The **SN scenario** represents the most constrained policy pathway, combining sectoral planning with national protectionism. This scenario represents the **worst-case policy pathway** where both infrastructure planning and trade policies work against system optimization.
 
-**Characteristics:**
+??? details "View Characteristics"
+    
+    - ⚠️ **Fixed transmission expansion until 2040** (same as SE)
+    - ⚠️ **Self-sufficiency constraints activated**
+    - ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
+    - ⚠️ Limited cross-border coordination
+    - ✅ Free transmission expansion after 2040
 
-- ⚠️ **Fixed transmission expansion until 2040** (same as SE)
-- ⚠️ **Self-sufficiency constraints activated**
-- ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
-- ⚠️ Limited cross-border coordination
-- ✅ Free transmission expansion after 2040
-
-**Expected outcomes:**
-
-- Uncoordinated expansion of generation and grid infrastructure
-- Highest system costs among all scenarios
-- Significant overcapacities in some regions, bottlenecks in others
-- Sub-optimal use of renewable resources
-- Stranded assets due to fixed, uncoordinated network planning
-- Low cross-border energy flows despite physical interconnection
-
-This scenario represents the **worst-case policy pathway** where both infrastructure planning and trade policies work against system optimization.
+??? details "View Expected Outcomes"
+    
+    - Uncoordinated expansion of generation and grid infrastructure
+    - Highest system costs among all scenarios
+    - Significant overcapacities in some regions, bottlenecks in others
+    - Sub-optimal use of renewable resources
+    - Stranded assets due to fixed, uncoordinated network planning
+    - Low cross-border energy flows despite physical interconnection
 
 ---
 

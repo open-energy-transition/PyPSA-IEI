@@ -10,6 +10,16 @@
 .md-typeset table {
   font-size: 0.75rem !important;
 }
+
+/* Increase font size for collapsible sections */
+.md-typeset details.details .admonition-title,
+.md-typeset details.details p,
+.md-typeset details.details ul,
+.md-typeset details.details ol,
+.md-typeset details.details table {
+  font-size: 0.75rem !important;
+}
+
 /* Bold headings */
 .md-typeset h1,
 .md-typeset h2,
