@@ -12,6 +12,8 @@ import pandas as pd
 import pypsa
 from matplotlib.cm import ScalarMappable
 
+from common import log
+
 
 def evaluate_self_sufficiency(
     networks_year,
@@ -53,6 +55,8 @@ def evaluate_self_sufficiency(
     -------
     None
     """
+    log(f"Starting: evaluate_self_sufficiency — {scenarios_comp[1]}")
+
     # Initial variables/settings
     eu27_countries = [
         "AT",
@@ -246,6 +250,8 @@ def evaluate_self_sufficiency(
             year,
             carrier="Electricity",
         )
+
+    log(f"Done: evaluate_self_sufficiency — {scenarios_comp[1]}")
 
 
 def plot_self_sufficiency(

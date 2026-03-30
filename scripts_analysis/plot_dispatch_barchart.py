@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import pypsa
 
+from common import log
 
 
 def plot_dispatch_barchart(resultdir, networks_year, runs, years, KPI):
@@ -31,6 +32,7 @@ def plot_dispatch_barchart(resultdir, networks_year, runs, years, KPI):
     -------
     None
     """
+    log("Starting: plot_dispatch_barchart")
 
     # Stylesheet for plot + colors
     plt.style.use("./plot_stylesheets/style_squarecharts_r.mplstyle")
@@ -145,7 +147,7 @@ def plot_dispatch_barchart(resultdir, networks_year, runs, years, KPI):
         plt.savefig(resultdir / f"{KPI}_dispatch.png")
     plt.close()
 
-
+    log("Done: plot_dispatch_barchart")
 
 
 def calculate_flexibilty_dispatch(networks_year, runs, years):

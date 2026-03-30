@@ -8,7 +8,7 @@ import pandas as pd
 import pypsa
 
 from line_usage import calculate_utilization
-
+from common import log
 
 
 def plot_TWkm_all_carriers(
@@ -36,6 +36,8 @@ def plot_TWkm_all_carriers(
     -------
     None
     """
+    log("Starting: plot_TWkm_all_carriers")
+
     europe_list = {
         "europe": [
             "AL",
@@ -155,6 +157,8 @@ def plot_TWkm_all_carriers(
         resultdir,
         balticum_list,
     )
+
+    log("Done: plot_TWkm_all_carriers")
 
 
 def plot_calc_TWkm(

@@ -9,6 +9,7 @@ import pypsa
 from matplotlib import pyplot as plt
 
 from agora_import_calculator import AgoraImportCalculator
+from common import log
 
 # Stylesheet for colors
 plt.style.use("./plot_stylesheets/style_rectanglecharts.mplstyle")
@@ -43,6 +44,7 @@ def analyze_imports(
     -------
     None
     """
+    log("Starting: analyze_imports")
 
     # Import analysis sets
     sets = {
@@ -76,6 +78,8 @@ def analyze_imports(
             years,
             import_resultdir,
         )
+
+    log("Done: analyze_imports")
 
 
 def plot_excel_imports(

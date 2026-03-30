@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from common import log
+
 # Stylesheet for colors
 plt.style.use("./plot_stylesheets/style_rectanglecharts.mplstyle")
 
@@ -51,6 +53,7 @@ def analyze_system_cost(
     -------
     None
     """
+    log("Starting: analyze_system_cost")
 
     # Initial variables
     reference_year = "2050"
@@ -1019,6 +1022,8 @@ def analyze_system_cost(
                 index=False,
                 header=False,
             )
+
+    log("Done: analyze_system_cost")
 
 
 def process_data_infrastructure_cost(scenario, dict_data):
