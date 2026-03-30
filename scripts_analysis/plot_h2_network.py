@@ -13,7 +13,7 @@ import pypsa
 from pypsa.plot import add_legend_circles, add_legend_lines, add_legend_patches
 
 from networks_regional_dictionary import boundary_network_plots
-
+from common import log
 
 
 def plot_h2_map_years(
@@ -50,6 +50,8 @@ def plot_h2_map_years(
     -------
     None
     """
+    log("Starting: plot_h2_map_years")
+
     for scen in scenarios:
         regions_path = (
             main_dir
@@ -122,8 +124,7 @@ def plot_h2_map_years(
                 this_network, regions, filename, country_to_plot
             )
 
-
-
+    log("Done: plot_h2_map_years")
 
 
 def plot_h2_map(

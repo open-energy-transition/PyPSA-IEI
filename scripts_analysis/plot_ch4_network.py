@@ -9,7 +9,7 @@ import pypsa
 from pypsa.plot import add_legend_circles, add_legend_lines, add_legend_patches
 
 from networks_regional_dictionary import boundary_network_plots
-
+from common import log
 
 
 def plot_ch4_map_years(
@@ -39,6 +39,8 @@ def plot_ch4_map_years(
     -------
     None
     """
+    log("Starting: plot_ch4_map_years")
+
     for scen in scenarios:
         for year in years:
             this_network = networks_year[year][scen]
@@ -46,7 +48,7 @@ def plot_ch4_map_years(
             filename = f"{resultdir}/ch4_network_{scen}_{year}.png"
             plot_ch4_map(this_network, filename, country_to_plot)
 
-
+    log("Done: plot_ch4_map_years")
 
 
 

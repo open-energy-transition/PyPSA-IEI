@@ -14,7 +14,7 @@ import yaml
 from pypsa.plot import add_legend_circles, add_legend_lines, add_legend_patches
 from pypsa.statistics import get_transmission_carriers
 
-from common import import_network
+from common import import_network, log
 from networks_regional_dictionary import boundary_network_plots
 
 # Adapted from
@@ -70,6 +70,8 @@ def plot_balance_map_years(
     -------
     None
     """
+    log("Starting: plot_balance_map_years")
+
     # Initialize + plot for every scenario and year
     buses = dict()
     flows = dict()
@@ -120,6 +122,8 @@ def plot_balance_map_years(
         country_to_plot,
         off_regions,
     )
+
+    log("Done: plot_balance_map_years")
 
 
 def load_config(directory: Path) -> Dict[str, Dict]:

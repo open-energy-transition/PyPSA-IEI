@@ -8,6 +8,8 @@ import pandas as pd
 import pypsa
 from openpyxl.utils.dataframe import dataframe_to_rows
 
+from common import log
+
 
 def load_framework(framework_path):
     """
@@ -4048,6 +4050,8 @@ def start_KPI_analysis(networks_year, years, scenarios, main_dir, resultdir):
     -------
     None
     """
+    log("Starting: start_KPI_analysis")
+
     # Directory for the industrial energy demand data
     base_path_industrial_demand = (
         main_dir / "scripts_analysis" / "industrial_energy_demand"
@@ -4174,6 +4178,8 @@ def start_KPI_analysis(networks_year, years, scenarios, main_dir, resultdir):
     # Calculate and display the total runtime of the script
     end_time = time.time()
     print(f"Runtime of the code: {(end_time - start_time) / 60} Minutes")
+
+    log("Done: start_KPI_analysis")
 
 
 if __name__ == "__main__":
