@@ -1,4 +1,4 @@
-# Electricity Network
+# TYNDP Electricity Projects
 
 ## Overview
 
@@ -6,6 +6,9 @@ TYNDP electricity transmission projects are enforced on the network in
 `prepare_sector_network`. Per-project capacity limits are read from two CSV
 files and applied for each planning horizon. Cross-border lines and links can
 optionally be made extendable from a given year onwards.
+
+This covers **cross-border** TYNDP transmission projects. National (intra-country)
+transmission is handled separately via [National Grid Plans](national_grid_plans.md).
 
 ---
 
@@ -105,7 +108,7 @@ Only projects whose TYNDP status tag matches an entry in this list are enforced.
 Set `policy_plans.include_tyndp_elec.optimize_after` to `true` (all horizons)
 or to an integer year (e.g., `2040`) in the scenario config.
 
-### Modify apacity values per horizon
+### Modify capacity values per horizon
 
 Edit the year columns in `data/links_2020-2050.csv` (DC links) or the
 `{year}{status}` columns in `data/lines_2020-2050.csv` (AC lines).

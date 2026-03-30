@@ -38,16 +38,27 @@ nav:
 - 🚀 Installation: installation.md
 - ⚙️ Model Functionality:
   - Overview: functionality/index.md
-  - Costs: functionality/costs.md
-  - Lifetimes: functionality/lifetimes.md
-  - Gas: functionality/gas.md
-  - Hydrogen: functionality/hydrogen.md
-  - Industrial Demand: functionality/industry.md
-  - Imports: functionality/imports.md
-  - Losses: functionality/losses.md
-  - Electricity Network: functionality/electricity.md
-  - Myopic Optimization: functionality/myopic.md
-  - Expansion Limits: functionality/expansion.md
+  - 📐 Parameters & Configuration:
+    - Costs: functionality/costs.md
+    - Lifetimes: functionality/lifetimes.md
+    - Losses: functionality/losses.md
+  - 🔌 Network Infrastructure:
+    - Gas Networks: functionality/gas.md
+    - Hydrogen Networks: functionality/hydrogen.md
+    - TYNDP Electricity Projects: functionality/electricity.md
+    - National Grid Plans: functionality/national_grid_plans.md
+    - Import Infrastructure Retrofitting: functionality/import_retrofit.md
+  - 📈 Demand & Supply:
+    - Industrial Demand: functionality/industry.md
+    - Energy Imports: functionality/imports.md
+  - ⚖️ Solver Constraints:
+    - Self-Sufficiency Constraints: functionality/self_sufficiency.md
+    - Overall Minimum Capacities: functionality/overall_min_capacities.md
+    - Capacity Reserve Margin: functionality/capacity_reserve.md
+    - Expansion Limits: functionality/expansion.md
+  - 🎯 Optimization Settings:
+    - Myopic Optimization: functionality/myopic.md
+    - Curtailment Mode: functionality/curtailment_load_shedding.md
 - 📊 Post-Analysis:
   - Overview: analysis/index.md
   - System Costs: analysis/costs.md
