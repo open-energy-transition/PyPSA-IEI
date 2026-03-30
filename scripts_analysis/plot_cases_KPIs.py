@@ -11,7 +11,7 @@ import pandas as pd
 import pypsa
 
 from networks_regional_dictionary import boundary_network_plots
-
+from common import log
 
 
 def plot_case_study_KPIs(networks, years, runs, main_dir, KPI_dir):
@@ -38,6 +38,8 @@ def plot_case_study_KPIs(networks, years, runs, main_dir, KPI_dir):
     -------
     None
     """
+    log("Starting: plot_case_study_KPIs")
+
     cluster_sea_north = {
         "northsea": {
             "BE1 0": "Belgium",
@@ -117,7 +119,7 @@ def plot_case_study_KPIs(networks, years, runs, main_dir, KPI_dir):
         "H2_import",
     )
 
-
+    log("Done: plot_case_study_KPIs")
 
 
 def plot_cluster_map(main_dir, ax, dict_cluster, colors, KPI):

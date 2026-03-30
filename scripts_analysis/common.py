@@ -2,6 +2,7 @@ import logging
 import os
 import textwrap
 import warnings
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -11,7 +12,6 @@ from pypsa.components import component_attrs, components
 from pypsa.descriptors import Dict
 from snakemake.utils import update_config
 
-
 # Adapted from
 # Fabian Hofmann, Christoph Tries, Fabian Neumann, Elisabeth Zeyen, Tom
 # Brown (2024). Code for "H2 and CO2 Network Strategies for the European
@@ -20,9 +20,12 @@ from snakemake.utils import update_config
 
 logger = logging.getLogger(__name__)
 
-root = Path(__file__).parent.parent.parent.resolve()
-pypsa_eur = root / "workflow/subworkflows/pypsa-eur"
 
+def log(msg):
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+pypsa_iei = Path(__file__).parent.parent
 
 SITES = [
     "residential urban decentral",
@@ -62,18 +65,14 @@ def import_network(
     if (no_groups := n.carriers.query("group == ''").index).any():
         warnings.warn(f"Carriers {no_groups} have no technology group")
     if (no_group_colors := n.carriers.query("group_color == ''").index).any():
-        warnings.warn(
-            f"Carriers {no_group_colors} have no technology group color"
-        )
+        warnings.warn(f"Carriers {no_group_colors} have no technology group color")
     n.carriers = n.carriers.sort_values(["color"])
     return n
 
 
 def revert_dac_ports(n):
     dac = n.links.index[n.links.carrier == "DAC"]
-    n.links.loc[dac, ["bus0", "bus2"]] = n.links.loc[
-        dac, ["bus2", "bus0"]
-    ].values
+    n.links.loc[dac, ["bus0", "bus2"]] = n.links.loc[dac, ["bus2", "bus0"]].values
     n.links_t.p0[dac], n.links_t.p2[dac] = (
         n.links_t.p2[dac],
         n.links_t.p0[dac].values,
@@ -138,7 +137,7 @@ def move_sequestration_offshore(n, offshore_regions):
 
 def remove_gas_store_capex(n):
     """
-    Remove capex contributions from gas storages
+    Remove capex contributions from gas storages.
 
     Parameters
     ----------
@@ -193,14 +192,9 @@ def assert_carriers_existent(n, carriers, c):
 def get_transmission_links(n, with_eu=False):
     # only choose transmission links
     if with_eu:
-        return n.links.bus0.map(n.buses.location) != n.links.bus1.map(
-            n.buses.location
-        )
+        return n.links.bus0.map(n.buses.location) != n.links.bus1.map(n.buses.location)
     return (
-        (
-            n.links.bus0.map(n.buses.location)
-            != n.links.bus1.map(n.buses.location)
-        )
+        (n.links.bus0.map(n.buses.location) != n.links.bus1.map(n.buses.location))
         & ~n.links.bus0.map(n.buses.location).str.contains("EU")
         & ~n.links.bus1.map(n.buses.location).str.contains("EU")
     )
@@ -295,11 +289,7 @@ def get_carrier_production(n, kind, config, which="capacity"):
     sus = n.stores.query("carrier in @carriers")
     groups = [sus.bus.map(location), sus.carrier]
     if which == "operation":
-        df = (
-            (weights @ n.stores_t.p[sus.index].clip(lower=0))
-            .groupby(groups)
-            .sum()
-        )
+        df = (weights @ n.stores_t.p[sus.index].clip(lower=0)).groupby(groups).sum()
         res.append(df)
 
     carriers = specs.get("Load", [])
@@ -308,9 +298,7 @@ def get_carrier_production(n, kind, config, which="capacity"):
     groups = [loads.bus.map(n.buses.location), loads.carrier]
     if which == "operation":
         p_set = n.get_switchable_as_dense("Load", "p_set")
-        df = (
-            -(weights @ p_set[loads.index].clip(upper=0)).groupby(groups).sum()
-        )
+        df = -(weights @ p_set[loads.index].clip(upper=0)).groupby(groups).sum()
     res.append(df)
 
     return pd.concat(res)
@@ -392,11 +380,7 @@ def get_carrier_consumption(n, kind, config, which="capacity"):
     if which == "capacity":
         df = sus.groupby(groups).e_nom_opt.sum()
     elif which == "operation":
-        df = (
-            -(weights @ n.stores_t.p[sus.index].clip(upper=0))
-            .groupby(groups)
-            .sum()
-        )
+        df = -(weights @ n.stores_t.p[sus.index].clip(upper=0)).groupby(groups).sum()
     res.append(df)
 
     return pd.concat(res)
@@ -478,21 +462,17 @@ def modify_carrier_names(n):
     n.add("Carrier", "other", nice_name="Other", color="lightgrey")
     n.add("Carrier", "offwind", nice_name="Offshore Wind", color="#6895dd")
     n.mremove("Carrier", ["offwind-ac", "offwind-dc"])
-    n.generators.loc[
-        n.generators.carrier.str.startswith("offwind"), "carrier"
-    ] = "offwind"
+    n.generators.loc[n.generators.carrier.str.startswith("offwind"), "carrier"] = (
+        "offwind"
+    )
     replace = [f"(?i){s} " for s in SITES]
     for c in n.iterate_components(
         n.one_port_components | n.branch_components | {"Bus"}
     ):
         c.df.carrier.replace(replace, "", regex=True, inplace=True)
     n.carriers = n.carriers.sort_values("nice_name")
-    n.carriers.index = n.carriers.index.to_series().replace(
-        replace, "", regex=True
-    )
-    n.carriers.nice_name = n.carriers.nice_name.replace(
-        replace, "", regex=True
-    )
+    n.carriers.index = n.carriers.index.to_series().replace(replace, "", regex=True)
+    n.carriers.nice_name = n.carriers.nice_name.replace(replace, "", regex=True)
     n.carriers.nice_name = n.carriers.nice_name.replace(
         "solid biomass", "biomass", regex=True
     )
@@ -501,7 +481,7 @@ def modify_carrier_names(n):
 
 def update_colors(n):
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(pypsa_iei / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     colors = pd.Series(config["plotting"]["tech_colors"])
@@ -511,7 +491,7 @@ def update_colors(n):
 def add_carrier_nice_names(n):
     # replace abbreviations with capital letters
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(pypsa_iei / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     nice_names = pd.Series(config["plotting"]["nice_names"])
@@ -545,11 +525,10 @@ def add_carrier_nice_names(n):
 
 def add_carrier_groups(n):
     config = yaml.load(
-        open(root / "pypsa-eur-agora" / "config" / "config.plotting.yaml"),
+        open(pypsa_iei / "config" / "config.plotting.yaml"),
         yaml.CFullLoader,
     )
     groups = pd.Series(config["plotting"]["technology_groups"])
     colors = pd.Series(config["plotting"]["technology_group_colors"])
     n.carriers["group"] = groups.reindex(n.carriers.index, fill_value="")
     n.carriers["group_color"] = n.carriers.group.map(colors).fillna("")
-

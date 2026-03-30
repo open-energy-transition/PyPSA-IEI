@@ -8,6 +8,7 @@ import pandas as pd
 import pypsa
 from pypsa.plot import add_legend_patches
 
+from common import log
 from networks_regional_dictionary import boundary_network_plots
 
 
@@ -54,6 +55,8 @@ def plot_map_elec_years(
     -------
     None
     """
+    log("Starting: plot_map_elec_years")
+
     for year in years:
         for scen in scenarios:
             this_network = networks_year[year][scen]
@@ -87,8 +90,7 @@ def plot_map_elec_years(
                 filename = f"{resultdir}/elec_network_existing.png"
                 plot_map_elec_existing(n_pre, filename, country_to_plot)
 
-
-
+    log("Done: plot_map_elec_years")
 
 
 def plot_map_elec(network, pre_network, FN, country_to_plot, type="both"):
