@@ -2,9 +2,10 @@ site_name: PyPSA-IEI Documentation
 repo_url: https://github.com/open-energy-transition/PyPSA-IEI
 theme:
   name: material
+  font:
+    text: Nunito
+    code: Roboto Mono
   features:
-  - navigation.sections
-  - navigation.expand
   - content.code.copy
 
 markdown_extensions:
@@ -15,6 +16,11 @@ markdown_extensions:
     anchor_linenums: true
 - pymdownx.inlinehilite
 - tables
+
+extra_css:
+- assets/css/custom.css
+- https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
+- https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap
 
 plugins:
 - search
@@ -28,9 +34,9 @@ plugins:
     toc_level: 3
 
 nav:
-- Home: index.md
-- Installation: installation.md
-- Model Functionality:
+- 🏠 Home: index.md
+- 🚀 Installation: installation.md
+- ⚙️ Model Functionality:
   - Overview: functionality/index.md
   - Costs: functionality/costs.md
   - Lifetimes: functionality/lifetimes.md
@@ -42,4 +48,15 @@ nav:
   - Electricity Network: functionality/electricity.md
   - Myopic Optimization: functionality/myopic.md
   - Expansion Limits: functionality/expansion.md
-- Release Notes: release_notes.md
+- 📊 Post-Analysis:
+  - Overview: analysis/index.md
+  - System Costs: analysis/costs.md
+  - Energy Balance: analysis/balances.md
+  - KPIs: analysis/kpis.md
+  - Exogenous Demand: analysis/exogenous_demand.md
+  - Imports: analysis/imports.md
+  - Self-Sufficiency: analysis/self_sufficiency.md
+  - Balance Maps: analysis/balance_maps.md
+  - Network Maps: analysis/networks.md
+  - Gas Pipeline Utilization: analysis/utilization.md
+- 📝 Release Notes: release_notes.md

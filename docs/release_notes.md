@@ -1,5 +1,7 @@
 # Release Notes
 
+* Add documentation on post-analysis scripts [PR #8](https://github.com/open-energy-transition/PyPSA-IEI/pull/8)
+
 * Fix path and add logging to post-analysis scripts [PR #6](https://github.com/open-energy-transition/PyPSA-IEI/pull/6)
 
 * Enable download of documentation as PDF using `mkdocs-to-pdf` and enable documentation preview in PRs [PR #14](https://github.com/open-energy-transition/PyPSA-IEI/pull/14)
