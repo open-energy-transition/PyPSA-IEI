@@ -10,7 +10,7 @@ import pypsa
 from analyze_total_system_cost import analyze_system_cost
 from common import import_network, log
 from compare_grids import plot_grid_comparisons
-from configurable_energy_balances import get_standard_balances
+from configurable_energy_balances import compute_energy_balance_cache, get_standard_balances
 from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
@@ -224,6 +224,11 @@ if __name__ == "__main__":
     )
     networks_all.update(networks)
     ## DEMAND DATA
+    # Pre-compute energy_balance() for all networks once — reused by all
+    # get_standard_balances calls (avoids 2 × years × scenarios calls per carrier)
+    log("Pre-computing energy balance cache...")
+    en_balance_cache = compute_energy_balance_cache(networks, years, scenarios)
+
     # Make demand data plots (one scenario but all available years) and store
     # them in demand_resultdir:
     demand_resultdir = (
@@ -261,6 +266,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios,
+        en_balance_cache=en_balance_cache,
     )
 
     carrier_for_balance = "gas"
@@ -272,6 +278,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios,
+        en_balance_cache=en_balance_cache,
     )
 
     carrier_for_balance = "low voltage"
@@ -283,6 +290,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios,
+        en_balance_cache=en_balance_cache,
     )
 
     carrier_for_balance = "H2"
@@ -294,6 +302,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios,
+        en_balance_cache=en_balance_cache,
     )
 
     carrier_for_balance = "heat"
@@ -305,6 +314,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios,
+        en_balance_cache=en_balance_cache,
     )
 
     carrier_for_balance = "urban central heat"
@@ -316,6 +326,7 @@ if __name__ == "__main__":
         balance_resultdir,
         country_to_plot,
         compare_scenarios=[True],
+        en_balance_cache=en_balance_cache,
     )
 
     # PLOT NETWORKS

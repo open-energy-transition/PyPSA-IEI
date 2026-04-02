@@ -170,6 +170,7 @@ def get_standard_balances(
     balance_resultdir,
     country_to_plot,
     compare_scenarios,
+    en_balance_cache=None,
 ):
     """
     The function creates 3 different types of balance plots with
@@ -224,6 +225,7 @@ def get_standard_balances(
         scenarios,
         carrier_for_balance,
         geo_resolution="national",
+        en_balance_cache=en_balance_cache,
     )
 
     # Create barplots + exelsheet for 'All'
@@ -1496,8 +1498,47 @@ def add_text_box(labels_below_sup, labels_below_dem, carrier, lab):
     plt.tight_layout()
 
 
+def compute_energy_balance_cache(networks, years, scenarios):
+    """
+    Pre-compute and cache network.statistics.energy_balance() results
+    for all (year, scenario) combinations. Call this once in
+    analysis_main before the carrier loop and pass the result to
+    get_standard_balances via the en_balance_cache parameter.
+
+    Parameters
+    ----------
+    networks : dict
+        {year: {scenario: pypsa.Network}}
+    years : list of str
+    scenarios : list of str
+
+    Returns
+    -------
+    dict
+        {year: {scenario: {"aggregated": DataFrame, "hourly": DataFrame}}}
+    """
+    log("Computing energy balance cache for all networks...")
+    cache = {}
+    for y in years:
+        cache[y] = {}
+        for s in scenarios:
+            n = networks[y][s]
+            log(f"  energy_balance: {y} / {s}")
+            cache[y][s] = {
+                "aggregated": n.statistics.energy_balance(
+                    aggregate_bus=False
+                ),
+                "hourly": n.statistics.energy_balance(
+                    aggregate_bus=False, aggregate_time=False
+                ),
+            }
+    log("Energy balance cache complete.")
+    return cache
+
+
 def get_energy_balance_df(
-    networks_year, years, scenarios, carrier_for_balance, geo_resolution
+    networks_year, years, scenarios, carrier_for_balance, geo_resolution,
+    en_balance_cache=None,
 ):
     """
     Create a dataframe at georesolution (national, cluster) level with
@@ -1542,9 +1583,12 @@ def get_energy_balance_df(
         extra_comps.append(sub_component_typ_dict[sub_comp])
     components = component_type_dict.keys()
 
-    # Retrieve cluster list from a network:
+    # Retrieve cluster list from a network (use cache if available):
     n = networks_year[years[0]][scenarios[0]]
-    en_balance = n.statistics.energy_balance(aggregate_bus=False)
+    if en_balance_cache is not None:
+        en_balance = en_balance_cache[years[0]][scenarios[0]]["aggregated"]
+    else:
+        en_balance = n.statistics.energy_balance(aggregate_bus=False)
     temp_list = en_balance.index.get_level_values(3).str[:5].unique()
     clusters = [
         item
@@ -1601,13 +1645,17 @@ def get_energy_balance_df(
         hourly_data[y] = {}
 
         for s in scenarios:
-            # Get network and energy balance for carrier
+            # Get network and energy balance for carrier (use cache if available)
             n = networks_year[y][s]
             snapshots = n.snapshot_weightings.generators
-            en_balance = n.statistics.energy_balance(aggregate_bus=False)
-            en_balance_hourly = n.statistics.energy_balance(
-                aggregate_bus=False, aggregate_time=False
-            )
+            if en_balance_cache is not None:
+                en_balance = en_balance_cache[y][s]["aggregated"]
+                en_balance_hourly = en_balance_cache[y][s]["hourly"]
+            else:
+                en_balance = n.statistics.energy_balance(aggregate_bus=False)
+                en_balance_hourly = n.statistics.energy_balance(
+                    aggregate_bus=False, aggregate_time=False
+                )
             hourly_columns = en_balance_hourly.columns
             df_hourly = pd.DataFrame(index=df_index, columns=hourly_columns)
 
