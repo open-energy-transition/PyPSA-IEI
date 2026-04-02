@@ -1799,7 +1799,7 @@ def get_energy_balance_df(
                 ].sum()
                 test_sum = (generated + imported + demand) * 1e-6
                 print(
-                    f"Test sum is {test_sum:.2f} TWh for {curr_carrier} "
+                    f"Test sum is {test_sum:.2e} TWh for {curr_carrier} "
                     f"in scenario {s} in {y}."
                 )
 
