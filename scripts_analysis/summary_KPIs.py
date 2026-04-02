@@ -122,7 +122,7 @@ def calculate_flh_links(
         identifier.
     """
     # Copy network and initialize variables.
-    network_flh = network.copy()
+    network_flh = network
     flhs = {}
 
     # Combine countries and nodes in one list for processing
@@ -310,7 +310,7 @@ def sum_generated_electricity(
         A pandas Series containing the sum of generated electricity,
         indexed by country or node identifiers.
     """
-    n_gen_elec = network.copy()
+    n_gen_elec = network
     electricity_links = [
         "OCGT",
         "H2 Fuel Cell",
@@ -454,7 +454,7 @@ def calculate_net_electricity_import(
         each country or node. Values near zero are set to zero to avoid
         misrepresentation of import shares due to rounding errors.
     """
-    n_net_elec = network.copy()
+    n_net_elec = network
     import_sums = {}
 
     # Combine countries and nodes in one list for processing
@@ -554,7 +554,7 @@ def calculate_gross_electricity_consumption(
         for each country or node.
 
     """
-    n_gross_elec = network.copy()
+    n_gross_elec = network
     # Calculate net electricity import and sum of generated electricity for
     # the specified countries
     electricity_consumption = calculate_net_electricity_import(
@@ -613,7 +613,7 @@ def calculate_h2_gas_import(
         for each country or node. Small values near zero are set to
         zero to avoid misrepresentation due to rounding errors.
     """
-    n_net_imports = network.copy()
+    n_net_imports = network
     if carrier == "H2":
         # Define hydrogen transport mechanisms considered for imports
         import_carrier_list = [
@@ -735,7 +735,7 @@ def calculate_sum_generated_H2(
         each country or node. Small values near zero are set to zero
         to avoid misrepresentation due to rounding errors.
     """
-    n_gen_h2 = network.copy()
+    n_gen_h2 = network
     generation_sums = {}
 
     # Specify carriers related to hydrogen production
@@ -809,7 +809,7 @@ def calculate_gross_hydrogen_consumption(
         A pandas Series containing the gross hydrogen consumption for
         each country or node.
     """
-    n_gross_h2 = network.copy()
+    n_gross_h2 = network
     # Compute gross hydrogen consumption by adding net imports to generated
     # hydrogen
     hydrogen_consumption = calculate_h2_gas_import(
@@ -864,7 +864,7 @@ def calculate_capacity_thermal(
         DataFrame containing total dispatch (TWh) for each fuel type,
         indexed by country or node.
     """
-    n_cap_therm = network.copy()
+    n_cap_therm = network
 
     carrier_mapping = {
         "OCGT": "gas",
@@ -969,7 +969,7 @@ def calculate_capacity_of_H2_electrolysis(
         A pandas Series containing the total installed capacity of H2
         electrolysis for each country or node.
     """
-    n_electrolysis = network.copy()
+    n_electrolysis = network
 
     capacity_sums = {}
 
@@ -1033,7 +1033,7 @@ def calculate_capacity_of_FT_synthesis(
         A pandas Series containing the total installed capacity of FT
         synthesis for each country or node.
     """
-    n_cap_FTS = network.copy()
+    n_cap_FTS = network
     capacity_sums = {}
 
     # Combine countries and nodes in one list for processing
@@ -1094,7 +1094,7 @@ def calculate_generated_energy_H2_electrolysis(
         Series: A pandas Series containing the energy generated from H2
         Electrolysis for each country or node.
     """
-    n_gen_electrol = network.copy()
+    n_gen_electrol = network
 
     generated_energy = {}
 
@@ -1171,7 +1171,7 @@ def calculate_generated_energy_FT_synthesis(
         A pandas Series containing the energy generated from
         Fischer-Tropsch synthesis for each country or node.
     """
-    n_gen_FTS = network.copy()
+    n_gen_FTS = network
 
     generated_energy = {}
 
@@ -1263,7 +1263,7 @@ def calculate_final_energy_demand_vector(
         Each row corresponds to a country or node, with columns for
         each sector and energy type.
     """
-    n_demand = network.copy()
+    n_demand = network
     # Load industrial demand data
     df_industrial_demand = pd.read_csv(path_industrial_demand)
     df_industrial_demand.rename(
@@ -1435,7 +1435,7 @@ def calculate_capacity_of_electricity_interconnectors(
         A pandas Series containing the total installed capacity of
         electricity links and lines for each country or node.
     """
-    n_elec_inter = network.copy()
+    n_elec_inter = network
     # Dictionary to store the sums of capacities for each identifier
     capacity_sums = {}
 
@@ -1526,7 +1526,7 @@ def calculate_capacity_of_electricity_links_and_lines(
         A pandas Series containing the total installed capacity of
         electricity links and lines for each country or node.
     """
-    n_elec_trans = network.copy()
+    n_elec_trans = network
     # Dictionary to store the sums of capacities for each identifier
     capacity_sums = {}
 
@@ -1657,7 +1657,7 @@ def calculate_capacity_interconnectors(
         A pandas Series containing the total installed capacity of
         interconnectors for each country or node.
     """
-    n_intercon = network.copy()
+    n_intercon = network
 
     # Dictionary to store the sums of capacities for each identifier
     capacity_sums = {}
@@ -1739,7 +1739,7 @@ def calculate_capacity_grids(
         A pandas Series containing the total installed capacity of
         pipeline network for each country or node.
     """
-    n_grids = network.copy()
+    n_grids = network
 
     # Dictionary to store the sums of capacities for each identifier
     capacity_sums = {}
@@ -1847,7 +1847,7 @@ def calculate_primary_energy_demand_gas(
             - The second Series contains the net imports of synthetic
               gas for each country or node.
     """
-    n_gas_import = network.copy()
+    n_gas_import = network
     # Definitions of carriers for gas and syngas imports
     natural_gas_carriers = [
         "import lng gas",
@@ -1981,7 +1981,7 @@ def calculate_primary_energy_demand_oil(
         A pandas Series containing the primary energy demand from oil
         for each country or node.
     """
-    n_prim_oil = network.copy()
+    n_prim_oil = network
 
     oil_energy_demand_sums = {}
 
@@ -2103,7 +2103,7 @@ def calculate_primary_energy_demand_coal(
         A pandas Series containing the primary energy demand from coal
         for each country or node.
     """
-    n_coal = network.copy()
+    n_coal = network
     df_industrial_demand = pd.read_csv(path_industrial_demand)
     df_industrial_demand.rename(
         columns={df_industrial_demand.columns[0]: "bus"}, inplace=True
@@ -2190,7 +2190,7 @@ def calculate_primary_energy_demand_lignite(
         A pandas Series containing the primary energy demand from
         lignite for each country or node.
     """
-    n_lignite = network.copy()
+    n_lignite = network
     energy_sums = {}  # Dictionary to store the energy sums for each identifier
 
     # Combine countries and nodes in one list for processing
@@ -2262,7 +2262,7 @@ def calculate_primary_energy_demand_nuclear(
         A pandas Series containing the primary energy demand from
         nuclear power for each country or node.
     """
-    n_nuclear = network.copy()
+    n_nuclear = network
 
     energy_sums = {}  # Dictionary to store the energy sums for each identifier
 
@@ -2335,7 +2335,7 @@ def calculate_primary_energy_demand_biomass(
         A pandas Series containing the primary energy demand from
         biomass for each country or node.
     """
-    n_biomass = network.copy()
+    n_biomass = network
 
     energy_sums = {}  # Dictionary to store the energy sums for each identifier
 
@@ -2640,7 +2640,7 @@ def calculate_co2_storage(
         sequestered for each country or node, expressed in million
         tonnes (Mt).
     """
-    n_co2_store = network.copy()
+    n_co2_store = network
 
     # Dictionary to store the Carbon Capture and Storage (CCS) sums for each
     # identifier
@@ -2708,7 +2708,7 @@ def calculate_installed_capacity_PHS(
         A pandas Series containing the installed capacity of PHS for
         each country or node.
     """
-    n_phs = network.copy()
+    n_phs = network
     storage_sums = {}  # Dictionary to store the installed capacity for PHS
 
     # Combine countries and nodes in one list for processing
@@ -2773,7 +2773,7 @@ def calculate_installed_capacity_hydrogen_storage(
         A pandas Series containing the installed capacity of hydrogen
         storage for each country or node.
     """
-    n_h2_store = network.copy()
+    n_h2_store = network
 
     # Dictionary to store the installed capacity for hydrogen
     storage_sums = {}
@@ -2843,7 +2843,7 @@ def calculate_installed_capacity_electricity_storage(
         distribution and transmission electricity storage for each
         country or node.
     """
-    n_e_store = network.copy()
+    n_e_store = network
     # Dictionary to store the installed capacity for
     # electricity for distribution and transmission separately
     storage_data = {}
