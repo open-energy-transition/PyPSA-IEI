@@ -1265,7 +1265,6 @@ def calculate_final_energy_demand_vector(
     """
     n_demand = network.copy()
     # Load industrial demand data
-    print(path_industrial_demand)
     df_industrial_demand = pd.read_csv(path_industrial_demand)
     df_industrial_demand.rename(
         columns={df_industrial_demand.columns[0]: "bus"}, inplace=True
