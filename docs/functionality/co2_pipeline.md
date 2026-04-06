@@ -20,8 +20,8 @@ underground — rather than assuming a single, spatially aggregated CO₂ pool.
 
 ## Snakemake Rule
 
-**Rule:** `prepare_sector_network`
-**Script:** `scripts/prepare_sector_network.py`
+**Rule:** `prepare_sector_network`  
+**Script:** `scripts/prepare_sector_network.py`  
 
 Two functions are called in sequence:
 
