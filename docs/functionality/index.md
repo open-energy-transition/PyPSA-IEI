@@ -14,6 +14,7 @@ Each sub-page covers one topic with a description, the relevant Snakemake rule(s
 | [Lifetimes](lifetimes.md) | Country- and plant-level powerplant lifetime adjustments |
 | [Gas](gas.md) | TYNDP gas pipelines, Russian import removal |
 | [Hydrogen](hydrogen.md) | Wasserstoffkernnetz, ENTSO-G network, retrofitting |
+| [CO₂ Pipeline Network](co2_pipeline.md) | Spatial CO₂ tracking, bidirectional pipeline links, sequestration caps |
 | [Industrial Demand](industry.md) | TransHyDe-based industrial energy demand |
 | [Imports](imports.md) | H₂, syngas, and synfuel import nodes |
 | [Losses](losses.md) | Transmission efficiency and compression losses |
