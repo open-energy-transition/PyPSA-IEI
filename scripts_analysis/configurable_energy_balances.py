@@ -162,6 +162,11 @@ COLUMNS_TO_IGNORE = {
     "gas": [],
 }
 
+# Controls whether PNG time-series plots are resampled to hourly resolution
+# before rendering (True = uniform x-axis, slower; False = raw segments, fast).
+# Override from analysis_main.py: import configurable_energy_balances as ceb;
+# ceb.RESAMPLE_TIMESERIES_PNG = False
+RESAMPLE_TIMESERIES_PNG = True
 
 def get_standard_balances(
     networks,
@@ -1041,12 +1046,16 @@ def plot_time_series_html(
     )
 
 
-def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
+def plot_time_series_png(
+    dict_dfs, str_name, carrier_name, result_path
+):
     """
     Creates stacked area chart (step="post") with supply and demand for
     a specific carrier and region showing the January timeseries.
-    Uses raw time segments directly (no hourly resampling) via
-    stackplot for fast rendering.
+
+    By default uses raw time segments (no resampling) for fast rendering.
+    Set the module-level flag RESAMPLE_TIMESERIES_PNG = True to resample
+    to hourly resolution first, giving a uniform x-axis.
 
     Parameters
     ----------
@@ -1182,10 +1191,11 @@ def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
             ]
             df_balance = df_balance.drop(labels)
 
-            # --- Filter to January using raw segments (no resample) ---
-            # Keeps only the segment timestamps that fall in January.
-            # step="post" in stackplot holds each value until the next
-            # segment boundary, giving the same visual result as bars.
+            # Filter to January — optionally resampled to hourly first.
+            # step="post" in stackplot holds each segment value until
+            # the next timestamp, giving the same visual result as bars.
+            if RESAMPLE_TIMESERIES_PNG:
+                df_balance = df_balance.T.resample("h").ffill().T
             jan_cols = df_balance.columns[
                 pd.DatetimeIndex(df_balance.columns).month == 1
             ]

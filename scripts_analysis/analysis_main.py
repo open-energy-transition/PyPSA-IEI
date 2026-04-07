@@ -11,6 +11,7 @@ from analyze_total_system_cost import analyze_system_cost
 from common import import_network, log
 from compare_grids import plot_grid_comparisons
 from configurable_energy_balances import compute_energy_balance_cache, get_standard_balances
+import configurable_energy_balances as ceb
 from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
@@ -183,6 +184,9 @@ if __name__ == "__main__":
     sel_scen = "scenario_1"
     # choose two scenarios for comparison
     scenarios_for_comp = ["scenario_1", "scenario_2"]
+
+    # Resample PNG time-series to hourly (True = uniform x-axis, slower).
+    ceb.RESAMPLE_TIMESERIES_PNG = False
 
     # User configuration for output data:
     evaluation_name = "analysis_results"
