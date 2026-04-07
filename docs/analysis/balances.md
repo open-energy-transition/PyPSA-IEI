@@ -52,3 +52,21 @@ Bar plots are generated for three regions: **All** (33 countries), **EU27**, and
 ### Scenario comparison mode
 
 `compare_scenarios` controls whether all scenarios are overlaid in one plot (`True`) or plotted individually (`False`). In `analysis_main.py` it is set to `[True, False]` for all carriers, producing both plot styles. `urban central heat` only uses `[True]` because it is not meaningful to plot it per individual scenario.
+
+### PNG time-series resampling
+
+PNG stacked area charts in `timeseries_plots_stacked_bar_chart/` show the January dispatch profile. By default the plots use **flexible time segments** from the model (e.g. 2190 segments for a segmented run), which renders very fast. Optionally the data can be resampled to hourly resolution first, producing a uniform x-axis — but this is significantly slower.
+
+The behaviour is controlled by a module-level flag in `configurable_energy_balances.py`:
+
+```python
+RESAMPLE_TIMESERIES_PNG = True  # default: uniform hourly x-axis
+```
+
+Override it once at the top of `analysis_main.py` before any balances are computed:
+
+```python
+ceb.RESAMPLE_TIMESERIES_PNG = False  # fast: raw time segments
+```
+
+The current default in `analysis_main.py` is `False` (raw segments).
