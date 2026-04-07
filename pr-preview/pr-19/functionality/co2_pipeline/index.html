@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../electricity/" rel="prev"/>
-<link href="../import_retrofit/" rel="next"/>
+<link href="../hydrogen/" rel="prev"/>
+<link href="../electricity/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>National Grid Plans - PyPSA-IEI Documentation</title>
+<title>CO₂ Pipeline Network - PyPSA-IEI Documentation</title>
 <link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Nunito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -24,7 +24,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#national-grid-expansion-plans">
+<a class="md-skip" href="#co2-pipeline-network">
           Skip to content
         </a>
 </div>
@@ -48,7 +48,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              National Grid Plans
+              CO₂ Pipeline Network
             
           </span>
 </div>
@@ -314,37 +314,13 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../co2_pipeline/">
-<span class="md-ellipsis">
-    
-  
-    CO₂ Pipeline Network
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../electricity/">
-<span class="md-ellipsis">
-    
-  
-    TYNDP Electricity Projects
-  
-
-    
-  </span>
-</a>
-</li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
 <span class="md-ellipsis">
     
   
-    National Grid Plans
+    CO₂ Pipeline Network
   
 
     
@@ -355,7 +331,7 @@
 <span class="md-ellipsis">
     
   
-    National Grid Plans
+    CO₂ Pipeline Network
   
 
     
@@ -386,35 +362,31 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#scenario-behaviour">
+<a class="md-nav__link" href="#network-topology">
 <span class="md-ellipsis">
       
-        Scenario Behaviour
+        Network Topology
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#csv-data-format">
+<a class="md-nav__link" href="#cost-calculation">
 <span class="md-ellipsis">
       
-        CSV Data Format
-      
-    </span>
-</a>
-<nav aria-label="CSV Data Format" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datanational_line_expansionscsv">
-<span class="md-ellipsis">
-      
-        data/national_line_expansions.csv
+        Cost Calculation
       
     </span>
 </a>
 </li>
-</ul>
-</nav>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regional-sequestration-potential">
+<span class="md-ellipsis">
+      
+        Regional Sequestration Potential
+      
+    </span>
+</a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
@@ -426,47 +398,47 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#how-to-modify">
+<a class="md-nav__link" href="#how-to-modify-the-co2-network">
 <span class="md-ellipsis">
       
-        How to Modify
+        How to Modify the CO₂ Network
       
     </span>
 </a>
-<nav aria-label="How to Modify" class="md-nav">
+<nav aria-label="How to Modify the CO₂ Network" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#change-expansion-factors-per-countryyear">
+<a class="md-nav__link" href="#disable-co2-pipelines-while-keeping-spatial-tracking">
 <span class="md-ellipsis">
       
-        Change expansion factors per country/year
+        Disable CO₂ pipelines while keeping spatial tracking
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#adjust-constraint-type">
+<a class="md-nav__link" href="#disable-spatial-co2-tracking-entirely">
 <span class="md-ellipsis">
       
-        Adjust constraint type
+        Disable spatial CO₂ tracking entirely
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#control-when-national-grids-become-freely-extendable">
+<a class="md-nav__link" href="#scale-all-pipeline-costs">
 <span class="md-ellipsis">
       
-        Control when national grids become freely extendable
+        Scale all pipeline costs
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#enabledisable-per-scenario">
+<a class="md-nav__link" href="#remove-regional-sequestration-caps">
 <span class="md-ellipsis">
       
-        Enable/disable per scenario
+        Remove regional sequestration caps
       
     </span>
 </a>
@@ -476,6 +448,30 @@
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../electricity/">
+<span class="md-ellipsis">
+    
+  
+    TYNDP Electricity Projects
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../national_grid_plans/">
+<span class="md-ellipsis">
+    
+  
+    National Grid Plans
+  
+
+    
+  </span>
+</a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../import_retrofit/">
@@ -860,35 +856,31 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#scenario-behaviour">
+<a class="md-nav__link" href="#network-topology">
 <span class="md-ellipsis">
       
-        Scenario Behaviour
+        Network Topology
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#csv-data-format">
+<a class="md-nav__link" href="#cost-calculation">
 <span class="md-ellipsis">
       
-        CSV Data Format
-      
-    </span>
-</a>
-<nav aria-label="CSV Data Format" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#datanational_line_expansionscsv">
-<span class="md-ellipsis">
-      
-        data/national_line_expansions.csv
+        Cost Calculation
       
     </span>
 </a>
 </li>
-</ul>
-</nav>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#regional-sequestration-potential">
+<span class="md-ellipsis">
+      
+        Regional Sequestration Potential
+      
+    </span>
+</a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#configuration">
@@ -900,47 +892,47 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#how-to-modify">
+<a class="md-nav__link" href="#how-to-modify-the-co2-network">
 <span class="md-ellipsis">
       
-        How to Modify
+        How to Modify the CO₂ Network
       
     </span>
 </a>
-<nav aria-label="How to Modify" class="md-nav">
+<nav aria-label="How to Modify the CO₂ Network" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#change-expansion-factors-per-countryyear">
+<a class="md-nav__link" href="#disable-co2-pipelines-while-keeping-spatial-tracking">
 <span class="md-ellipsis">
       
-        Change expansion factors per country/year
+        Disable CO₂ pipelines while keeping spatial tracking
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#adjust-constraint-type">
+<a class="md-nav__link" href="#disable-spatial-co2-tracking-entirely">
 <span class="md-ellipsis">
       
-        Adjust constraint type
+        Disable spatial CO₂ tracking entirely
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#control-when-national-grids-become-freely-extendable">
+<a class="md-nav__link" href="#scale-all-pipeline-costs">
 <span class="md-ellipsis">
       
-        Control when national grids become freely extendable
+        Scale all pipeline costs
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#enabledisable-per-scenario">
+<a class="md-nav__link" href="#remove-regional-sequestration-caps">
 <span class="md-ellipsis">
       
-        Enable/disable per scenario
+        Remove regional sequestration caps
       
     </span>
 </a>
@@ -955,187 +947,220 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="national-grid-expansion-plans">National Grid Expansion Plans</h1>
+<h1 id="co2-pipeline-network">CO₂ Pipeline Network</h1>
 <h2 id="overview">Overview</h2>
-<p>National electricity transmission expansion is constrained based on country-specific
-grid expansion plans (e.g., from Ember study). The feature limits national
-AC line and DC link expansion to specified factors relative to base year
-capacities.</p>
-<p>This applies only to <strong>national</strong> (intra-country) transmission infrastructure.
-Cross-border TYNDP projects are handled separately via the
-<a href="../electricity/">TYNDP Electricity Projects</a> functionality.</p>
+<p>CO₂ pipeline transport is a standard feature of
+<a href="https://github.com/PyPSA/pypsa-eur/tree/v0.10.0">PyPSA-Eur v0.10.0</a>, retained
+unchanged in PyPSA-IEI. The CO₂ pipeline and submarine pipeline investment
+costs are overridden from the technology-data baseline — see <a href="../costs/">Costs</a>
+for details.</p>
+<p>When both <code>co2_spatial: true</code> and <code>co2network: true</code> are set, the model builds
+an endogenously expandable CO₂ transport network. Each pipeline is a
+<strong>bidirectional PyPSA Link</strong> connecting per-node CO₂ storage tanks, whose
+candidate routes are derived automatically from the existing electricity
+transmission topology. This allows the optimiser to decide where captured CO₂
+is temporarily stored, transported between nodes, and ultimately sequestered
+underground — rather than assuming a single, spatially aggregated CO₂ pool.</p>
 <hr/>
 <h2 id="snakemake-rule">Snakemake Rule</h2>
-<p><strong>Rule:</strong> <code>solve_elec_networks</code> / <code>solve_sector_networks</code><br/>
-<strong>Script:</strong> <code>scripts/solve_network.py</code> — function <code>add_national_grid_plan_constraints()</code></p>
-<p><strong>Input data:</strong></p>
-<ul>
-<li><code>data/national_line_expansions.csv</code> — Expansion factors per country and year</li>
-</ul>
-<hr/>
-<h2 id="scenario-behaviour">Scenario Behaviour</h2>
-<p>The constraint is disabled by default and enabled per scenario via
-<code>solving.constraints.national_grid_plans: true</code>. The <code>optimize_after</code>
-parameter controls when national grids become freely extendable:</p>
+<p><strong>Rule:</strong> <code>prepare_sector_network</code><br/>
+<strong>Script:</strong> <code>scripts/prepare_sector_network.py</code> </p>
+<p>Two functions are called in sequence:</p>
 <table>
 <thead>
 <tr>
-<th>Scenario</th>
-<th>National expansion condition</th>
-<th>Free expansion from</th>
+<th>Function</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>CE, CN, and variants</td>
-<td><code>equal</code></td>
-<td>All horizons (<code>optimize_after: true</code>)</td>
+<td><code>add_co2_tracking()</code></td>
+<td>Adds atmospheric and regional CO₂ buses, short-term storage tanks, sequestration stores, and optional vent links</td>
 </tr>
 <tr>
-<td>SE, SN</td>
-<td><code>equal</code></td>
-<td>2040 onwards (<code>optimize_after: 2040</code>)</td>
-</tr>
-</tbody>
-</table>
-<p>When no expansion factor is specified for a country/year:</p>
-<table>
-<thead>
-<tr>
-<th>Case</th>
-<th>Behavior</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Year before data available</td>
-<td>National transmission fixed, except TYNDP projects</td>
-</tr>
-<tr>
-<td>First planning horizon</td>
-<td>All national transmission extendable</td>
-</tr>
-<tr>
-<td>Year after data ends</td>
-<td>Controlled by <code>optimize_after</code> setting</td>
+<td><code>add_co2_network()</code></td>
+<td>Derives candidate pipeline routes from the electricity network and adds bidirectional pipeline links</td>
 </tr>
 </tbody>
 </table>
 <hr/>
-<h2 id="csv-data-format">CSV Data Format</h2>
-<h3 id="datanational_line_expansionscsv"><code>data/national_line_expansions.csv</code></h3>
-<p>Columns: Country ISO2 code as row index, year columns (e.g., <code>2025</code>, <code>2030</code>, ...):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>,2025,2030,2035,2040,2045,2050
-<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>DE,1.2,1.5,1.8,2.0,2.2,2.5
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>FR,1.1,1.3,1.5,1.7,1.9,2.1
-<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>PL,1.0,1.2,1.4,1.6,1.8,2.0
+<h2 id="network-topology">Network Topology</h2>
+<p>Pipeline routes are derived automatically — no separate pipeline dataset is
+required. <code>create_network_topology()</code> scans all AC lines and DC links in the
+network, groups connections by unique node-pair, and averages their <code>length</code>
+and <code>underwater_fraction</code>:</p>
+<div class="highlight"><span class="filename">scripts/prepare_sector_network.py</span><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">co2_links</span> <span class="o">=</span> <span class="n">create_network_topology</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s2">"CO2 pipeline "</span><span class="p">)</span>
 </code></pre></div>
-<p>Each cell contains the <strong>expansion factor</strong> (float) relative to base year capacity:</p>
+<p>The resulting pipeline names follow the pattern <code>CO2 pipeline &lt;nodeA&gt; -&gt; &lt;nodeB&gt;</code>.
+Connections where both ends belong to the same node are dropped automatically.</p>
+<hr/>
+<h2 id="cost-calculation">Cost Calculation</h2>
+<p>Capital cost per pipeline route combines separate onshore and submarine cost
+rates weighted by the route's <code>underwater_fraction</code>:</p>
+<div class="highlight"><span class="filename">scripts/prepare_sector_network.py</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">cost_onshore</span> <span class="o">=</span> <span class="p">(</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>    <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">co2_links</span><span class="o">.</span><span class="n">underwater_fraction</span><span class="p">)</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="o">*</span> <span class="n">costs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="s2">"CO2 pipeline"</span><span class="p">,</span> <span class="s2">"fixed"</span><span class="p">]</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="o">*</span> <span class="n">co2_links</span><span class="o">.</span><span class="n">length</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="p">)</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="n">cost_submarine</span> <span class="o">=</span> <span class="p">(</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>    <span class="n">co2_links</span><span class="o">.</span><span class="n">underwater_fraction</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>    <span class="o">*</span> <span class="n">costs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="s2">"CO2 submarine pipeline"</span><span class="p">,</span> <span class="s2">"fixed"</span><span class="p">]</span>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="o">*</span> <span class="n">co2_links</span><span class="o">.</span><span class="n">length</span>
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="p">)</span>
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="n">capital_cost</span> <span class="o">=</span> <span class="n">cost_onshore</span> <span class="o">+</span> <span class="n">cost_submarine</span>
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="n">capital_cost</span> <span class="o">*=</span> <span class="n">snakemake</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">"sector"</span><span class="p">][</span><span class="s2">"co2_network_cost_factor"</span><span class="p">]</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
+<th>Parameter</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CO2 pipeline</code> fixed cost (€/MW/km/yr)</td>
+<td><code>data/costs_&lt;year&gt;.csv</code> — overridden, see <a href="../costs/">Costs</a></td>
+</tr>
+<tr>
+<td><code>CO2 submarine pipeline</code> fixed cost (€/MW/km/yr)</td>
+<td><code>data/costs_&lt;year&gt;.csv</code> — overridden, see <a href="../costs/">Costs</a></td>
+</tr>
+<tr>
+<td><code>CO2 pipeline</code> lifetime (years)</td>
+<td><code>data/costs_&lt;year&gt;.csv</code></td>
+</tr>
+<tr>
+<td><code>co2_network_cost_factor</code></td>
+<td><code>config.agora.yaml</code> → <code>sector:</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each pipeline is added as a fully bidirectional link (<code>p_min_pu=-1</code>), with
+capacity determined endogenously by the optimiser (<code>p_nom_extendable=True</code>):</p>
+<div class="highlight"><span class="filename">scripts/prepare_sector_network.py</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">n</span><span class="o">.</span><span class="n">madd</span><span class="p">(</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>    <span class="s2">"Link"</span><span class="p">,</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>    <span class="n">co2_links</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="n">bus0</span><span class="o">=</span><span class="n">co2_links</span><span class="o">.</span><span class="n">bus0</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="s2">" co2 stored"</span><span class="p">,</span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>    <span class="n">bus1</span><span class="o">=</span><span class="n">co2_links</span><span class="o">.</span><span class="n">bus1</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="s2">" co2 stored"</span><span class="p">,</span>
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>    <span class="n">p_min_pu</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>            <span class="c1"># bidirectional: negative flow = reversed direction</span>
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>    <span class="n">p_nom_extendable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a>    <span class="n">length</span><span class="o">=</span><span class="n">co2_links</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+<a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a>    <span class="n">capital_cost</span><span class="o">=</span><span class="n">capital_cost</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+<a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a>    <span class="n">carrier</span><span class="o">=</span><span class="s2">"CO2 pipeline"</span><span class="p">,</span>
+<a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a>    <span class="n">lifetime</span><span class="o">=</span><span class="n">costs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="s2">"CO2 pipeline"</span><span class="p">,</span> <span class="s2">"lifetime"</span><span class="p">],</span>
+<a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="p">)</span>
+</code></pre></div>
+<hr/>
+<h2 id="regional-sequestration-potential">Regional Sequestration Potential</h2>
+<p>Underground storage at <code>&lt;node&gt; co2 sequestered</code> is capped per node when
+<code>regional_co2_sequestration_potential.enable: true</code>. Geological potentials are
+sourced from the <a href="https://setis.ec.europa.eu/european-co2-storage-database_en">CO2Stop database</a>
+(European Commission) and spatially overlaid with model regions in
+<code>scripts/build_sequestration_potentials.py</code>. Per-node limits are clipped to
+<code>max_size</code> and divided by <code>years_of_storage</code> to convert a total geological
+capacity into an annual flow rate:</p>
+<div class="highlight"><span class="filename">scripts/prepare_sector_network.py</span><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">e_nom_max</span> <span class="o">=</span> <span class="p">(</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="n">e_nom_max</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">spatial</span><span class="o">.</span><span class="n">co2</span><span class="o">.</span><span class="n">locations</span><span class="p">)</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="n">upper_limit</span><span class="p">)</span>   <span class="c1"># max_size in Mt</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>    <span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>                  <span class="c1"># Mt → t</span>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>    <span class="o">/</span> <span class="n">annualiser</span>               <span class="c1"># total capacity → annual rate</span>
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="p">)</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Config key</th>
 <th>Value</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>1.0</code></td>
-<td>No expansion allowed beyond base year</td>
+<td><code>regional_co2_sequestration_potential.enable</code></td>
+<td><code>true</code></td>
+<td>Apply per-node sequestration caps</td>
 </tr>
 <tr>
-<td><code>1.5</code></td>
-<td>50% expansion allowed (factor × base capacity)</td>
+<td><code>regional_co2_sequestration_potential.attribute</code></td>
+<td><code>'conservative estimate Mt'</code></td>
+<td>Column from CO2Stop dataset to use</td>
 </tr>
 <tr>
-<td><code>2.0</code></td>
-<td>Doubling of capacity allowed</td>
+<td><code>regional_co2_sequestration_potential.include_onshore</code></td>
+<td><code>true</code></td>
+<td>Include onshore geological formations</td>
 </tr>
 <tr>
-<td>Empty/NaN</td>
-<td>Fallback behavior applies</td>
+<td><code>regional_co2_sequestration_potential.min_size</code></td>
+<td><code>3</code></td>
+<td>Minimum site size to include (Mt CO₂)</td>
+</tr>
+<tr>
+<td><code>regional_co2_sequestration_potential.max_size</code></td>
+<td><code>25</code></td>
+<td>Hard upper cap per node (Mt CO₂)</td>
+</tr>
+<tr>
+<td><code>regional_co2_sequestration_potential.years_of_storage</code></td>
+<td><code>25</code></td>
+<td>Annualisation divisor</td>
+</tr>
+<tr>
+<td><code>co2_sequestration_cost</code></td>
+<td><code>10</code></td>
+<td>Cost (€/t CO₂)</td>
+</tr>
+<tr>
+<td><code>co2_sequestration_lifetime</code></td>
+<td><code>50</code></td>
+<td>Lifetime (years)</td>
 </tr>
 </tbody>
 </table>
 <hr/>
 <h2 id="configuration">Configuration</h2>
-<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
-<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">include_national_grid_plans</span><span class="p">:</span>
-<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="nt">national_grid_plan_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/national_line_expansions.csv</span>
-<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="nt">national_expansion_condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equal</span><span class="w">  </span><span class="c1"># 'min', 'max', or 'equal'</span>
-<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># true or integer year</span>
-<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
-<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">national_grid_plans</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># enable per scenario</span>
+<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">co2_spatial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">          </span><span class="c1"># enable per-node CO₂ buses (required for CO₂ network)</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="nt">co2network</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># add CO₂ pipeline links</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="nt">co2_network_cost_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># cost multiplier (1 = unchanged)</span>
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">  </span><span class="nt">co2_vent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">             </span><span class="c1"># allow venting of stored CO₂ back to atmosphere</span>
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="nt">regional_co2_sequestration_potential</span><span class="p">:</span>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">    </span><span class="nt">attribute</span><span class="p">:</span><span class="w"> </span><span class="s">'conservative</span><span class="nv"> </span><span class="s">estimate</span><span class="nv"> </span><span class="s">Mt'</span><span class="w">  </span><span class="c1"># column from CO2Stop dataset</span>
+<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="nt">include_onshore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">                  </span><span class="c1"># include onshore formations</span>
+<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">    </span><span class="nt">min_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">                            </span><span class="c1"># minimum site size (Mt CO₂)</span>
+<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="nt">max_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span><span class="w">                           </span><span class="c1"># upper cap per node (Mt CO₂)</span>
+<a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">    </span><span class="nt">years_of_storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span><span class="w">                   </span><span class="c1"># annualisation divisor</span>
+<a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">  </span><span class="nt">co2_sequestration_potential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span><span class="w">  </span><span class="c1"># fallback global cap (Mt/yr) if regional disabled</span>
+<a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">  </span><span class="nt">co2_sequestration_cost</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">        </span><span class="c1"># €/t CO₂</span>
+<a href="#__codelineno-4-15" id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">  </span><span class="nt">co2_sequestration_lifetime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w">    </span><span class="c1"># years</span>
 </code></pre></div>
-<div class="highlight"><span class="filename">config/scenarios/config.SE.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">include_national_grid_plans</span><span class="p">:</span>
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2040</span>
-<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>
-<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span><span class="nt">national_grid_plans</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<hr/>
+<h2 id="how-to-modify-the-co2-network">How to Modify the CO₂ Network</h2>
+<h3 id="disable-co2-pipelines-while-keeping-spatial-tracking">Disable CO₂ pipelines while keeping spatial tracking</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">co2_spatial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">co2network</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># each node stores CO₂ independently, no transport</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Options</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>national_grid_plan_data</code></td>
-<td>File path</td>
-<td>CSV with expansion factors per country/year</td>
-</tr>
-<tr>
-<td><code>national_expansion_condition</code></td>
-<td><code>min</code>, <code>max</code>, <code>equal</code></td>
-<td>Constraint type: ≥, ≤, or =</td>
-</tr>
-<tr>
-<td><code>optimize_after</code></td>
-<td><code>true</code> or integer</td>
-<td>When national grids become freely extendable</td>
-</tr>
-<tr>
-<td><code>national_grid_plans</code> (in solving)</td>
-<td>Boolean</td>
-<td>Enable/disable constraint per scenario</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Constraint type behavior:</strong></p>
-<ul>
-<li><strong><code>equal</code></strong> (default): National capacity must equal factor × base capacity</li>
-<li><strong><code>min</code></strong>: National capacity at least factor × base capacity (allows more)</li>
-<li><strong><code>max</code></strong>: National capacity at most factor × base capacity (caps expansion)</li>
-</ul>
-<hr/>
-<h2 id="how-to-modify">How to Modify</h2>
-<h3 id="change-expansion-factors-per-countryyear">Change expansion factors per country/year</h3>
-<p>Edit <code>data/national_line_expansions.csv</code> with country-specific factors.</p>
-<h3 id="adjust-constraint-type">Adjust constraint type</h3>
-<p>Set <code>national_expansion_condition</code> to <code>min</code>, <code>max</code>, or <code>equal</code> in config.</p>
-<h3 id="control-when-national-grids-become-freely-extendable">Control when national grids become freely extendable</h3>
-<p>Set <code>optimize_after</code> to <code>true</code> (always) or integer year (e.g., <code>2040</code>).</p>
-<h3 id="enabledisable-per-scenario">Enable/disable per scenario</h3>
-<p>Set <code>solving.constraints.national_grid_plans: true</code> in scenario config.</p>
-<hr/>
-<div class="admonition note">
-<p class="admonition-title">Interaction with TYNDP</p>
-<p>National grid plans apply <strong>after</strong> TYNDP electricity constraints.
-Lines/links already fixed by TYNDP (where <code>p_nom_min = p_nom_max</code> or
-<code>s_nom_min = s_nom_max</code>) are excluded from national grid constraints,
-ensuring TYNDP commitments take precedence.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Data Source</p>
-<p>Default factors based on <a href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fember-climate.org%2Fapp%2Fuploads%2F2024%2F03%2FEmber-Transmission-Grids-Data.xlsx&amp;wdOrigin=BROWSELINK">Ember transmission grids study</a>.</p>
-</div>
+<h3 id="disable-spatial-co2-tracking-entirely">Disable spatial CO₂ tracking entirely</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">  </span><span class="nt">co2_spatial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># all CO₂ collapses to a single EU-level bus</span>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="nt">co2network</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<h3 id="scale-all-pipeline-costs">Scale all pipeline costs</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">  </span><span class="nt">co2_network_cost_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span><span class="w">  </span><span class="c1"># 50% more expensive pipelines</span>
+</code></pre></div>
+<h3 id="remove-regional-sequestration-caps">Remove regional sequestration caps</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">  </span><span class="nt">regional_co2_sequestration_potential</span><span class="p">:</span>
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">  </span><span class="nt">co2_sequestration_potential</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.inf</span><span class="w">  </span><span class="c1"># unlimited global sequestration</span>
+</code></pre></div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
