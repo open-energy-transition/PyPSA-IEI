@@ -46,6 +46,7 @@ nav:
   - 🔌 Network Infrastructure:
     - Gas Networks: functionality/gas.md
     - Hydrogen Networks: functionality/hydrogen.md
+    - CO₂ Pipeline Network: functionality/co2_pipeline.md
     - TYNDP Electricity Projects: functionality/electricity.md
     - National Grid Plans: functionality/national_grid_plans.md
     - Import Infrastructure Retrofitting: functionality/import_retrofit.md
