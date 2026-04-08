@@ -524,9 +524,9 @@ def plot_balance_maps(
     config["plotting"]["extent"] = boundary_network_plots(country_to_plot)
 
     # Print information for run
-    print(f"{year}-{scenario}: {kind}")
-    print(bus_scale)
-    print(branch_scale)
+    # print(f"{year}-{scenario}: {kind}")
+    # print(bus_scale)
+    # print(branch_scale)
 
     ## Plot
     # Updated stylesheet

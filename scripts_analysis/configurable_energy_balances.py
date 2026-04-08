@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict
 
+import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 import numpy as np
 import pandas as pd
@@ -161,6 +162,11 @@ COLUMNS_TO_IGNORE = {
     "gas": [],
 }
 
+# Controls whether PNG time-series plots are resampled to hourly resolution
+# before rendering (True = uniform x-axis, slower; False = raw segments, fast).
+# Override from analysis_main.py: import configurable_energy_balances as ceb;
+# ceb.RESAMPLE_TIMESERIES_PNG = False
+RESAMPLE_TIMESERIES_PNG = True
 
 def get_standard_balances(
     networks,
@@ -170,6 +176,7 @@ def get_standard_balances(
     balance_resultdir,
     country_to_plot,
     compare_scenarios,
+    en_balance_cache=None,
 ):
     """
     The function creates 3 different types of balance plots with
@@ -224,6 +231,7 @@ def get_standard_balances(
         scenarios,
         carrier_for_balance,
         geo_resolution="national",
+        en_balance_cache=en_balance_cache,
     )
 
     # Create barplots + exelsheet for 'All'
@@ -1038,12 +1046,16 @@ def plot_time_series_html(
     )
 
 
-def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
+def plot_time_series_png(
+    dict_dfs, str_name, carrier_name, result_path
+):
     """
-    Creates stacked bar chart with supply and demand for a specific
-    carrier (e.g. 'electricity', 'low voltage', 'H2', 'heat',
-    'urban central heat') and a specific region. For each year and
-    scenario, there is one plot created.
+    Creates stacked area chart (step="post") with supply and demand for
+    a specific carrier and region showing the January timeseries.
+
+    By default uses raw time segments (no resampling) for fast rendering.
+    Set the module-level flag RESAMPLE_TIMESERIES_PNG = True to resample
+    to hourly resolution first, giving a uniform x-axis.
 
     Parameters
     ----------
@@ -1062,16 +1074,8 @@ def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
     -------
     None
     """
-    ## Plot settings
-    bar_width = 1
-    plt.style.use("./plot_stylesheets/style_squarecharts_r.mplstyle")
-    fig, ax = plt.subplots(figsize=(6.2, 5.1))
-    plt.ylabel(carrier_name.capitalize() + " demand & supply (TWh)")
-    scenario_seperation_whitespace = 0
-    bar_width_single_scenario = bar_width
-    # Create plot/subplot for every scenario
     for year in dict_dfs.keys():
-        for pos_scenario, scenario in enumerate(dict_dfs[year].keys()):
+        for scenario in dict_dfs[year].keys():
             df_balance = dict_dfs[year][scenario].loc[str_name]
             maximum = df_balance.where(df_balance > 0).sum().max()
             threshold = maximum * 0.02
@@ -1095,8 +1099,6 @@ def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
                 df_balance = df_balance.drop("DC")
             ## Aggregate data to 'Other supply' & 'Other demand'
             ## + get labels for footnote
-            # Get indizes below threshold
-            # (for legend; without 'Other supply' + 'Other demand')
             used_row_indices_below = df_balance.index[
                 (df_balance.abs() < threshold).all(axis=1)
             ]
@@ -1182,141 +1184,66 @@ def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
                 )
                 indices_below_threshold.sort()
 
-            # Set labels that are shown in footnote + reduce df by this rows
+            # Set labels shown in footnote + reduce df by these rows
             labels = [
                 labels[indices_below_threshold[j]]
                 for j in range(0, len(indices_below_threshold))
             ]
             df_balance = df_balance.drop(labels)
-            # Further plot settings
-            bar_colors = COLORS.copy()
-            # Transpose the DataFrame, making columns rows:
-            df_transposed = df_balance.transpose()
-            # Resample and forward-fill missing values:
-            df_resampled = df_transposed.resample("h").ffill()
-            # Transpose the DataFrame again to return to original structure:
-            df = df_resampled.transpose()
-            # Specify the date range:
-            date_range = pd.date_range(
-                start=df.columns.min(), end=df.columns.max(), freq="h"
-            )
-            mask = [
-                (item.month == 1) and (item.day >= 1) and (item.day <= 31)
-                for item in date_range
+
+            # Filter to January — optionally resampled to hourly first.
+            # step="post" in stackplot holds each segment value until
+            # the next timestamp, giving the same visual result as bars.
+            if RESAMPLE_TIMESERIES_PNG:
+                df_balance = df_balance.T.resample("h").ffill().T
+            jan_cols = df_balance.columns[
+                pd.DatetimeIndex(df_balance.columns).month == 1
             ]
-            # Get columns within the desired date range:
-            desired_columns = date_range[mask]
-            # Filter the dataframe for these columns:
-            df = df.loc[:, desired_columns]
+            df = df_balance[jan_cols].astype(float)
+            x = pd.DatetimeIndex(df.columns)
 
-            index = (
-                np.arange(len(df.columns))
-                + pos_scenario * bar_width_single_scenario
-            )
-            bottom_values_pos = len(index) * [0]
-            bottom_values_neg = len(index) * [0]
+            bar_colors = COLORS[: len(df.index)]
+            lab = [idx[0] for idx in df.index]
 
-            ## Assign color + plot bar
-            # Arrays for the colors and the order in which they were plotted
-            # of the elements of the barchart, separately for those
-            # with values larger zero and those with values smaller zero.
+            # Separate positive / negative parts for stacking
+            pos_vals = df.clip(lower=0).values  # (n_components, n_timesteps)
+            neg_vals = df.clip(upper=0).values
+
+            # Determine legend order (same logic as original)
             order_pos = []
             order_neg = []
-            colors_pos = []
-            colors_neg = []
-            lab = []
-            counter = 0
-
-            # Subbar for every remaining index in df
-            for row_index in df.index:
-                # Get color
-                color = bar_colors.pop(0)
-
-                # Further plot settings
-                y_values = df.loc[row_index].values.tolist()
-                positive_values = [y if y > 0 else 0 for y in y_values]
-                negative_values = [y if y < 0 else 0 for y in y_values]
-                plt.ylim(-maximum * 1.1, maximum * 1.1)
-                width = (
-                    bar_width_single_scenario - scenario_seperation_whitespace
-                )
-                start = 0
-
-                # Barplot
-                plt.bar(
-                    index[start:],
-                    positive_values[start:],
-                    width=width,
-                    bottom=bottom_values_pos[start:],
-                    label=row_index[0],
-                    color=color,
-                )
-                plt.bar(
-                    index[start:],
-                    negative_values[start:],
-                    width=width,
-                    bottom=bottom_values_neg[start:],
-                    label=row_index[0],
-                    color=color,
-                )
-
-                # Add values to bottom
-                bottom_values_pos = [
-                    y1 + y2
-                    for y1, y2 in zip(bottom_values_pos, positive_values)
-                ]
-                bottom_values_neg = [
-                    y1 + y2
-                    for y1, y2 in zip(bottom_values_neg, negative_values)
-                ]
-
-                # Assign order for positive and negative values and color
-                if (negative_values == np.zeros(len(negative_values))).all():
-                    order_pos.append(counter)
-                    colors_pos.append(color)
-                elif (positive_values == np.zeros(len(positive_values))).all():
-                    order_neg.append(counter)
-                    colors_neg.append(color)
+            for i, row_index in enumerate(df.index):
+                y_vals = df.loc[row_index].values.astype(float)
+                neg_v = np.where(y_vals < 0, y_vals, 0.0)
+                pos_v = np.where(y_vals > 0, y_vals, 0.0)
+                if (neg_v == 0).all():
+                    order_pos.append(i)
+                elif (pos_v == 0).all():
+                    order_neg.append(i)
                 else:
-                    if len(negative_values) > 0:
-                        if negative_values[-1] == 0:
-                            order_pos.append(counter)
-                            colors_pos.append(color)
-                        else:
-                            order_neg.append(counter)
-                            colors_neg.append(color)
+                    if neg_v[-1] == 0:
+                        order_pos.append(i)
                     else:
-                        order_pos.append(counter)
-                        colors_pos.append(color)
-                lab.append(row_index[0])
-                counter += 1
+                        order_neg.append(i)
 
-            ## Legend
-            # Get handels + labels in the right order
-            order = np.zeros(len(order_pos) + len(order_neg))
-            colors_all = []
-            for i in range(0, len(order_pos)):
-                order[i] = order_pos[len(order_pos) - i - 1]
-                colors_all.append(colors_pos[len(order_pos) - i - 1])
-            for j in range(0, len(order_neg)):
-                order[j + len(order_pos)] = order_neg[j]
-                colors_all.append(colors_neg[j])
-            plt.axhline(y=0, color="black", linestyle="-")
-            handles, labels = plt.gca().get_legend_handles_labels()
-            by_label = dict(zip(labels, handles))
-            order = np.array(order, dtype=int)
-            handles_use = list(by_label.values())
+            # Plot
+            plt.style.use("./plot_stylesheets/style_squarecharts_r.mplstyle")
+            fig, ax = plt.subplots(figsize=(6.2, 5.1))
+            ax.set_ylabel(carrier_name.capitalize() + " demand & supply (TWh)")
 
-            # Update string for supply & demand
-            if ("Other supply" in np.array(lab)) and (
-                len(labels_below_sup) > 0
-            ):
+            # stackplot with step="post": each segment holds its value
+            # until the next timestamp — visually identical to bars
+            ax.stackplot(x, pos_vals, colors=bar_colors, labels=lab, step="post")
+            ax.stackplot(x, neg_vals, colors=bar_colors, step="post")  # no labels (same colors)
+            ax.axhline(y=0, color="black", linestyle="-")
+            ax.set_ylim(-maximum * 1.1, maximum * 1.1)
+
+            # Update "Other supply/demand" label strings
+            if ("Other supply" in np.array(lab)) and len(labels_below_sup) > 0:
                 lab[np.where(np.array(lab) == "Other supply")[0][0]] = (
                     "Other supply$^{1}$"
                 )
-            if ("Other demand" in np.array(lab)) and (
-                len(labels_below_dem) > 0
-            ):
+            if ("Other demand" in np.array(lab)) and len(labels_below_dem) > 0:
                 if "Other supply$^{1}$" in np.array(lab):
                     lab[np.where(np.array(lab) == "Other demand")[0][0]] = (
                         "Other demand$^{2}$"
@@ -1326,25 +1253,26 @@ def plot_time_series_png(dict_dfs, str_name, carrier_name, result_path):
                         "Other demand$^{1}$"
                     )
 
-            plt.legend(
-                [handles_use[idx] for idx in order],
+            # Legend in stacking order
+            order = np.zeros(len(order_pos) + len(order_neg), dtype=int)
+            for i in range(len(order_pos)):
+                order[i] = order_pos[len(order_pos) - i - 1]
+            for j in range(len(order_neg)):
+                order[j + len(order_pos)] = order_neg[j]
+            handles_all, _ = ax.get_legend_handles_labels()
+            ax.legend(
+                [handles_all[idx] for idx in order],
                 [lab[idx2] for idx2 in order],
                 loc="center left",
                 bbox_to_anchor=(1, 0.5),
             )
 
-            ## Saving plot
-
-            # Change y-ticks
-            plt.tick_params(axis="both", labelsize=7)  # Labelsize for x & y
-            date_range = pd.date_range(
-                start=df.columns.min(), end=df.columns.max(), freq="3D"
-            )
-            matching_indices = [df.columns.get_loc(col) for col in date_range]
-            ax.set_xticks(matching_indices)
-            ax.set_xticklabels(date_range.strftime("%d-%m"))
-            ax.tick_params(axis="x", rotation=90)
-            ax.xaxis.set_minor_locator(ticker.AutoMinorLocator(3))
+            # x-axis: real date labels, tick every 3 days
+            ax.xaxis.set_major_locator(mdates.DayLocator(interval=3))
+            ax.xaxis.set_major_formatter(mdates.DateFormatter("%d-%m"))
+            ax.xaxis.set_minor_locator(mdates.DayLocator(interval=1))
+            ax.tick_params(axis="x", rotation=90, labelsize=7)
+            ax.tick_params(axis="y", labelsize=7)
 
             # Footnote
             add_text_box(
@@ -1496,8 +1424,47 @@ def add_text_box(labels_below_sup, labels_below_dem, carrier, lab):
     plt.tight_layout()
 
 
+def compute_energy_balance_cache(networks, years, scenarios):
+    """
+    Pre-compute and cache network.statistics.energy_balance() results
+    for all (year, scenario) combinations. Call this once in
+    analysis_main before the carrier loop and pass the result to
+    get_standard_balances via the en_balance_cache parameter.
+
+    Parameters
+    ----------
+    networks : dict
+        {year: {scenario: pypsa.Network}}
+    years : list of str
+    scenarios : list of str
+
+    Returns
+    -------
+    dict
+        {year: {scenario: {"aggregated": DataFrame, "hourly": DataFrame}}}
+    """
+    log("Computing energy balance cache for all networks...")
+    cache = {}
+    for y in years:
+        cache[y] = {}
+        for s in scenarios:
+            n = networks[y][s]
+            log(f"  energy_balance: {y} / {s}")
+            cache[y][s] = {
+                "aggregated": n.statistics.energy_balance(
+                    aggregate_bus=False
+                ),
+                "hourly": n.statistics.energy_balance(
+                    aggregate_bus=False, aggregate_time=False
+                ),
+            }
+    log("Energy balance cache complete.")
+    return cache
+
+
 def get_energy_balance_df(
-    networks_year, years, scenarios, carrier_for_balance, geo_resolution
+    networks_year, years, scenarios, carrier_for_balance, geo_resolution,
+    en_balance_cache=None,
 ):
     """
     Create a dataframe at georesolution (national, cluster) level with
@@ -1542,9 +1509,12 @@ def get_energy_balance_df(
         extra_comps.append(sub_component_typ_dict[sub_comp])
     components = component_type_dict.keys()
 
-    # Retrieve cluster list from a network:
+    # Retrieve cluster list from a network (use cache if available):
     n = networks_year[years[0]][scenarios[0]]
-    en_balance = n.statistics.energy_balance(aggregate_bus=False)
+    if en_balance_cache is not None:
+        en_balance = en_balance_cache[years[0]][scenarios[0]]["aggregated"]
+    else:
+        en_balance = n.statistics.energy_balance(aggregate_bus=False)
     temp_list = en_balance.index.get_level_values(3).str[:5].unique()
     clusters = [
         item
@@ -1601,13 +1571,17 @@ def get_energy_balance_df(
         hourly_data[y] = {}
 
         for s in scenarios:
-            # Get network and energy balance for carrier
+            # Get network and energy balance for carrier (use cache if available)
             n = networks_year[y][s]
             snapshots = n.snapshot_weightings.generators
-            en_balance = n.statistics.energy_balance(aggregate_bus=False)
-            en_balance_hourly = n.statistics.energy_balance(
-                aggregate_bus=False, aggregate_time=False
-            )
+            if en_balance_cache is not None:
+                en_balance = en_balance_cache[y][s]["aggregated"]
+                en_balance_hourly = en_balance_cache[y][s]["hourly"]
+            else:
+                en_balance = n.statistics.energy_balance(aggregate_bus=False)
+                en_balance_hourly = n.statistics.energy_balance(
+                    aggregate_bus=False, aggregate_time=False
+                )
             hourly_columns = en_balance_hourly.columns
             df_hourly = pd.DataFrame(index=df_index, columns=hourly_columns)
 
@@ -1835,7 +1809,7 @@ def get_energy_balance_df(
                 ].sum()
                 test_sum = (generated + imported + demand) * 1e-6
                 print(
-                    f"Test sum is {test_sum} TWh for {curr_carrier} "
+                    f"Test sum is {test_sum:.2e} TWh for {curr_carrier} "
                     f"in scenario {s} in {y}."
                 )
 
