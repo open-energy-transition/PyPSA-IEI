@@ -2,10 +2,51 @@
 
 ## Overview
 
-Two key modifications are made to the gas network relative to base PyPSA-Eur:
+The gas network is a **standard PyPSA-Eur feature**. The existing European
+transmission infrastructure is reconstructed from two open datasets and added
+to the model as PyPSA `Link` components. This page describes how that base
+infrastructure is represented, followed by the two modifications made in this
+project relative to base PyPSA-Eur:
 
 1. **Russian gas imports are removed** in all scenarios by default
 2. **TYNDP gas pipeline projects** are processed and added to the model
+
+---
+
+## Existing Infrastructure (PyPSA-Eur)
+
+### Data sources
+
+| Dataset | What it provides |
+|---|---|
+| **SciGRID_gas** ([scigrid.de](https://www.gas.scigrid.de/)) | European pipe geometry, diameter, pressure, bidirectionality, underground storage locations |
+| **GEM** (Global Energy Monitor) | LNG terminal locations and capacities, onshore production sites |
+
+### Build pipeline
+
+Three Snakemake rules prepare the existing network before it reaches
+`prepare_sector_network`:
+
+1. **`build_gas_network`** (`scripts/build_gas_network.py`) — loads the
+   SciGRID_gas GeoJSON (`IGGIELGN_PipeSegments.geojson`); infers pipe capacity
+   from diameter using the piecewise-linear formula from the
+   [European Hydrogen Backbone report](https://gasforclimate2050.eu/wp-content/uploads/2020/07/2020_European-Hydrogen-Backbone_Report.pdf)
+   (e.g. 500 mm → ~1.5 GW, 900 mm → ~11.25 GW); corrects outlier capacities
+   and lengths; flags short pipes (<10 km) as bidirectional.
+
+2. **`cluster_gas_network`** (`scripts/cluster_gas_network.py`) — spatially
+   joins both pipe endpoints to model bus regions; recalculates length as
+   haversine × 1.25 (routing factor); drops intra-region pipes; aggregates
+   parallel pipes on the same corridor by summing `p_nom`.
+
+3. **`build_gas_input_locations`** (`scripts/build_gas_input_locations.py`) —
+   assembles per-node supply capacity tables for LNG terminals, cross-border
+   pipeline entry points, onshore production, and underground storage.
+
+When `H2_retrofit: true`, gas pipes become candidates for conversion to
+hydrogen transport — their capital cost is reduced to a small decommissioning
+penalty and capacity is freed for `"H2 pipeline retrofitted"` links on the
+same corridors.
 
 ---
 
