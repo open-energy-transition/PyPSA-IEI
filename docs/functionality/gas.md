@@ -106,8 +106,8 @@ TYNDP projects are filtered by maturity status via the scenario config:
 
 | Scenario | `allowed_statuses` |
 |---|---|
-| CE | `FID` only |
-| SE | all statuses (no filter) |
+| CE, CN | `FID` only |
+| SE, SN | all statuses (no filter) |
 
 ```yaml title="config/scenarios/config.CE.yaml"
 policy_plans:
