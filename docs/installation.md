@@ -25,20 +25,22 @@ The following files must be copied from
 into the `data/` folder of this repository:
 
 ```
-data/entsoegridkit/
-data/existing_infrastructure/
-data/parameter_corrections.yaml
-data/links_p_nom.csv
-data/eia_hydro_annual_generation.csv
-data/GDP_PPP_30arcsec_v3_mapped_default.csv
-data/unit_commitment.csv
-data/geth2015_hydro_capacities.csv
-data/nuclear_p_max_pu.csv
-data/district_heat_share.csv
-data/switzerland-new_format-all_years.csv
-data/urban_percent.csv
-data/attributed_ports.json
-data/heat_load_profile_BDEW.csv
+pypsa-eur/                          ← source repository
+└── data/
+    ├── entsoegridkit/
+    ├── existing_infrastructure/
+    ├── parameter_corrections.yaml
+    ├── links_p_nom.csv
+    ├── eia_hydro_annual_generation.csv
+    ├── GDP_PPP_30arcsec_v3_mapped_default.csv
+    ├── unit_commitment.csv
+    ├── geth2015_hydro_capacities.csv
+    ├── nuclear_p_max_pu.csv
+    ├── district_heat_share.csv
+    ├── switzerland-new_format-all_years.csv
+    ├── urban_percent.csv
+    ├── attributed_ports.json
+    └── heat_load_profile_BDEW.csv
 ```
 
 Additional data will be automatically retrieved by Snakemake rules during
@@ -83,14 +85,124 @@ configuration file:
 snakemake -call all --configfile config/scenarios/<scenario_file>.yaml
 ```
 
-For example, to run the base scenario:
+For example, to run the **SN** (**S**ectoral, **N**ational) scenario:
 
 ```bash
-snakemake -call all --configfile config/scenarios/config.base.yaml
+snakemake -call all --configfile config/scenarios/config.SN.yaml
 ```
+
+### Reducing Temporal Resolution
+
+The study uses **2190 time segments** (`2190SEG`), which requires significant
+compute time and memory. To run on a laptop, or for fast testing and
+development, reduce the number of segments by editing `sector_opts` in the
+scenario config file:
+
+```yaml
+# config/scenarios/config.SN.yaml
+scenario:
+  sector_opts:
+  - 365SEG-T-H-B-I-A   # reduced from 2190SEG
+```
+
+!!! note
+    Reducing segments changes optimisation results. Use full `2190SEG` for
+    results comparable to the study.
 
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
+
+### OETC Cloud Solver (Optional)
+
+Network preparation runs locally. The solving step can be offloaded to the
+Open Energy Transition Cloud (OETC) instead of running on your machine.
+To enable this, add an `oetc:` block to the `solving:` section of your
+scenario config file and set your credentials as environment variables.
+
+**Step 1 — Add the `oetc:` block to your scenario config:**
+
+```yaml
+# config/scenarios/config.SN.yaml  (or any other scenario file)
+solving:
+  oetc:
+    name: "my-oetc-job"
+    authentication_server_url: "https://oetc.openenergytransition.org"
+    orchestrator_server_url: "https://oetc.openenergytransition.org"
+    cpu_cores: 16
+    disk_space_gb: 100
+```
+
+!!! note
+    Remove the `oetc:` block entirely to fall back to the local solver
+    (`gurobi` or HiGHS) without any code changes.
+
+**Step 2 — Set your OETC credentials as environment variables:**
+
+=== "Linux"
+
+    Add to your `~/.bashrc` (or `~/.bash_profile`) for a persistent setup:
+
+    ```bash
+    nano ~/.bashrc   # or: vi ~/.bashrc
+    ```
+
+    Append these lines:
+
+    ```bash
+    export OETC_EMAIL="your@email.com"
+    export OETC_PASSWORD="yourpassword"
+    ```
+
+    Then reload and verify:
+
+    ```bash
+    source ~/.bashrc
+    echo $OETC_EMAIL
+    ```
+
+=== "Windows (Git Bash)"
+
+    Add to your `~/.bashrc`:
+
+    ```bash
+    nano ~/.bashrc   # or: vi ~/.bashrc
+    ```
+
+    Append these lines:
+
+    ```bash
+    export OETC_EMAIL="your@email.com"
+    export OETC_PASSWORD="yourpassword"
+    ```
+
+    Then reload and verify:
+
+    ```bash
+    source ~/.bashrc
+    echo $OETC_EMAIL
+    ```
+
+=== "Windows (PowerShell)"
+
+    For the current session only:
+
+    ```powershell
+    $env:OETC_EMAIL = "your@email.com"
+    $env:OETC_PASSWORD = "yourpassword"
+    ```
+
+    For a persistent setup (user-level):
+
+    ```powershell
+    [System.Environment]::SetEnvironmentVariable("OETC_EMAIL", "your@email.com", "User")
+    [System.Environment]::SetEnvironmentVariable("OETC_PASSWORD", "yourpassword", "User")
+    ```
+
+    Verify (restart the terminal first for persistent variables to take effect):
+
+    ```powershell
+    echo $env:OETC_EMAIL
+    ```
 
 ---
 
