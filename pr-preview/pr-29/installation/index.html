@@ -243,6 +243,15 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#5-run-the-evaluations">
 <span class="md-ellipsis">
       
@@ -887,6 +896,15 @@
 </nav>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#troubleshooting">
+<span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#5-run-the-evaluations">
 <span class="md-ellipsis">
       
@@ -990,7 +1008,7 @@ scenario config file:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># config/scenarios/config.SN.yaml</span>
 <a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nt">scenario</span><span class="p">:</span>
 <a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
-<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">365SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG</span>
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1064,6 +1082,26 @@ scenario config file and set your credentials as environment variables.</p>
 </div>
 </input></input></input></div>
 <hr/>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<details class="warning">
+<summary>Out of memory during profile building</summary>
+<p>Building renewable profiles with Atlite is memory-intensive. The default
+configuration uses 4 parallel processes (~20 GB RAM total). On machines
+with less than 16 GB, reduce <code>nprocesses</code> in <code>config/config.agora.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="nt">atlite</span><span class="p">:</span>
+<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="w">  </span><span class="nt">nprocesses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">  </span><span class="c1"># use 1 on machines with &lt; 16 GB RAM</span>
+</code></pre></div>
+</details>
+<details class="warning">
+<summary>Run is slow or crashing on a laptop</summary>
+<p>By default, Snakemake uses all available CPU cores (<code>-call</code> = <code>--cores all</code>).
+On a laptop, limiting parallelism reduces peak memory and CPU pressure:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+</code></pre></div>
+<p>For a quick test run, also reduce the number of time segments (see
+<a href="#reducing-temporal-resolution">Reducing Temporal Resolution</a>)</p>
+</details>
+<hr/>
 <h2 id="5-run-the-evaluations">5. Run the Evaluations</h2>
 <p>To use the analysis scripts developed for this study:</p>
 <ol>
@@ -1083,16 +1121,16 @@ scenario config file and set your credentials as environment variables.</p>
 <p>Execute it:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
 </code></pre></div>
 <p>This will run all evaluations automatically.</p>
 <hr/>
 <h2 id="documentation-environment-optional">Documentation Environment (Optional)</h2>
 <p>To build or preview this documentation locally, create the lightweight docs
 environment:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
-<a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
-<a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a>mkdocs<span class="w"> </span>serve
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
+<a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
+<a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a>mkdocs<span class="w"> </span>serve
 </code></pre></div>
 <p>Then open <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> in your browser.</p>
 </article>
