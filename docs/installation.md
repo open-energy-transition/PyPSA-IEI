@@ -20,12 +20,26 @@ cd PyPSA-IEI
 ## 2. Download Input Data
 
 This repository only contains input data explicitly developed for this study.
-To access the files provided by the open-source foundation, download the
-`data` folder from:
+The following files must be copied from
+[PyPSA-Eur v0.10.0 (February 19, 2024)](https://github.com/PyPSA/pypsa-eur/tree/9c08af998906eec076745fae45e849bf2fc54643)
+into the `data/` folder of this repository:
 
-> [PyPSA-Eur (February 19th 2024)](https://github.com/PyPSA/pypsa-eur/tree/9c08af998906eec076745fae45e849bf2fc54643)
-
-Copy these files into the `data/` folder of this repository.
+```
+data/entsoegridkit/
+data/existing_infrastructure/
+data/parameter_corrections.yaml
+data/links_p_nom.csv
+data/eia_hydro_annual_generation.csv
+data/GDP_PPP_30arcsec_v3_mapped_default.csv
+data/unit_commitment.csv
+data/geth2015_hydro_capacities.csv
+data/nuclear_p_max_pu.csv
+data/district_heat_share.csv
+data/switzerland-new_format-all_years.csv
+data/urban_percent.csv
+data/attributed_ports.json
+data/heat_load_profile_BDEW.csv
+```
 
 Additional data will be automatically retrieved by Snakemake rules during
 the first run.
@@ -38,12 +52,21 @@ the first run.
 
 ## 3. Set Up the Environment
 
-Create and activate the conda environment:
+Create and activate the conda environment using the file matching your operating system:
 
-```bash
-conda env create -f envs/environment_pypsa_iei.yaml
-conda activate pypsa-iei
-```
+=== "Windows"
+
+    ```bash
+    conda env create -f envs/environment_pypsa_iei.yaml
+    conda activate pypsa-iei
+    ```
+
+=== "Linux"
+
+    ```bash
+    conda env create -f envs/environment_pypsa_iei_linux.yaml
+    conda activate pypsa-iei
+    ```
 
 For detailed instructions on setting up PyPSA-Eur, refer to the
 [official documentation](https://pypsa-eur.readthedocs.io/en/latest/installation.html).
