@@ -102,7 +102,7 @@ scenario config file:
 # config/scenarios/config.SN.yaml
 scenario:
   sector_opts:
-  - 365SEG-T-H-B-I-A   # reduced from 2190SEG
+  - 256SEG-T-H-B-I-A   # reduced from 2190SEG
 ```
 
 !!! note
@@ -203,6 +203,33 @@ solving:
     ```powershell
     echo $env:OETC_EMAIL
     ```
+
+---
+
+## Troubleshooting
+
+??? warning "Out of memory during profile building"
+
+    Building renewable profiles with Atlite is memory-intensive. The default
+    configuration uses 4 parallel processes (~20 GB RAM total). On machines
+    with less than 16 GB, reduce `nprocesses` in `config/config.agora.yaml`:
+
+    ```yaml
+    atlite:
+      nprocesses: 1  # use 1 on machines with < 16 GB RAM
+    ```
+
+??? warning "Run is slow or crashing on a laptop"
+
+    By default, Snakemake uses all available CPU cores (`-call` = `--cores all`).
+    On a laptop, limiting parallelism reduces peak memory and CPU pressure:
+
+    ```bash
+    snakemake --cores 2 all --configfile config/scenarios/config.SN.yaml
+    ```
+
+    For a quick test run, also reduce the number of time segments (see
+    [Reducing Temporal Resolution](#reducing-temporal-resolution))
 
 ---
 
