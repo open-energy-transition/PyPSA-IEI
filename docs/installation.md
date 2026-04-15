@@ -130,6 +130,12 @@ when sectors are omitted) and limit to a single core:
 snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml
 ```
 
+!!! tip
+    If you want to skip local solving entirely, see the
+    [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
+
+If you run into issues, see the [Troubleshooting](#troubleshooting) section.
+
 ---
 
 ### Track 2 — Full Study Run
@@ -154,6 +160,8 @@ snakemake -call all --configfile config/scenarios/config.SN.yaml
 
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
+
+If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 ### OETC Cloud Solver (Optional — Skip Local Solving)
 
