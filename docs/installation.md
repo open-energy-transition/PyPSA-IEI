@@ -2,9 +2,11 @@
 
 ## Requirements
 
-- [Conda](https://docs.conda.io/en/latest/miniconda.html) (Miniconda or Anaconda)
-- [Snakemake](https://snakemake.readthedocs.io) (included in the environment)
-- A supported solver: [Gurobi](https://www.gurobi.com) (recommended) or HiGHS
+- [Git](https://git-scm.com/downloads) — for cloning the repository
+  (**Windows:** [Git for Windows](https://gitforwindows.org/) is recommended, which also includes **Git Bash**)
+- [Conda](https://docs.conda.io/en/latest/miniconda.html) (Miniconda or Anaconda) — for environment management
+- [Gurobi](https://www.gurobi.com) — a commercial solver licence is required to run the model locally.
+  If you do not have a Gurobi licence, use the [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) instead.
 
 ---
 
@@ -82,7 +84,7 @@ sensitivities. Choose the track that matches your situation:
 
 ---
 
-### Track 1 — Pipeline Test (Low-End / Windows Machine)
+### Track 1 — Pipeline Test (Low-End Machine)
 
 This track is designed for running the model on a low-end or Windows machine,
 or for anyone who wants to verify the full pipeline works end-to-end before
@@ -184,8 +186,8 @@ solving:
 ```
 
 !!! note
-    Remove the `oetc:` block entirely to fall back to the local solver
-    (`gurobi` or HiGHS) without any code changes.
+    Remove the `oetc:` block entirely to fall back to the local Gurobi solver
+    without any code changes.
 
 **Step 2 — Set your OETC credentials as environment variables:**
 
