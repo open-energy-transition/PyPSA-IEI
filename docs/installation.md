@@ -143,7 +143,8 @@ If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 ### Track 2 — Full Study Run
 
 This track reproduces the study results. It requires a machine with sufficient
-memory and compute time (hours to days depending on hardware).
+memory and compute time (hours to days depending on hardware). The full model
+run requires approximately **250 GB of RAM**.
 
 **Run all steps with the full configuration:**
 
