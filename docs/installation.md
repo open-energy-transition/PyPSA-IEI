@@ -78,80 +78,89 @@ For detailed instructions on setting up PyPSA-Eur, refer to the
 ## 4. Run a Scenario
 
 Results for the study were generated across four main scenarios and four
-sensitivities. To reproduce a scenario, run Snakemake with the desired
-configuration file:
+sensitivities. Choose the track that matches your situation:
 
-```bash
-snakemake -call all --configfile config/scenarios/<scenario_file>.yaml
+---
+
+### Track 1 — Pipeline Test (Low-End / Windows Machine)
+
+This track is designed for running the model on a low-end or Windows machine,
+or for anyone who wants to verify the full pipeline works end-to-end before
+committing to a full run. The goal is to test the workflow, not to reproduce
+study results.
+
+**Step 1 — Reduce the temporal resolution**
+
+Edit `sector_opts` in your scenario config to use fewer time segments:
+
+```yaml
+# config/scenarios/config.SN.yaml
+scenario:
+  sector_opts:
+  - 256SEG-T-H-B-I-A   # reduced from 2190SEG — much faster, less memory
 ```
 
-For example, to run the **SN** (**S**ectoral, **N**ational) scenario:
+For the fastest possible run (electricity-only, no sector coupling), omit all
+sector suffixes entirely:
+
+```yaml
+scenario:
+  sector_opts:
+  - 256SEG   # electricity-only — pipeline test only
+```
+
+| Suffix | Sector coupled |
+|--------|----------------|
+| `T`    | Transport      |
+| `H`    | Heat           |
+| `B`    | Biomass        |
+| `I`    | Industry       |
+| `A`    | Agriculture    |
+
+!!! warning
+    Reduced-segment and electricity-only results are **not comparable** to the
+    study. Use this track only to verify the workflow runs without errors.
+
+**Step 2 — Run the solve step**
+
+Use `solve_sector_networks` as the target (avoids `make_summary`, which fails
+when sectors are omitted) and limit to a single core:
+
+```bash
+snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml
+```
+
+---
+
+### Track 2 — Full Study Run
+
+This track reproduces the study results. It requires a machine with sufficient
+memory and compute time (hours to days depending on hardware).
+
+**Run all steps with the full configuration:**
 
 ```bash
 snakemake -call all --configfile config/scenarios/config.SN.yaml
 ```
 
-### Reducing Temporal Resolution
-
-The study uses **2190 time segments** (`2190SEG`), which requires significant
-compute time and memory. To run on a laptop, or for fast testing and
-development, reduce the number of segments by editing `sector_opts` in the
-scenario config file:
-
-```yaml
-# config/scenarios/config.SN.yaml
-scenario:
-  sector_opts:
-  - 256SEG-T-H-B-I-A   # reduced from 2190SEG
-```
-
 !!! note
-    Reducing segments changes optimisation results. Use full `2190SEG` for
-    results comparable to the study.
-
-### Electricity-Only Mode (Fastest Workflow Test)
-
-For the quickest possible end-to-end pipeline check, omit all sector suffixes.
-This drops the model to **electricity-only**, skipping heat (`H`), transport
-(`T`), industry (`I`), biomass (`B`), and agriculture (`A`) coupling:
-
-```yaml
-# config/scenarios/config.SN.yaml
-scenario:
-  sector_opts:
-  - 256SEG   # electricity-only, minimal segments — pipeline test only
-```
-
-| Suffix | Sector       |
-|--------|--------------|
-| `T`    | Transport    |
-| `H`    | Heat         |
-| `B`    | Biomass      |
-| `I`    | Industry     |
-| `A`    | Agriculture  |
+    The study uses **2190 time segments** (`2190SEG`) with all sector suffixes
+    (`-T-H-B-I-A`). Do not modify `sector_opts` if you want results comparable
+    to the publication.
 
 !!! warning
-    Electricity-only results are **not comparable** to the study. Use this
-    mode only to verify that the full workflow runs end-to-end without errors.
-
-!!! note
-    When sectors are omitted, `make_summary` (triggered by `all`) will fail
-    because it expects sector outputs that are not produced. Target the solve
-    step directly instead:
-
-    ```bash
-    snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml
-    ```
+    On Windows, always use `--cores 1` — running with more than one core causes
+    crashes during the solving step.
 
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
 
-### OETC Cloud Solver (Optional)
+### OETC Cloud Solver (Optional — Skip Local Solving)
 
-Network preparation runs locally. The solving step can be offloaded to the
-Open Energy Transition Cloud (OETC) instead of running on your machine.
-To enable this, add an `oetc:` block to the `solving:` section of your
-scenario config file and set your credentials as environment variables.
+If you prefer not to run the solver locally — whether because of hardware
+limitations or to save time — the solving step can be offloaded to the
+Open Energy Transition Cloud (OETC). This works with both Track 1 and Track 2.
+Network preparation always runs locally; only the solve step is offloaded.
 
 **Step 1 — Add the `oetc:` block to your scenario config:**
 
@@ -256,22 +265,14 @@ solving:
 ??? warning "Limit the number of cores (`--cores`)"
 
     By default, `-call` (`--cores all`) uses every available CPU core, which
-    can exhaust memory and trigger crashes. Limiting parallelism reduces peak
-    memory and CPU pressure:
+    can exhaust memory and trigger crashes on Linux. Limiting parallelism
+    reduces peak memory and CPU pressure:
 
     ```bash
     snakemake --cores 2 all --configfile config/scenarios/config.SN.yaml
     ```
 
-    **On Windows, always use `--cores 1`** — running the solver with more than
-    one core causes crashes on Windows:
-
-    ```bash
-    snakemake --cores 1 all --configfile config/scenarios/config.SN.yaml
-    ```
-
-    For a quick test run, also reduce the number of time segments (see
-    [Reducing Temporal Resolution](#reducing-temporal-resolution)).
+    On Windows, always use `--cores 1` (see [Track 2](#track-2-full-study-run)).
 
 ---
 
