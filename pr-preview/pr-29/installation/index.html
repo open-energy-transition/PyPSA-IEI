@@ -222,28 +222,28 @@
 <nav aria-label="4. Run a Scenario" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#reducing-temporal-resolution">
+<a class="md-nav__link" href="#track-1-pipeline-test-low-end-windows-machine">
 <span class="md-ellipsis">
       
-        Reducing Temporal Resolution
+        Track 1 — Pipeline Test (Low-End / Windows Machine)
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#electricity-only-mode-fastest-workflow-test">
+<a class="md-nav__link" href="#track-2-full-study-run">
 <span class="md-ellipsis">
       
-        Electricity-Only Mode (Fastest Workflow Test)
+        Track 2 — Full Study Run
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#oetc-cloud-solver-optional">
+<a class="md-nav__link" href="#oetc-cloud-solver-optional-skip-local-solving">
 <span class="md-ellipsis">
       
-        OETC Cloud Solver (Optional)
+        OETC Cloud Solver (Optional — Skip Local Solving)
       
     </span>
 </a>
@@ -884,28 +884,28 @@
 <nav aria-label="4. Run a Scenario" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#reducing-temporal-resolution">
+<a class="md-nav__link" href="#track-1-pipeline-test-low-end-windows-machine">
 <span class="md-ellipsis">
       
-        Reducing Temporal Resolution
+        Track 1 — Pipeline Test (Low-End / Windows Machine)
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#electricity-only-mode-fastest-workflow-test">
+<a class="md-nav__link" href="#track-2-full-study-run">
 <span class="md-ellipsis">
       
-        Electricity-Only Mode (Fastest Workflow Test)
+        Track 2 — Full Study Run
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#oetc-cloud-solver-optional">
+<a class="md-nav__link" href="#oetc-cloud-solver-optional-skip-local-solving">
 <span class="md-ellipsis">
       
-        OETC Cloud Solver (Optional)
+        OETC Cloud Solver (Optional — Skip Local Solving)
       
     </span>
 </a>
@@ -1011,42 +1011,31 @@ the first run.</p>
 <hr/>
 <h2 id="4-run-a-scenario">4. Run a Scenario</h2>
 <p>Results for the study were generated across four main scenarios and four
-sensitivities. To reproduce a scenario, run Snakemake with the desired
-configuration file:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/&lt;scenario_file&gt;.yaml
+sensitivities. Choose the track that matches your situation:</p>
+<hr/>
+<h3 id="track-1-pipeline-test-low-end-windows-machine">Track 1 — Pipeline Test (Low-End / Windows Machine)</h3>
+<p>This track is designed for running the model on a low-end or Windows machine,
+or for anyone who wants to verify the full pipeline works end-to-end before
+committing to a full run. The goal is to test the workflow, not to reproduce
+study results.</p>
+<p><strong>Step 1 — Reduce the temporal resolution</strong></p>
+<p>Edit <code>sector_opts</code> in your scenario config to use fewer time segments:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># config/scenarios/config.SN.yaml</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nt">scenario</span><span class="p">:</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG — much faster, less memory</span>
 </code></pre></div>
-<p>For example, to run the <strong>SN</strong> (<strong>S</strong>ectoral, <strong>N</strong>ational) scenario:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
-</code></pre></div>
-<h3 id="reducing-temporal-resolution">Reducing Temporal Resolution</h3>
-<p>The study uses <strong>2190 time segments</strong> (<code>2190SEG</code>), which requires significant
-compute time and memory. To run on a laptop, or for fast testing and
-development, reduce the number of segments by editing <code>sector_opts</code> in the
-scenario config file:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># config/scenarios/config.SN.yaml</span>
-<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nt">scenario</span><span class="p">:</span>
-<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
-<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG</span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Reducing segments changes optimisation results. Use full <code>2190SEG</code> for
-results comparable to the study.</p>
-</div>
-<h3 id="electricity-only-mode-fastest-workflow-test">Electricity-Only Mode (Fastest Workflow Test)</h3>
-<p>For the quickest possible end-to-end pipeline check, omit all sector suffixes.
-This drops the model to <strong>electricity-only</strong>, skipping heat (<code>H</code>), transport
-(<code>T</code>), industry (<code>I</code>), biomass (<code>B</code>), and agriculture (<code>A</code>) coupling:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1"># config/scenarios/config.SN.yaml</span>
-<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="nt">scenario</span><span class="p">:</span>
-<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
-<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG</span><span class="w">   </span><span class="c1"># electricity-only, minimal segments — pipeline test only</span>
+<p>For the fastest possible run (electricity-only, no sector coupling), omit all
+sector suffixes entirely:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nt">scenario</span><span class="p">:</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG</span><span class="w">   </span><span class="c1"># electricity-only — pipeline test only</span>
 </code></pre></div>
 <table>
 <thead>
 <tr>
 <th>Suffix</th>
-<th>Sector</th>
+<th>Sector coupled</th>
 </tr>
 </thead>
 <tbody>
@@ -1074,33 +1063,55 @@ This drops the model to <strong>electricity-only</strong>, skipping heat (<code>
 </table>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Electricity-only results are <strong>not comparable</strong> to the study. Use this
-mode only to verify that the full workflow runs end-to-end without errors.</p>
+<p>Reduced-segment and electricity-only results are <strong>not comparable</strong> to the
+study. Use this track only to verify the workflow runs without errors.</p>
 </div>
+<p><strong>Step 2 — Run the solve step</strong></p>
+<p>Use <code>solve_sector_networks</code> as the target (avoids <code>make_summary</code>, which fails
+when sectors are omitted) and limit to a single core:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you want to skip local solving entirely, see the
+<a href="#oetc-cloud-solver-optional-skip-local-solving">OETC Cloud Solver</a> section below.</p>
+</div>
+<p>If you run into issues, see the <a href="#troubleshooting">Troubleshooting</a> section.</p>
+<hr/>
+<h3 id="track-2-full-study-run">Track 2 — Full Study Run</h3>
+<p>This track reproduces the study results. It requires a machine with sufficient
+memory and compute time (hours to days depending on hardware).</p>
+<p><strong>Run all steps with the full configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When sectors are omitted, <code>make_summary</code> (triggered by <code>all</code>) will fail
-because it expects sector outputs that are not produced. Target the solve
-step directly instead:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
-</code></pre></div>
+<p>The study uses <strong>2190 time segments</strong> (<code>2190SEG</code>) with all sector suffixes
+(<code>-T-H-B-I-A</code>). Do not modify <code>sector_opts</code> if you want results comparable
+to the publication.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On Windows, always use <code>--cores 1</code> — running with more than one core causes
+crashes during the solving step.</p>
 </div>
 <p>For further details on running PyPSA-Eur-based models, refer to the
 <a href="https://pypsa-eur.readthedocs.io/en/latest/index.html">open-source documentation</a>.</p>
-<h3 id="oetc-cloud-solver-optional">OETC Cloud Solver (Optional)</h3>
-<p>Network preparation runs locally. The solving step can be offloaded to the
-Open Energy Transition Cloud (OETC) instead of running on your machine.
-To enable this, add an <code>oetc:</code> block to the <code>solving:</code> section of your
-scenario config file and set your credentials as environment variables.</p>
+<p>If you run into issues, see the <a href="#troubleshooting">Troubleshooting</a> section.</p>
+<h3 id="oetc-cloud-solver-optional-skip-local-solving">OETC Cloud Solver (Optional — Skip Local Solving)</h3>
+<p>If you prefer not to run the solver locally — whether because of hardware
+limitations or to save time — the solving step can be offloaded to the
+Open Energy Transition Cloud (OETC). This works with both Track 1 and Track 2.
+Network preparation always runs locally; only the solve step is offloaded.</p>
 <p><strong>Step 1 — Add the <code>oetc:</code> block to your scenario config:</strong></p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1"># config/scenarios/config.SN.yaml  (or any other scenario file)</span>
-<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">  </span><span class="nt">oetc</span><span class="p">:</span>
-<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"my-oetc-job"</span>
-<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span><span class="nt">authentication_server_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://oetc.openenergytransition.org"</span>
-<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="nt">orchestrator_server_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://oetc.openenergytransition.org"</span>
-<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">    </span><span class="nt">cpu_cores</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
-<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">    </span><span class="nt">disk_space_gb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># config/scenarios/config.SN.yaml  (or any other scenario file)</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="nt">solving</span><span class="p">:</span>
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="nt">oetc</span><span class="p">:</span>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"my-oetc-job"</span>
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="nt">authentication_server_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://oetc.openenergytransition.org"</span>
+<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">    </span><span class="nt">orchestrator_server_url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://oetc.openenergytransition.org"</span>
+<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">    </span><span class="nt">cpu_cores</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
+<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="nt">disk_space_gb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1112,41 +1123,41 @@ scenario config file and set your credentials as environment variables.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Add to your <code>~/.bashrc</code> (or <code>~/.bash_profile</code>) for a persistent setup:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>nano<span class="w"> </span>~/.bashrc<span class="w">   </span><span class="c1"># or: vi ~/.bashrc</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>nano<span class="w"> </span>~/.bashrc<span class="w">   </span><span class="c1"># or: vi ~/.bashrc</span>
 </code></pre></div>
 <p>Append these lines:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_EMAIL</span><span class="o">=</span><span class="s2">"your@email.com"</span>
-<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_PASSWORD</span><span class="o">=</span><span class="s2">"yourpassword"</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_EMAIL</span><span class="o">=</span><span class="s2">"your@email.com"</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_PASSWORD</span><span class="o">=</span><span class="s2">"yourpassword"</span>
 </code></pre></div>
 <p>Then reload and verify:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
-<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$OETC_EMAIL</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$OETC_EMAIL</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>Add to your <code>~/.bashrc</code>:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>nano<span class="w"> </span>~/.bashrc<span class="w">   </span><span class="c1"># or: vi ~/.bashrc</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>nano<span class="w"> </span>~/.bashrc<span class="w">   </span><span class="c1"># or: vi ~/.bashrc</span>
 </code></pre></div>
 <p>Append these lines:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_EMAIL</span><span class="o">=</span><span class="s2">"your@email.com"</span>
-<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_PASSWORD</span><span class="o">=</span><span class="s2">"yourpassword"</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_EMAIL</span><span class="o">=</span><span class="s2">"your@email.com"</span>
+<a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OETC_PASSWORD</span><span class="o">=</span><span class="s2">"yourpassword"</span>
 </code></pre></div>
 <p>Then reload and verify:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
-<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$OETC_EMAIL</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="nb">source</span><span class="w"> </span>~/.bashrc
+<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$OETC_EMAIL</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>For the current session only:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="nv">$env:OETC_EMAIL</span> <span class="p">=</span> <span class="s2">"your@email.com"</span>
-<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="nv">$env:OETC_PASSWORD</span> <span class="p">=</span> <span class="s2">"yourpassword"</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="nv">$env:OETC_EMAIL</span> <span class="p">=</span> <span class="s2">"your@email.com"</span>
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="nv">$env:OETC_PASSWORD</span> <span class="p">=</span> <span class="s2">"yourpassword"</span>
 </code></pre></div>
 <p>For a persistent setup (user-level):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="no">[System.Environment]</span><span class="p">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">"OETC_EMAIL"</span><span class="p">,</span> <span class="s2">"your@email.com"</span><span class="p">,</span> <span class="s2">"User"</span><span class="p">)</span>
-<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="no">[System.Environment]</span><span class="p">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">"OETC_PASSWORD"</span><span class="p">,</span> <span class="s2">"yourpassword"</span><span class="p">,</span> <span class="s2">"User"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="no">[System.Environment]</span><span class="p">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">"OETC_EMAIL"</span><span class="p">,</span> <span class="s2">"your@email.com"</span><span class="p">,</span> <span class="s2">"User"</span><span class="p">)</span>
+<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="no">[System.Environment]</span><span class="p">::</span><span class="n">SetEnvironmentVariable</span><span class="p">(</span><span class="s2">"OETC_PASSWORD"</span><span class="p">,</span> <span class="s2">"yourpassword"</span><span class="p">,</span> <span class="s2">"User"</span><span class="p">)</span>
 </code></pre></div>
 <p>Verify (restart the terminal first for persistent variables to take effect):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="nb">echo </span><span class="nv">$env:OETC_EMAIL</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="nb">echo </span><span class="nv">$env:OETC_EMAIL</span>
 </code></pre></div>
 </div>
 </div>
@@ -1158,23 +1169,18 @@ scenario config file and set your credentials as environment variables.</p>
 <p>Building renewable profiles with Atlite is memory-intensive. The default
 configuration uses 4 parallel processes (~20 GB RAM total). On machines
 with less than 16 GB, reduce <code>nprocesses</code> in <code>config/config.agora.yaml</code>:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nt">atlite</span><span class="p">:</span>
-<a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="w">  </span><span class="nt">nprocesses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">  </span><span class="c1"># use 1 on machines with &lt; 16 GB RAM</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="nt">atlite</span><span class="p">:</span>
+<a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="w">  </span><span class="nt">nprocesses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">  </span><span class="c1"># use 1 on machines with &lt; 16 GB RAM</span>
 </code></pre></div>
 </details>
 <details class="warning">
 <summary>Limit the number of cores (<code>--cores</code>)</summary>
 <p>By default, <code>-call</code> (<code>--cores all</code>) uses every available CPU core, which
-can exhaust memory and trigger crashes. Limiting parallelism reduces peak
-memory and CPU pressure:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+can exhaust memory and trigger crashes on Linux. Limiting parallelism
+reduces peak memory and CPU pressure:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
 </code></pre></div>
-<p><strong>On Windows, always use <code>--cores 1</code></strong> — running the solver with more than
-one core causes crashes on Windows:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
-</code></pre></div>
-<p>For a quick test run, also reduce the number of time segments (see
-<a href="#reducing-temporal-resolution">Reducing Temporal Resolution</a>).</p>
+<p>On Windows, always use <code>--cores 1</code> (see <a href="#track-2-full-study-run">Track 2</a>).</p>
 </details>
 <hr/>
 <h2 id="5-run-the-evaluations">5. Run the Evaluations</h2>
@@ -1209,12 +1215,12 @@ These files are produced by the <code>build_shapes</code> and <code>cluster_netw
 </li>
 <li>
 <p>Open <code>scripts_analysis/analysis_main.py</code> and set the <code>runs</code> dictionary to map scenario labels to your run names:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
-<a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a>    <span class="s2">"scenario_1"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SN"</span><span class="p">,</span>
-<a href="#__codelineno-22-3" id="__codelineno-22-3" name="__codelineno-22-3"></a>    <span class="c1"># "scenario_2": "run_name_2",</span>
-<a href="#__codelineno-22-4" id="__codelineno-22-4" name="__codelineno-22-4"></a>    <span class="c1"># "scenario_3": "run_name_3",</span>
-<a href="#__codelineno-22-5" id="__codelineno-22-5" name="__codelineno-22-5"></a>    <span class="c1"># "scenario_4": "run_name_4",</span>
-<a href="#__codelineno-22-6" id="__codelineno-22-6" name="__codelineno-22-6"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>    <span class="s2">"scenario_1"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SN"</span><span class="p">,</span>
+<a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a>    <span class="c1"># "scenario_2": "run_name_2",</span>
+<a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="c1"># "scenario_3": "run_name_3",</span>
+<a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a>    <span class="c1"># "scenario_4": "run_name_4",</span>
+<a href="#__codelineno-20-6" id="__codelineno-20-6" name="__codelineno-20-6"></a><span class="p">}</span>
 </code></pre></div>
 <p>The run name must match the <code>run.name</code> value in the corresponding scenario
 config file and the folder name under <code>results/</code>. Unused scenarios can be
@@ -1224,16 +1230,16 @@ commented out.</p>
 <p>Execute it:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
 </code></pre></div>
 <p>This will run all evaluations automatically.</p>
 <hr/>
 <h2 id="documentation-environment-optional">Documentation Environment (Optional)</h2>
 <p>To build or preview this documentation locally, create the lightweight docs
 environment:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
-<a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
-<a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a>mkdocs<span class="w"> </span>serve
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
+<a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
+<a href="#__codelineno-22-3" id="__codelineno-22-3" name="__codelineno-22-3"></a>mkdocs<span class="w"> </span>serve
 </code></pre></div>
 <p>Then open <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> in your browser.</p>
 </article>
