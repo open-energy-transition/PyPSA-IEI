@@ -28,19 +28,22 @@ Cross-border TYNDP projects are handled separately via the
 
 The constraint is disabled by default and enabled per scenario via
 `solving.constraints.national_grid_plans: true`. The `optimize_after`
-parameter controls when national grids become freely extendable:
+parameter controls from which planning horizon national grids become
+freely extendable (no longer bound by the CSV expansion factors).
 
-| Scenario | National expansion condition | Free expansion from |
-|---|---|---|
-| CE, CN, and variants| `equal` | All horizons (`optimize_after: true`) |
-| SE, SN | `equal` | 2040 onwards (`optimize_after: 2040`) |
+| Scenario | Constraint active | `optimize_after` | Effect |
+|---|---|---|---|
+| CE | No | — | No national expansion limit applied |
+| CN | No | — | No national expansion limit applied |
+| SE | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
+| SN | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 
 When no expansion factor is specified for a country/year:
 
 | Case | Behavior |
 |---|---|
-| Year before data available | National transmission fixed, except TYNDP projects |
-| First planning horizon | All national transmission extendable |
+| Year before data is available | National transmission fixed (except TYNDP projects) |
+| First planning horizon (2020) | All national transmission freely extendable |
 | Year after data ends | Controlled by `optimize_after` setting |
 
 ---
@@ -71,22 +74,27 @@ Each cell contains the **expansion factor** (float) relative to base year capaci
 
 ## Configuration
 
+Default values in `config/config.agora.yaml` — the constraint is off by default:
+
 ```yaml title="config/config.agora.yaml"
 policy_plans:
   include_national_grid_plans:
     national_grid_plan_data: data/national_line_expansions.csv
     national_expansion_condition: equal  # 'min', 'max', or 'equal'
-    optimize_after: true  # true or integer year
+    optimize_after: true  # true = freely extendable at all horizons (no cap once constraint is off)
 
 solving:
   constraints:
-    national_grid_plans: false  # enable per scenario
+    national_grid_plans: false  # disabled by default; enable per scenario
 ```
 
-```yaml title="config/scenarios/config.SE.yaml"
+Overrides in SE and SN scenarios — these are the only two scenarios with the
+constraint active:
+
+```yaml title="config/scenarios/config.SE.yaml  |  config/scenarios/config.SN.yaml"
 policy_plans:
   include_national_grid_plans:
-    optimize_after: 2040
+    optimize_after: 2040  # expansion capped by CSV factors until 2040, freely extendable from 2040
 
 solving:
   constraints:
