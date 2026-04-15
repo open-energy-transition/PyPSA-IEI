@@ -44,7 +44,7 @@ When no expansion factor is specified for a country/year:
 |---|---|
 | Year before data is available | National transmission fixed (except TYNDP projects) |
 | First planning horizon (2020) | All national transmission freely extendable |
-| Year after data ends | Controlled by `optimize_after` setting |
+| No matching CSV data (not before data range, not first horizon) | Controlled by `optimize_after` setting |
 
 ---
 
