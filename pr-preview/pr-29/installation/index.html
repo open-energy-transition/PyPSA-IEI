@@ -222,10 +222,10 @@
 <nav aria-label="4. Run a Scenario" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#track-1-pipeline-test-low-end-windows-machine">
+<a class="md-nav__link" href="#track-1-pipeline-test-low-end-machine">
 <span class="md-ellipsis">
       
-        Track 1 — Pipeline Test (Low-End / Windows Machine)
+        Track 1 — Pipeline Test (Low-End Machine)
       
     </span>
 </a>
@@ -884,10 +884,10 @@
 <nav aria-label="4. Run a Scenario" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#track-1-pipeline-test-low-end-windows-machine">
+<a class="md-nav__link" href="#track-1-pipeline-test-low-end-machine">
 <span class="md-ellipsis">
       
-        Track 1 — Pipeline Test (Low-End / Windows Machine)
+        Track 1 — Pipeline Test (Low-End Machine)
       
     </span>
 </a>
@@ -950,9 +950,11 @@
 <h1 id="installation">Installation</h1>
 <h2 id="requirements">Requirements</h2>
 <ul>
-<li><a href="https://docs.conda.io/en/latest/miniconda.html">Conda</a> (Miniconda or Anaconda)</li>
-<li><a href="https://snakemake.readthedocs.io">Snakemake</a> (included in the environment)</li>
-<li>A supported solver: <a href="https://www.gurobi.com">Gurobi</a> (recommended) or HiGHS</li>
+<li><a href="https://git-scm.com/downloads">Git</a> — for cloning the repository
+  (<strong>Windows:</strong> <a href="https://gitforwindows.org/">Git for Windows</a> is recommended, which also includes <strong>Git Bash</strong>)</li>
+<li><a href="https://docs.conda.io/en/latest/miniconda.html">Conda</a> (Miniconda or Anaconda) — for environment management</li>
+<li><a href="https://www.gurobi.com">Gurobi</a> — a commercial solver licence is required to run the model locally.
+  If you do not have a Gurobi licence, use the <a href="#oetc-cloud-solver-optional-skip-local-solving">OETC Cloud Solver</a> instead.</li>
 </ul>
 <hr/>
 <h2 id="1-clone-the-repository">1. Clone the Repository</h2>
@@ -1013,7 +1015,7 @@ the first run.</p>
 <p>Results for the study were generated across four main scenarios and four
 sensitivities. Choose the track that matches your situation:</p>
 <hr/>
-<h3 id="track-1-pipeline-test-low-end-windows-machine">Track 1 — Pipeline Test (Low-End / Windows Machine)</h3>
+<h3 id="track-1-pipeline-test-low-end-machine">Track 1 — Pipeline Test (Low-End Machine)</h3>
 <p>This track is designed for running the model on a low-end or Windows machine,
 or for anyone who wants to verify the full pipeline works end-to-end before
 committing to a full run. The goal is to test the workflow, not to reproduce
@@ -1115,8 +1117,8 @@ Network preparation always runs locally; only the solve step is offloaded.</p>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Remove the <code>oetc:</code> block entirely to fall back to the local solver
-(<code>gurobi</code> or HiGHS) without any code changes.</p>
+<p>Remove the <code>oetc:</code> block entirely to fall back to the local Gurobi solver
+without any code changes.</p>
 </div>
 <p><strong>Step 2 — Set your OETC credentials as environment variables:</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><input id="__tabbed_2_3" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Linux</label><label for="__tabbed_2_2">Windows (Git Bash)</label><label for="__tabbed_2_3">Windows (PowerShell)</label></div>
