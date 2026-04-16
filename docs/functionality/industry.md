@@ -31,18 +31,20 @@ Three demand scenarios are defined in `build_industry_sector_ratios.py`:
 | `high-temperature` | Hydrogen replaces fossil fuels in furnaces and smelters — reflects TransHyDe Scenario 1.5 (Mid Demand) |
 | `high-temperature+steam` | As above, plus hydrogen replaces steam processing — reflects TransHyDe Scenario 2 (High Demand) |
 
-The scenario is selected via `transhyde_scenario` in the config:
+The carrier ratio scenario is selected via `transhyde_processes` in the config:
 
 ```yaml title="config/config.agora.yaml"
 industry:
   transhyde_data: true
-  transhyde_scenario: 1.5  # use "high-temperature" ratios
+  transhyde_processes: high_temp_only  # use "high-temperature" ratios
+  transhyde_scenario: 1.5             # selects input CSV: TH_S1.5_demand.csv
 ```
 
-```yaml title="config/scenarios/config.CE_TranshydeS2.yaml"
-industry:
-  transhyde_scenario: 2   # use "high-temperature+steam" ratios
-```
+`transhyde_scenario` (`1.5` or `2`) and `transhyde_processes` are **independent**:
+`transhyde_scenario` selects which TransHyDE CSV is loaded for absolute demand scaling;
+`transhyde_processes` controls carrier ratios. They can be combined freely — for example,
+the `CE_TranshydeS2` scenario uses `transhyde_scenario: 2` with the default
+`transhyde_processes: high_temp_only`.
 
 ---
 
@@ -98,10 +100,11 @@ sector:
 
 ## How to Change the TransHyDe Scenario
 
-Set `transhyde_scenario` in the scenario config:
+Set `transhyde_processes` to control carrier ratios, and `transhyde_scenario` to
+select the input CSV for absolute scaling:
 
 ```yaml
 industry:
-  transhyde_scenario: 1.5   # default (Mid Demand)
-  # transhyde_scenario: 2   # High Demand
+  transhyde_processes: high_temp_only  # default; or: with_steam
+  transhyde_scenario: 1.5              # default (Mid Demand); or: 2 (High Demand)
 ```
