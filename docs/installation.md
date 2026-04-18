@@ -17,6 +17,14 @@ git clone https://github.com/open-energy-transition/PyPSA-IEI.git
 cd PyPSA-IEI
 ```
 
+!!! important "Working directory"
+    All commands in this guide must be run from the **repository root** (`PyPSA-IEI/`).
+    If you open a new terminal, navigate back before running any command:
+
+    ```bash
+    cd /path/to/PyPSA-IEI
+    ```
+
 ---
 
 ## 2. Download Input Data
