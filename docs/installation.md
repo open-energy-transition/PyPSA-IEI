@@ -18,8 +18,8 @@ cd PyPSA-IEI
 ```
 
 !!! important "Working directory"
-    All commands in this guide must be run from the **repository root** (`PyPSA-IEI/`).
-    If you open a new terminal, navigate back before running any command:
+    All Snakemake commands in this guide must be run from inside the `PyPSA-IEI/` directory.
+    The `cd PyPSA-IEI` above puts you there after cloning. If you open a new terminal, run:
 
     ```bash
     cd /path/to/PyPSA-IEI
@@ -94,17 +94,24 @@ sensitivities. Choose the track that matches your situation:
 
 ### Track 1 — Pipeline Test (Low-End Machine)
 
-This track is designed for running the model on a low-end or Windows machine,
-or for anyone who wants to verify the full pipeline works end-to-end before
-committing to a full run. The goal is to test the workflow, not to reproduce
-study results.
+This track is designed for running the model on a low-end or Windows machine
+(approximately **16 GB of RAM** required), or for anyone who wants to verify
+the full pipeline works end-to-end before committing to a full run. The goal
+is to test the workflow, not to reproduce study results.
+
+!!! tip "Which config to use for testing?"
+    Use `config.SE.yaml` for pipeline testing. It has fewer custom constraints
+    and works correctly even when sector suffixes (`T`, `H`, `B`, `I`, `A`) are
+    omitted. `config.SN.yaml` enables self-sufficiency constraints that require
+    industry sector components (e.g. Fischer-Tropsch links) to be present —
+    running it without the `I` suffix will cause an error.
 
 **Step 1 — Reduce the temporal resolution**
 
 Edit `sector_opts` in your scenario config to use fewer time segments:
 
 ```yaml
-# config/scenarios/config.SN.yaml
+# config/scenarios/config.SE.yaml
 scenario:
   sector_opts:
   - 256SEG-T-H-B-I-A   # reduced from 2190SEG — much faster, less memory
@@ -136,7 +143,7 @@ scenario:
 Verify that Snakemake can resolve all rules and inputs before executing anything:
 
 ```bash
-snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml --dry-run
+~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml --dry-run
 ```
 
 **Step 3 — Run the solve step**
@@ -145,7 +152,7 @@ Use `solve_sector_networks` as the target (avoids `make_summary`, which fails
 when sectors are omitted) and limit to a single core:
 
 ```bash
-snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml
+~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml
 ```
 
 !!! tip
@@ -159,15 +166,15 @@ If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 ### Track 2 — Full Study Run
 
 This track reproduces the study results. It requires a machine with sufficient
-memory and compute time (hours to days depending on hardware). The full model
-run requires approximately **250 GB of RAM**.
+memory (approximately **250 GB of RAM**) and compute time (approximately
+**2.5 days** on reference hardware).
 
 **Step 1 — Dry run (recommended)**
 
 Before launching the full run, verify that Snakemake can resolve all rules and inputs without executing anything:
 
 ```bash
-snakemake -call all --configfile config/scenarios/config.SN.yaml --dry-run
+~/PyPSA-IEI$ snakemake -call all --configfile config/scenarios/config.SN.yaml --dry-run
 ```
 
 This prints the list of jobs that would be executed. If any rule or input file is missing, the error appears here — before committing hours of compute time.
@@ -175,7 +182,7 @@ This prints the list of jobs that would be executed. If any rule or input file i
 **Step 2 — Run all steps with the full configuration:**
 
 ```bash
-snakemake -call all --configfile config/scenarios/config.SN.yaml
+~/PyPSA-IEI$ snakemake -call all --configfile config/scenarios/config.SN.yaml
 ```
 
 !!! note
@@ -306,7 +313,7 @@ solving:
     reduces peak memory and CPU pressure:
 
     ```bash
-    snakemake --cores 2 all --configfile config/scenarios/config.SN.yaml
+    ~/PyPSA-IEI$ snakemake --cores 2 all --configfile config/scenarios/config.SN.yaml
     ```
 
     On Windows, always use `--cores 1` (see [Track 2](#track-2-full-study-run)).
