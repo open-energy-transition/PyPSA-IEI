@@ -963,8 +963,8 @@
 </code></pre></div>
 <div class="admonition important">
 <p class="admonition-title">Working directory</p>
-<p>All commands in this guide must be run from the <strong>repository root</strong> (<code>PyPSA-IEI/</code>).
-If you open a new terminal, navigate back before running any command:</p>
+<p>All Snakemake commands in this guide must be run from inside the <code>PyPSA-IEI/</code> directory.
+The <code>cd PyPSA-IEI</code> above puts you there after cloning. If you open a new terminal, run:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>/path/to/PyPSA-IEI
 </code></pre></div>
 </div>
@@ -1023,13 +1023,21 @@ the first run.</p>
 sensitivities. Choose the track that matches your situation:</p>
 <hr/>
 <h3 id="track-1-pipeline-test-low-end-machine">Track 1 — Pipeline Test (Low-End Machine)</h3>
-<p>This track is designed for running the model on a low-end or Windows machine,
-or for anyone who wants to verify the full pipeline works end-to-end before
-committing to a full run. The goal is to test the workflow, not to reproduce
-study results.</p>
+<p>This track is designed for running the model on a low-end or Windows machine
+(approximately <strong>16 GB of RAM</strong> required), or for anyone who wants to verify
+the full pipeline works end-to-end before committing to a full run. The goal
+is to test the workflow, not to reproduce study results.</p>
+<div class="admonition tip">
+<p class="admonition-title">Which config to use for testing?</p>
+<p>Use <code>config.SE.yaml</code> for pipeline testing. It has fewer custom constraints
+and works correctly even when sector suffixes (<code>T</code>, <code>H</code>, <code>B</code>, <code>I</code>, <code>A</code>) are
+omitted. <code>config.SN.yaml</code> enables self-sufficiency constraints that require
+industry sector components (e.g. Fischer-Tropsch links) to be present —
+running it without the <code>I</code> suffix will cause an error.</p>
+</div>
 <p><strong>Step 1 — Reduce the temporal resolution</strong></p>
 <p>Edit <code>sector_opts</code> in your scenario config to use fewer time segments:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># config/scenarios/config.SN.yaml</span>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># config/scenarios/config.SE.yaml</span>
 <a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nt">scenario</span><span class="p">:</span>
 <a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
 <a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG — much faster, less memory</span>
@@ -1077,12 +1085,12 @@ study. Use this track only to verify the workflow runs without errors.</p>
 </div>
 <p><strong>Step 2 — Dry run (recommended)</strong></p>
 <p>Verify that Snakemake can resolve all rules and inputs before executing anything:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml<span class="w"> </span>--dry-run
 </code></pre></div>
 <p><strong>Step 3 — Run the solve step</strong></p>
 <p>Use <code>solve_sector_networks</code> as the target (avoids <code>make_summary</code>, which fails
 when sectors are omitted) and limit to a single core:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1093,15 +1101,15 @@ when sectors are omitted) and limit to a single core:</p>
 <hr/>
 <h3 id="track-2-full-study-run">Track 2 — Full Study Run</h3>
 <p>This track reproduces the study results. It requires a machine with sufficient
-memory and compute time (hours to days depending on hardware). The full model
-run requires approximately <strong>250 GB of RAM</strong>.</p>
+memory (approximately <strong>250 GB of RAM</strong>) and compute time (approximately
+<strong>2.5 days</strong> on reference hardware).</p>
 <p><strong>Step 1 — Dry run (recommended)</strong></p>
 <p>Before launching the full run, verify that Snakemake can resolve all rules and inputs without executing anything:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml<span class="w"> </span>--dry-run
 </code></pre></div>
 <p>This prints the list of jobs that would be executed. If any rule or input file is missing, the error appears here — before committing hours of compute time.</p>
 <p><strong>Step 2 — Run all steps with the full configuration:</strong></p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1197,7 +1205,7 @@ with less than 16 GB, reduce <code>nprocesses</code> in <code>config/config.agor
 <p>By default, <code>-call</code> (<code>--cores all</code>) uses every available CPU core, which
 can exhaust memory and trigger crashes on Linux. Limiting parallelism
 reduces peak memory and CPU pressure:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
 </code></pre></div>
 <p>On Windows, always use <code>--cores 1</code> (see <a href="#track-2-full-study-run">Track 2</a>).</p>
 </details>
