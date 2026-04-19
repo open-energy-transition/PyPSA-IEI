@@ -131,7 +131,15 @@ scenario:
     Reduced-segment and electricity-only results are **not comparable** to the
     study. Use this track only to verify the workflow runs without errors.
 
-**Step 2 — Run the solve step**
+**Step 2 — Dry run (recommended)**
+
+Verify that Snakemake can resolve all rules and inputs before executing anything:
+
+```bash
+snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SN.yaml --dry-run
+```
+
+**Step 3 — Run the solve step**
 
 Use `solve_sector_networks` as the target (avoids `make_summary`, which fails
 when sectors are omitted) and limit to a single core:
@@ -154,7 +162,17 @@ This track reproduces the study results. It requires a machine with sufficient
 memory and compute time (hours to days depending on hardware). The full model
 run requires approximately **250 GB of RAM**.
 
-**Run all steps with the full configuration:**
+**Step 1 — Dry run (recommended)**
+
+Before launching the full run, verify that Snakemake can resolve all rules and inputs without executing anything:
+
+```bash
+snakemake -call all --configfile config/scenarios/config.SN.yaml --dry-run
+```
+
+This prints the list of jobs that would be executed. If any rule or input file is missing, the error appears here — before committing hours of compute time.
+
+**Step 2 — Run all steps with the full configuration:**
 
 ```bash
 snakemake -call all --configfile config/scenarios/config.SN.yaml
