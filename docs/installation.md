@@ -104,6 +104,10 @@ study results. Indicative requirements per scenario:
 | `256SEG` (electricity-only, no sector coupling) | ~16 GB | ~3.5 hours |
 | `256SEG-T-H-B-I-A` (with sector coupling) | ~32 GB | ~9 hours |
 
+!!! tip "No local solver?"
+    If you do not have a Gurobi licence or prefer to offload solving,
+    see the [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
+
 !!! tip "Which config to use for testing?"
     Use `config.SE.yaml` for pipeline testing. It has fewer custom constraints
     and works correctly even when sector suffixes (`T`, `H`, `B`, `I`, `A`) are
@@ -160,32 +164,7 @@ when sectors are omitted) and limit to a single core:
 ~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml
 ```
 
-!!! tip
-    If you want to skip local solving entirely, see the
-    [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
-
-**Verifying success**
-
-Snakemake prints the following when all jobs complete without errors:
-
-```
-X of X steps (100%) done
-```
-
-For each planning horizon (2020–2050), a solved network file should appear in:
-
-```
-results/<run_name>/postnetworks/elec_s_62_lv99__256SEG_<planning_horizon>.nc
-```
-
-For example:
-```
-results/2025-MM-DD-branch-2190SEG-SE/postnetworks/elec_s_62_lv99__256SEG_2020.nc
-```
-
-If any of these files are missing, check the corresponding log file under `logs/` for the failing rule.
-
-If you run into issues, see the [Troubleshooting](#troubleshooting) section.
+Once the run completes, see [Verifying Success](#verifying-success) to confirm the output files are in place.
 
 ---
 
@@ -220,7 +199,9 @@ This prints the list of jobs that would be executed. If any rule or input file i
     On Windows, always use `--cores 1` — running with more than one core causes
     crashes during the solving step.
 
-**Verifying success**
+---
+
+### Verifying Success
 
 Snakemake prints the following when all jobs complete without errors:
 
@@ -228,23 +209,22 @@ Snakemake prints the following when all jobs complete without errors:
 X of X steps (100%) done
 ```
 
-For each planning horizon (2020–2050), a solved network file should appear in:
+For each planning horizon (2020–2050), a solved network file should appear under
+`results/<run_name>/postnetworks/`. The exact filename depends on your track:
 
-```
-results/<run_name>/postnetworks/elec_s_62_lv99__2190SEG-T-H-B-I-A_<planning_horizon>.nc
-```
+| Track | Example postnetwork file |
+|-------|--------------------------|
+| Track 1 — `256SEG` | `elec_s_62_lv99__256SEG_2020.nc` |
+| Track 2 — `2190SEG-T-H-B-I-A` | `elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc` |
 
-For example:
-```
-results/2025-MM-DD-branch-2190SEG-SN/postnetworks/elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc
-```
-
-If any of these files are missing, check the corresponding log file under `logs/` for the failing rule.
+If any files are missing, check the corresponding log file under `logs/` for the failing rule.
 
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
 
 If you run into issues, see the [Troubleshooting](#troubleshooting) section.
+
+---
 
 ### OETC Cloud Solver (Optional — Skip Local Solving)
 
