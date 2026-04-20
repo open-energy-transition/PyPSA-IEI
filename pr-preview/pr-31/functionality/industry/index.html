@@ -783,6 +783,18 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../support/">
+<span class="md-ellipsis">
+    
+  
+    🆘 Support
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -925,14 +937,17 @@ are made relative to base PyPSA-Eur:</p>
 </tr>
 </tbody>
 </table>
-<p>The scenario is selected via <code>transhyde_scenario</code> in the config:</p>
+<p>The carrier ratio scenario is selected via <code>transhyde_processes</code> in the config:</p>
 <div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">industry</span><span class="p">:</span>
 <a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">transhyde_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="nt">transhyde_scenario</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span><span class="w">  </span><span class="c1"># use "high-temperature" ratios</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="nt">transhyde_processes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high_temp_only</span><span class="w">  </span><span class="c1"># use "high-temperature" ratios</span>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="nt">transhyde_scenario</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span><span class="w">             </span><span class="c1"># selects input CSV: TH_S1.5_demand.csv</span>
 </code></pre></div>
-<div class="highlight"><span class="filename">config/scenarios/config.CE_TranshydeS2.yaml</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">industry</span><span class="p">:</span>
-<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">transhyde_scenario</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">   </span><span class="c1"># use "high-temperature+steam" ratios</span>
-</code></pre></div>
+<p><code>transhyde_scenario</code> (<code>1.5</code> or <code>2</code>) and <code>transhyde_processes</code> are <strong>independent</strong>:
+<code>transhyde_scenario</code> selects which TransHyDE CSV is loaded for absolute demand scaling;
+<code>transhyde_processes</code> controls carrier ratios. They can be combined freely — for example,
+the <code>CE_TranshydeS2</code> scenario uses <code>transhyde_scenario: 2</code> with the default
+<code>transhyde_processes: high_temp_only</code>.</p>
 <hr/>
 <h2 id="hydrogen-demand-distribution">Hydrogen Demand Distribution</h2>
 <p>When <code>transhyde_data: true</code>, carrier ratios for high-temperature industrial
@@ -949,33 +964,34 @@ the aim is to get a more realistic distribution of the demand within a country.<
 <p><code>build_industrial_energy_demand_per_node</code> reads TransHyDe CSV data and scales
 PyPSA-Eur's country-level totals to match. The scaling preserves the
 intra-country distribution from <code>build_industry_sector_ratios</code>:</p>
-<div class="highlight"><span class="filename">scripts/build_industrial_energy_demand_per_node.py</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># Calculate per-carrier scaling factor: TransHyDe total / PyPSA total</span>
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="n">factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">demand_th_p</span> <span class="o">/</span> <span class="n">nodal_df_grp_m</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>
-<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="c1"># Apply factor to all nodes, preserving intra-country distribution</span>
-<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="n">nodal_df</span> <span class="o">*=</span> <span class="n">factor</span>
-<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
-<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c1"># Where PyPSA has zero demand but TransHyDe has non-zero,</span>
-<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="c1"># distribute TransHyDe total using node weights</span>
+<div class="highlight"><span class="filename">scripts/build_industrial_energy_demand_per_node.py</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Calculate per-carrier scaling factor: TransHyDe total / PyPSA total</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="n">factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">demand_th_p</span> <span class="o">/</span> <span class="n">nodal_df_grp_m</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># Apply factor to all nodes, preserving intra-country distribution</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="n">nodal_df</span> <span class="o">*=</span> <span class="n">factor</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="c1"># Where PyPSA has zero demand but TransHyDe has non-zero,</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="c1"># distribute TransHyDe total using node weights</span>
 </code></pre></div>
 <p>The TransHyDe data files are in <code>data/transhyde/</code>.</p>
 <hr/>
 <h2 id="ammonia-and-methanol-imports">Ammonia and Methanol Imports</h2>
 <p>The model can reduce industrial energy demand when ammonia or methanol are
 imported rather than produced domestically. Both are disabled by default:</p>
-<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">sector</span><span class="p">:</span>
-<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">ammonia</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">ammonia_import</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">  </span><span class="nt">ammonia_import_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w">   </span><span class="c1"># % of demand met by imports, if enabled</span>
-<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">  </span><span class="nt">methanol_import</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">  </span><span class="nt">methanol_import_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w">  </span><span class="c1"># % of demand met by imports, if enabled</span>
+<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">sector</span><span class="p">:</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">ammonia</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="nt">ammonia_import</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">  </span><span class="nt">ammonia_import_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w">   </span><span class="c1"># % of demand met by imports, if enabled</span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">  </span><span class="nt">methanol_import</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="nt">methanol_import_share</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span><span class="w">  </span><span class="c1"># % of demand met by imports, if enabled</span>
 </code></pre></div>
 <hr/>
 <h2 id="how-to-change-the-transhyde-scenario">How to Change the TransHyDe Scenario</h2>
-<p>Set <code>transhyde_scenario</code> in the scenario config:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">industry</span><span class="p">:</span>
-<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">transhyde_scenario</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span><span class="w">   </span><span class="c1"># default (Mid Demand)</span>
-<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="c1"># transhyde_scenario: 2   # High Demand</span>
+<p>Set <code>transhyde_processes</code> to control carrier ratios, and <code>transhyde_scenario</code> to
+select the input CSV for absolute scaling:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">industry</span><span class="p">:</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">transhyde_processes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high_temp_only</span><span class="w">  </span><span class="c1"># default; or: with_steam</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">transhyde_scenario</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span><span class="w">              </span><span class="c1"># default (Mid Demand); or: 2 (High Demand)</span>
 </code></pre></div>
 </article>
 </div>

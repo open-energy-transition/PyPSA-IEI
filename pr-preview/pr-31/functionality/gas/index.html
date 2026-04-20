@@ -329,6 +329,37 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#existing-infrastructure-pypsa-eur">
+<span class="md-ellipsis">
+      
+        Existing Infrastructure (PyPSA-Eur)
+      
+    </span>
+</a>
+<nav aria-label="Existing Infrastructure (PyPSA-Eur)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-sources">
+<span class="md-ellipsis">
+      
+        Data sources
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#build-pipeline">
+<span class="md-ellipsis">
+      
+        Build pipeline
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#russian-import-removal">
 <span class="md-ellipsis">
       
@@ -787,6 +818,18 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../support/">
+<span class="md-ellipsis">
+    
+  
+    🆘 Support
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -809,6 +852,37 @@
       
     </span>
 </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#existing-infrastructure-pypsa-eur">
+<span class="md-ellipsis">
+      
+        Existing Infrastructure (PyPSA-Eur)
+      
+    </span>
+</a>
+<nav aria-label="Existing Infrastructure (PyPSA-Eur)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#data-sources">
+<span class="md-ellipsis">
+      
+        Data sources
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#build-pipeline">
+<span class="md-ellipsis">
+      
+        Build pipeline
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#russian-import-removal">
@@ -877,11 +951,64 @@
 <article class="md-content__inner md-typeset">
 <h1 id="gas-network">Gas Network</h1>
 <h2 id="overview">Overview</h2>
-<p>Two key modifications are made to the gas network relative to base PyPSA-Eur:</p>
+<p>The gas network is a <strong>standard PyPSA-Eur feature</strong>. The existing European
+transmission infrastructure is reconstructed from two open datasets and added
+to the model as PyPSA <code>Link</code> components. This page describes how that base
+infrastructure is represented, followed by the two modifications made in this
+project relative to base PyPSA-Eur:</p>
 <ol>
 <li><strong>Russian gas imports are removed</strong> in all scenarios by default</li>
 <li><strong>TYNDP gas pipeline projects</strong> are processed and added to the model</li>
 </ol>
+<hr/>
+<h2 id="existing-infrastructure-pypsa-eur">Existing Infrastructure (PyPSA-Eur)</h2>
+<h3 id="data-sources">Data sources</h3>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>What it provides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SciGRID_gas</strong> (<a href="https://www.gas.scigrid.de/">scigrid.de</a>)</td>
+<td>European pipe geometry, diameter, pressure, bidirectionality, underground storage locations</td>
+</tr>
+<tr>
+<td><strong>GEM</strong> (Global Energy Monitor)</td>
+<td>LNG terminal locations and capacities, onshore production sites</td>
+</tr>
+</tbody>
+</table>
+<h3 id="build-pipeline">Build pipeline</h3>
+<p>Three Snakemake rules prepare the existing network before it reaches
+<code>prepare_sector_network</code>:</p>
+<ol>
+<li>
+<p><strong><code>build_gas_network</code></strong> (<code>scripts/build_gas_network.py</code>) — loads the
+   SciGRID_gas GeoJSON (<code>IGGIELGN_PipeSegments.geojson</code>); infers pipe capacity
+   from diameter using the piecewise-linear formula from the
+   <a href="https://gasforclimate2050.eu/wp-content/uploads/2020/07/2020_European-Hydrogen-Backbone_Report.pdf">European Hydrogen Backbone report</a>
+   (e.g. 500 mm → ~1.5 GW, 900 mm → ~11.25 GW); corrects outlier capacities
+   and lengths; flags short pipes (&lt;10 km) as bidirectional.</p>
+</li>
+<li>
+<p><strong><code>cluster_gas_network</code></strong> (<code>scripts/cluster_gas_network.py</code>) — spatially
+   joins both pipe endpoints to model bus regions; recalculates length as
+   haversine × 1.25 (routing factor); drops intra-region pipes; aggregates
+   parallel pipes on the same corridor by summing <code>p_nom</code>.</p>
+</li>
+<li>
+<p><strong><code>build_gas_input_locations</code></strong> (<code>scripts/build_gas_input_locations.py</code>) —
+   assembles per-node supply capacity tables for LNG terminals, cross-border
+   pipeline entry points, onshore production, and underground storage.</p>
+</li>
+</ol>
+<p>When <code>H2_retrofit: true</code>, gas pipes become candidates for conversion to
+hydrogen transport — their capital cost is reduced to a small decommissioning
+penalty and capacity is freed for <code>"H2 pipeline retrofitted"</code> links on the
+same corridors.</p>
 <hr/>
 <h2 id="russian-import-removal">Russian Import Removal</h2>
 <p><strong>Rule:</strong> <code>build_gas_input_locations</code><br/>
@@ -931,11 +1058,11 @@ are dropped. The output is saved to CSV for use in <code>prepare_sector_network<
 </thead>
 <tbody>
 <tr>
-<td>CE</td>
+<td>CE, CN</td>
 <td><code>FID</code> only</td>
 </tr>
 <tr>
-<td>SE</td>
+<td>SE, SN</td>
 <td>all statuses (no filter)</td>
 </tr>
 </tbody>

@@ -827,6 +827,18 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../support/">
+<span class="md-ellipsis">
+    
+  
+    🆘 Support
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -976,25 +988,41 @@ Cross-border TYNDP projects are handled separately via the
 <h2 id="scenario-behaviour">Scenario Behaviour</h2>
 <p>The constraint is disabled by default and enabled per scenario via
 <code>solving.constraints.national_grid_plans: true</code>. The <code>optimize_after</code>
-parameter controls when national grids become freely extendable:</p>
+parameter controls from which planning horizon national grids become
+freely extendable (no longer bound by the CSV expansion factors).</p>
 <table>
 <thead>
 <tr>
 <th>Scenario</th>
-<th>National expansion condition</th>
-<th>Free expansion from</th>
+<th>Constraint active</th>
+<th><code>optimize_after</code></th>
+<th>Effect</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>CE, CN, and variants</td>
-<td><code>equal</code></td>
-<td>All horizons (<code>optimize_after: true</code>)</td>
+<td>CE</td>
+<td>No</td>
+<td>—</td>
+<td>No national expansion limit applied</td>
 </tr>
 <tr>
-<td>SE, SN</td>
-<td><code>equal</code></td>
-<td>2040 onwards (<code>optimize_after: 2040</code>)</td>
+<td>CN</td>
+<td>No</td>
+<td>—</td>
+<td>No national expansion limit applied</td>
+</tr>
+<tr>
+<td>SE</td>
+<td>Yes</td>
+<td><code>2040</code></td>
+<td>Expansion capped by CSV factors; freely extendable from 2040</td>
+</tr>
+<tr>
+<td>SN</td>
+<td>Yes</td>
+<td><code>2040</code></td>
+<td>Expansion capped by CSV factors; freely extendable from 2040</td>
 </tr>
 </tbody>
 </table>
@@ -1008,15 +1036,15 @@ parameter controls when national grids become freely extendable:</p>
 </thead>
 <tbody>
 <tr>
-<td>Year before data available</td>
-<td>National transmission fixed, except TYNDP projects</td>
+<td>Year before data is available</td>
+<td>National transmission fixed (except TYNDP projects)</td>
 </tr>
 <tr>
-<td>First planning horizon</td>
-<td>All national transmission extendable</td>
+<td>First planning horizon (2020)</td>
+<td>All national transmission freely extendable</td>
 </tr>
 <tr>
-<td>Year after data ends</td>
+<td>No matching CSV data (not before data range, not first horizon)</td>
 <td>Controlled by <code>optimize_after</code> setting</td>
 </tr>
 </tbody>
@@ -1059,19 +1087,22 @@ parameter controls when national grids become freely extendable:</p>
 </table>
 <hr/>
 <h2 id="configuration">Configuration</h2>
+<p>Default values in <code>config/config.agora.yaml</code> — the constraint is off by default:</p>
 <div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
 <a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">include_national_grid_plans</span><span class="p">:</span>
 <a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="nt">national_grid_plan_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/national_line_expansions.csv</span>
 <a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="nt">national_expansion_condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">equal</span><span class="w">  </span><span class="c1"># 'min', 'max', or 'equal'</span>
-<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># true or integer year</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># true = freely extendable at all horizons (no cap once constraint is off)</span>
 <a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>
 <a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="nt">solving</span><span class="p">:</span>
 <a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">national_grid_plans</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># enable per scenario</span>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="nt">national_grid_plans</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># disabled by default; enable per scenario</span>
 </code></pre></div>
-<div class="highlight"><span class="filename">config/scenarios/config.SE.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<p>Overrides in SE and SN scenarios — these are the only two scenarios with the
+constraint active:</p>
+<div class="highlight"><span class="filename">config/scenarios/config.SE.yaml  |  config/scenarios/config.SN.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
 <a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">include_national_grid_plans</span><span class="p">:</span>
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2040</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="nt">optimize_after</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2040</span><span class="w">  </span><span class="c1"># expansion capped by CSV factors until 2040, freely extendable from 2040</span>
 <a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>
 <a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="nt">solving</span><span class="p">:</span>
 <a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
