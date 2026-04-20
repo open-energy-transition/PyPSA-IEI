@@ -342,6 +342,9 @@ solving:
 
 ## Troubleshooting
 
+If the steps below do not resolve your issue, please open a report on the
+[Support](support.md) page.
+
 ??? warning "Out of memory during profile building in `build_renewable_profile`"
 
     Building renewable profiles with Atlite is memory-intensive. The default
