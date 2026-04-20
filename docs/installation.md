@@ -165,6 +165,7 @@ when sectors are omitted) and limit to a single core:
 ```
 
 Once the run completes, see [Verifying Success](#verifying-success) to confirm the output files are in place.
+If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 ---
 
