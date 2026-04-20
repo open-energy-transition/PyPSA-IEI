@@ -101,8 +101,8 @@ study results. Indicative requirements per scenario:
 
 | Configuration | RAM | Time |
 |---------------|-----|------|
-| `256SEG` (electricity-only, no sector coupling) | ~16 GB | ~3.5 hours |
-| `256SEG-T-H-B-I-A` (with sector coupling) | ~32 GB | ~9 hours |
+| `256SEG` (electricity-only, no sector coupling) | >16 GB | ~3.5 hours |
+| `256SEG-T-H-B-I-A` (with sector coupling) | >32 GB | ~9 hours |
 
 !!! tip "No local solver?"
     If you do not have a Gurobi licence or prefer to offload solving,
