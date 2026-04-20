@@ -94,11 +94,15 @@ sensitivities. Choose the track that matches your situation:
 
 ### Track 1 — Pipeline Test (Low-End Machine)
 
-This track is designed for running the model on a low-end or Windows machine
-(more than **16 GB of RAM** required), or for anyone who wants to verify
-the full pipeline works end-to-end before committing to a full run. The goal
-is to test the workflow, not to reproduce study results. Without sector
-coupling (`256SEG` only), a full pipeline run takes approximately **4 hours** per scenario.
+This track is designed for running the model on a low-end or Windows machine,
+or for anyone who wants to verify the full pipeline works end-to-end before
+committing to a full run. The goal is to test the workflow, not to reproduce
+study results. Indicative requirements per scenario:
+
+| Configuration | RAM | Time |
+|---------------|-----|------|
+| `256SEG` (electricity-only, no sector coupling) | ~16 GB | ~3.5 hours |
+| `256SEG-T-H-B-I-A` (with sector coupling) | ~32 GB | ~9 hours |
 
 !!! tip "Which config to use for testing?"
     Use `config.SE.yaml` for pipeline testing. It has fewer custom constraints
