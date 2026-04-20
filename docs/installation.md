@@ -164,6 +164,27 @@ when sectors are omitted) and limit to a single core:
     If you want to skip local solving entirely, see the
     [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
 
+**Verifying success**
+
+Snakemake prints the following when all jobs complete without errors:
+
+```
+X of X steps (100%) done
+```
+
+For each planning horizon (2020–2050), a solved network file should appear in:
+
+```
+results/<run_name>/postnetworks/elec_s_62_lv99__256SEG_<planning_horizon>.nc
+```
+
+For example:
+```
+results/2025-MM-DD-branch-2190SEG-SE/postnetworks/elec_s_62_lv99__256SEG_2020.nc
+```
+
+If any of these files are missing, check the corresponding log file under `logs/` for the failing rule.
+
 If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 ---
@@ -198,6 +219,27 @@ This prints the list of jobs that would be executed. If any rule or input file i
 !!! warning
     On Windows, always use `--cores 1` — running with more than one core causes
     crashes during the solving step.
+
+**Verifying success**
+
+Snakemake prints the following when all jobs complete without errors:
+
+```
+X of X steps (100%) done
+```
+
+For each planning horizon (2020–2050), a solved network file should appear in:
+
+```
+results/<run_name>/postnetworks/elec_s_62_lv99__2190SEG-T-H-B-I-A_<planning_horizon>.nc
+```
+
+For example:
+```
+results/2025-MM-DD-branch-2190SEG-SN/postnetworks/elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc
+```
+
+If any of these files are missing, check the corresponding log file under `logs/` for the failing rule.
 
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
