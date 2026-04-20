@@ -95,9 +95,10 @@ sensitivities. Choose the track that matches your situation:
 ### Track 1 — Pipeline Test (Low-End Machine)
 
 This track is designed for running the model on a low-end or Windows machine
-(approximately **16 GB of RAM** required), or for anyone who wants to verify
+(more than **16 GB of RAM** required), or for anyone who wants to verify
 the full pipeline works end-to-end before committing to a full run. The goal
-is to test the workflow, not to reproduce study results.
+is to test the workflow, not to reproduce study results. Without sector
+coupling (`256SEG` only), a full pipeline run takes approximately **4 hours** per scenario.
 
 !!! tip "Which config to use for testing?"
     Use `config.SE.yaml` for pipeline testing. It has fewer custom constraints
@@ -167,7 +168,7 @@ If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 This track reproduces the study results. It requires a machine with sufficient
 memory (approximately **250 GB of RAM**) and compute time (approximately
-**2.5 days** on reference hardware).
+**2.5 days** per scenario).
 
 **Step 1 — Dry run (recommended)**
 
