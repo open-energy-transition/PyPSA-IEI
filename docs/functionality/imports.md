@@ -47,13 +47,14 @@ component name to distinguish multiple routes to the same node:
 # pipeline-H2: generator → {node} H2
 n.madd(
     "Generator",
-    [f"{node} {tech}" for node, tech in zip(df_pipeline_h2["bus"], df_pipeline_h2["tech"])],
-    bus=[f"{node} H2" for node in df_pipeline_h2["bus"]],
-    carrier=[f"import {tech}" for tech in df_pipeline_h2["tech"]],
+    [f"{node} {tech}" for node, tech in zip(import_nodes_tech_manipulated_pipeline_h2["bus"],
+                                            import_nodes_tech_manipulated_pipeline_h2["tech"])],
+    bus=[f"{node} H2" for node in import_nodes_tech_manipulated_pipeline_h2["bus"]],
+    carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_pipeline_h2["tech"]],
     p_nom_extendable=True,
-    p_nom_max=df_pipeline_h2["p_nom"],
-    marginal_cost=df_pipeline_h2["marginal_cost"],
-    capital_cost=df_pipeline_h2["capital_cost"],
+    p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_pipeline_h2["p_nom"]],
+    marginal_cost=[f"{marginal_cost}" for marginal_cost in import_nodes_tech_manipulated_pipeline_h2["marginal_cost"]],
+    capital_cost=[f"{capital_cost}" for capital_cost in import_nodes_tech_manipulated_pipeline_h2["capital_cost"]],
     p_min_pu=0,
     lifetime=25,
 )
@@ -61,10 +62,18 @@ n.madd(
 # shipping-H2: same structure, shipping_idx appended to name
 n.madd(
     "Generator",
-    [f"{node} {tech} ({idx})" for node, tech, idx in zip(
-        df_shipping_h2["bus"], df_shipping_h2["tech"], df_shipping_h2["shipping_idx"])],
-    bus=[f"{node} H2" for node in df_shipping_h2["bus"]],
-    ...
+    [f"{node} {tech} ({shipping_idx})" for node, tech, shipping_idx in zip(
+        import_nodes_tech_manipulated_shipping_h2["bus"],
+        import_nodes_tech_manipulated_shipping_h2["tech"],
+        import_nodes_tech_manipulated_shipping_h2["shipping_idx"])],
+    bus=[f"{node} H2" for node in import_nodes_tech_manipulated_shipping_h2["bus"]],
+    carrier=[f"import {tech}" for tech in import_nodes_tech_manipulated_shipping_h2["tech"]],
+    p_nom_extendable=True,
+    p_nom_max=[f"{p_nom}" for p_nom in import_nodes_tech_manipulated_shipping_h2["p_nom"]],
+    marginal_cost=[f"{marginal_cost}" for marginal_cost in import_nodes_tech_manipulated_shipping_h2["marginal_cost"]],
+    capital_cost=[f"{capital_cost}" for capital_cost in import_nodes_tech_manipulated_shipping_h2["capital_cost"]],
+    p_min_pu=0,
+    lifetime=25,
 )
 ```
 
@@ -73,22 +82,19 @@ per node, then a link converts syngas → gas with `efficiency2=-CO2_intensity`
 on the `co2 atmosphere` bus:
 
 ```python title="scripts/prepare_sector_network.py"
-# syngas bus
-n.madd("Bus", [f"{node} syngas" for node in syngas_nodes], carrier="syngas", unit="MWh_LHV")
-
-# generator → syngas bus
-n.madd("Generator", ..., bus=[f"{node} syngas" for node in ...])
-
-# link: syngas → gas, with negative CO2 efficiency to cancel combustion emissions
+# syngas bus — created once for the union of pipeline-syngas and shipping-syngas nodes
 n.madd(
-    "Link",
-    [f"{node} syngas" for node in syngas_nodes],
-    bus0=[f"{node} syngas" for node in syngas_nodes],
-    bus1=[f"{node} gas" for node in syngas_nodes],
-    bus2="co2 atmosphere",
-    carrier="syngas to gas",
-    efficiency2=-costs.at["gas", "CO2 intensity"],
-    p_nom_extendable=True,
+    "Bus",
+    [f"{node} syngas" for node in pd.concat([
+        import_nodes_tech_manipulated_pipeline_syngas["bus"],
+        import_nodes_tech_manipulated_shipping_syngas["bus"]
+    ]).unique()],
+    location=[f"{node}" for node in pd.concat([
+        import_nodes_tech_manipulated_pipeline_syngas["bus"],
+        import_nodes_tech_manipulated_shipping_syngas["bus"]
+    ]).unique()],
+    carrier="syngas",
+    unit="MWh_LHV",
 )
 ```
 
@@ -103,12 +109,14 @@ n.madd(
 
 | Column | Description |
 |---|---|
-| `bus` | Model cluster node (e.g. `DE0 0`) or `EU` for European aggregate |
-| `tech` | Import technology string |
+| `bus` | Model cluster node (e.g. `BE1 0`, `DE1 1`) or `EU` for European aggregate |
+| `Hydrogen Derivate` | Hydrogen carrier type (e.g. Ammonia, LH2, LOHC) |
 | `p_nom` | Maximum import capacity [MW] |
+| `note` | Human-readable description of the import project(s) at this node |
+| `tech` | Import technology string |
+| `shipping_idx` | Unique index for shipping routes |
 | `marginal_cost` | Variable cost [EUR/MWh] |
 | `capital_cost` | Annualised investment cost [EUR/MW/year] |
-| `shipping_idx` | Unique index for shipping routes |
 
 ---
 
