@@ -94,10 +94,19 @@ sensitivities. Choose the track that matches your situation:
 
 ### Track 1 — Pipeline Test (Low-End Machine)
 
-This track is designed for running the model on a low-end or Windows machine
-(approximately **16 GB of RAM** required), or for anyone who wants to verify
-the full pipeline works end-to-end before committing to a full run. The goal
-is to test the workflow, not to reproduce study results.
+This track is designed for running the model on a low-end or Windows machine,
+or for anyone who wants to verify the full pipeline works end-to-end before
+committing to a full run. The goal is to test the workflow, not to reproduce
+study results. Indicative requirements per scenario:
+
+| Configuration | RAM | Time |
+|---------------|-----|------|
+| `256SEG` (electricity-only, no sector coupling) | >16 GB | ~3.5 hours |
+| `256SEG-T-H-B-I-A` (with sector coupling) | >32 GB | ~9 hours |
+
+!!! tip "No local solver?"
+    If you do not have a Gurobi licence or prefer to offload solving,
+    see the [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
 
 !!! tip "Which config to use for testing?"
     Use `config.SE.yaml` for pipeline testing. It has fewer custom constraints
@@ -155,10 +164,7 @@ when sectors are omitted) and limit to a single core:
 ~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml
 ```
 
-!!! tip
-    If you want to skip local solving entirely, see the
-    [OETC Cloud Solver](#oetc-cloud-solver-optional-skip-local-solving) section below.
-
+Once the run completes, see [Verifying Success](#verifying-success) to confirm the output files are in place.
 If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 ---
@@ -167,7 +173,7 @@ If you run into issues, see the [Troubleshooting](#troubleshooting) section.
 
 This track reproduces the study results. It requires a machine with sufficient
 memory (approximately **250 GB of RAM**) and compute time (approximately
-**2.5 days** on reference hardware).
+**2.5 days** per scenario).
 
 **Step 1 — Dry run (recommended)**
 
@@ -194,10 +200,32 @@ This prints the list of jobs that would be executed. If any rule or input file i
     On Windows, always use `--cores 1` — running with more than one core causes
     crashes during the solving step.
 
+---
+
+### Verifying Success
+
+Snakemake prints the following when all jobs complete without errors:
+
+```
+X of X steps (100%) done
+```
+
+For each planning horizon (2020–2050), a solved network file should appear under
+`results/<run_name>/postnetworks/`. The exact filename depends on your track:
+
+| Track | Example postnetwork file |
+|-------|--------------------------|
+| Track 1 — `256SEG` | `elec_s_62_lv99__256SEG_2020.nc` |
+| Track 2 — `2190SEG-T-H-B-I-A` | `elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc` |
+
+If any files are missing, check the corresponding log file under `logs/` for the failing rule.
+
 For further details on running PyPSA-Eur-based models, refer to the
 [open-source documentation](https://pypsa-eur.readthedocs.io/en/latest/index.html).
 
 If you run into issues, see the [Troubleshooting](#troubleshooting) section.
+
+---
 
 ### OETC Cloud Solver (Optional — Skip Local Solving)
 
@@ -294,6 +322,9 @@ solving:
 ---
 
 ## Troubleshooting
+
+If the steps below do not resolve your issue, please open a report on the
+[Support](support.md) page.
 
 ??? warning "Out of memory during profile building in `build_renewable_profile`"
 
