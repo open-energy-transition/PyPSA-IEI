@@ -27,42 +27,7 @@ cd PyPSA-IEI
 
 ---
 
-## 2. Download Input Data
-
-This repository only contains input data explicitly developed for this study.
-The following files must be copied from
-[PyPSA-Eur v0.10.0 (February 19, 2024)](https://github.com/PyPSA/pypsa-eur/tree/9c08af998906eec076745fae45e849bf2fc54643)
-into the `data/` folder of this repository:
-
-```
-pypsa-eur/                          ← source repository
-└── data/
-    ├── entsoegridkit/
-    ├── existing_infrastructure/
-    ├── parameter_corrections.yaml
-    ├── links_p_nom.csv
-    ├── eia_hydro_annual_generation.csv
-    ├── GDP_PPP_30arcsec_v3_mapped_default.csv
-    ├── unit_commitment.csv
-    ├── geth2015_hydro_capacities.csv
-    ├── nuclear_p_max_pu.csv
-    ├── district_heat_share.csv
-    ├── switzerland-new_format-all_years.csv
-    ├── urban_percent.csv
-    ├── attributed_ports.json
-    └── heat_load_profile_BDEW.csv
-```
-
-Additional data will be automatically retrieved by Snakemake rules during
-the first run.
-
-!!! note
-    The data used to generate the study results were downloaded on
-    **June 27th 2024**.
-
----
-
-## 3. Set Up the Environment
+## 2. Set Up the Environment
 
 Create and activate the conda environment using the file matching your operating system:
 
@@ -85,7 +50,7 @@ For detailed instructions on setting up PyPSA-Eur, refer to the
 
 ---
 
-## 4. Run a Scenario
+## 3. Run a Scenario
 
 Results for the study were generated across four main scenarios and four
 sensitivities. Choose the track that matches your situation:
@@ -351,7 +316,7 @@ If the steps below do not resolve your issue, please open a report on the
 
 ---
 
-## 5. Run the Evaluations
+## 4. Run the Evaluations
 
 To use the analysis scripts developed for this study:
 
