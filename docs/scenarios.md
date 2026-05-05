@@ -23,9 +23,9 @@ Infrastructure planning considers the interaction between sectors (electricity, 
 - Avoidance of grid bottlenecks and overcapacities
 
 ??? details "Implementation Details"
-    
+
     The existing grid and already advanced TYNDP projects (i.e., with status "in construction" for electricity, "FID" for gas) form the lower boundary for endogenous transmission capacity expansions. The optimization model can freely expand transmission capacities for electricity, gas, hydrogen, and CO₂ networks beyond these baseline projects.
-    
+
     For detailed project lists, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 #### Sectoral View (Silos)
@@ -38,9 +38,9 @@ Infrastructure planning treats energy networks largely independently, with elect
 - Lack of coordination between energy carriers
 
 ??? details "Implementation Details"
-    
+
     The existing grid and all sectoral infrastructure projects (TYNDP, H2 Infrastructure Map, and German Hydrogen Core Network) are the only capacity expansions permitted in the system **until 2040**. This reflects network capacity expansion as envisioned by grid planners. After 2040, the optimization model can freely expand transmission capacities.
-    
+
     For electricity networks, this includes less advanced TYNDP projects with maturity status "in permitting" and "under consideration". For complete project listings, see Annex 2 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
 
 ---
@@ -59,7 +59,7 @@ The European internal market paradigm supports free trade and optimal resource a
 - No self-sufficiency constraints are activated
 
 ??? details "Implementation Details"
-    
+
     Self-sufficiency constraints are **not activated**. The system freely optimizes imports and exports on both hourly and annual basis to minimize total system costs.
 
 #### National View
@@ -78,18 +78,18 @@ This approach can lead to:
 - Underutilization of low-cost generation potentials in other countries
 
 ??? details "Implementation Details"
-    
+
     Self-sufficiency constraints are **activated** to require high shares of domestic generation for each country. These constraints operate on an **annual basis** (hourly imports/exports remain unrestricted).
-    
+
     For detailed constraint formulation, see [Self-Sufficiency Constraints](functionality/self_sufficiency.md) or Annex 1 in the [published report](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf).
-    
+
     **Parameterization:**
-    
+
     | Year | Electricity Min. National Generation | Hydrogen Min. National Generation | Export Capacity Buffer |
     |------|-------------------------------------|----------------------------------|----------------------|
     | 2030 | 80% | 70% | +10% of demand |
     | 2050 | 100% | 70% | +10% of demand |
-    
+
     - Electricity self-sufficiency increases linearly from 80% (2030) to 100% (2050)
     - Hydrogen self-sufficiency remains constant at 70%
     - Countries must build sufficient capacity to export 10% of their electricity/hydrogen demand
@@ -147,14 +147,14 @@ Sectoral planning with self-sufficiency
 The **CE scenario** represents fully integrated, cost-optimal European energy infrastructure planning. This scenario serves as the **cost-optimal benchmark** against which other scenarios are compared.
 
 ??? details "View Characteristics"
-    
+
     - ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
     - ✅ **No self-sufficiency constraints**
     - ✅ Existing grid + advanced TYNDP projects form the lower bound
     - ✅ Free optimization of import vs. domestic generation shares
 
 ??? details "View Expected Outcomes"
-    
+
     - Cost-optimal generation, storage, and sectorally-integrated grid expansion
     - Maximum utilization of regional comparative advantages
     - Lowest system-wide costs
@@ -170,14 +170,14 @@ The **CE scenario** represents fully integrated, cost-optimal European energy in
 The **CN scenario** combines integrated infrastructure planning with national self-sufficiency objectives. This scenario explores the **cost of energy sovereignty** within an otherwise optimally integrated system.
 
 ??? details "View Characteristics"
-    
+
     - ✅ **Free transmission expansion** for all sectors (electricity, gas, hydrogen, CO₂)
     - ⚠️ **Self-sufficiency constraints activated**
     - ✅ Existing grid + advanced TYNDP projects form the lower bound
     - ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
 
 ??? details "View Expected Outcomes"
-    
+
     - Sectorally-integrated grid expansion within national constraints
     - High level of national energy supply
     - Low import dependence (including intra-European)
@@ -194,7 +194,7 @@ The **CN scenario** combines integrated infrastructure planning with national se
 The **SE scenario** reflects current infrastructure planning practices (e.g., TYNDP) with European market integration. This scenario evaluates the **cost of sectoral planning** under current institutional frameworks.
 
 ??? details "View Characteristics"
-    
+
     - ⚠️ **Fixed transmission expansion until 2040** based on:
         - TYNDP electricity projects (including "in permitting" and "under consideration")
         - TYNDP gas projects
@@ -205,7 +205,7 @@ The **SE scenario** reflects current infrastructure planning practices (e.g., TY
     - ✅ Free transmission expansion after 2040
 
 ??? details "View Expected Outcomes"
-    
+
     - Good EU-wide coordination on trade and generation
     - Sub-optimal infrastructure due to sectoral planning silos
     - Networks may be insufficient or misaligned for integrated sector-coupling
@@ -222,7 +222,7 @@ The **SE scenario** reflects current infrastructure planning practices (e.g., TY
 The **SN scenario** represents the most constrained policy pathway, combining sectoral planning with national protectionism. This scenario represents the **worst-case policy pathway** where both infrastructure planning and trade policies work against system optimization.
 
 ??? details "View Characteristics"
-    
+
     - ⚠️ **Fixed transmission expansion until 2040** (same as SE)
     - ⚠️ **Self-sufficiency constraints activated**
     - ⚠️ High share of domestic generation required (80-100% electricity, 70% hydrogen)
@@ -230,7 +230,7 @@ The **SN scenario** represents the most constrained policy pathway, combining se
     - ✅ Free transmission expansion after 2040
 
 ??? details "View Expected Outcomes"
-    
+
     - Uncoordinated expansion of generation and grid infrastructure
     - Highest system costs among all scenarios
     - Significant overcapacities in some regions, bottlenecks in others
@@ -248,7 +248,7 @@ In addition to the four main scenarios, several **sensitivity analyses** were co
 |----------|-------------------|-------------|
 | **CE (base)** | `config.CE.yaml` | Reference scenario |
 | **CE - No Gas/Oil** | `config.CE_no_gas_no_oil.yaml` | Fossil gas and oil phase-out |
-| **CE - Flexibility** | `config.CE_flexibility.yaml` | Enhanced flexibility options |
+| **CE - Flexibility** | `config.CE_flexibility.yaml` | Limited flexibility options |
 | **CE - Expensive Compensation** | `config.CE_expensive_compensation.yaml` | Higher balancing costs |
 | **CE - TransHyDE S2** | `config.CE_TranshydeS2.yaml` | Alternative industrial demand profile |
 
@@ -296,6 +296,6 @@ For detailed execution instructions, see the [Installation](installation.md) pag
 
 For comprehensive methodology and results analysis, please refer to:
 
-> *"Integrated Infrastructure Planning and 2050 Climate Neutrality: Deriving Future-Proof European Energy Infrastructures"*  
-> Fraunhofer IEG, Fraunhofer ISI, and d-fine (November 2025)  
+> *"Integrated Infrastructure Planning and 2050 Climate Neutrality: Deriving Future-Proof European Energy Infrastructures"*
+> Fraunhofer IEG, Fraunhofer ISI, and d-fine (November 2025)
 > [Download report (PDF)](https://www.ieg.fraunhofer.de/content/dam/ieg/englisch/documents/20251008_Report_IEI_AgoraEnergiewende_Fraunhofer_dfine_final_updates_November2025.pdf)
