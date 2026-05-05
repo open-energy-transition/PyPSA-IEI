@@ -234,22 +234,20 @@ limitations or to save time — the solving step can be offloaded to the
 Open Energy Transition Cloud (OETC). This works with both Track 1 and Track 2.
 Network preparation always runs locally; only the solve step is offloaded.
 
-**Step 1 — Add the `oetc:` block to your scenario config:**
+**Step 1 — Enable OETC in your scenario config:**
+
+The `oetc` block is already present in `config/config.agora.yaml` with OETC disabled by default.
+To enable it, add the following override to your scenario config:
 
 ```yaml
-# config/scenarios/config.SN.yaml  (or any other scenario file)
+# config/scenarios/config.SE.yaml  (or any other scenario file)
 solving:
   oetc:
-    name: "my-oetc-job"
-    authentication_server_url: "https://oetc.openenergytransition.org"
-    orchestrator_server_url: "https://oetc.openenergytransition.org"
-    cpu_cores: 16
-    disk_space_gb: 100
+    enabled: true
 ```
 
 !!! note
-    Remove the `oetc:` block entirely to fall back to the local Gurobi solver
-    without any code changes.
+    Set `enabled: false` or omit the override entirely to fall back to the local solver.
 
 **Step 2 — Set your OETC credentials as environment variables:**
 
