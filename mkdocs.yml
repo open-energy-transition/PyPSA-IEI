@@ -45,7 +45,7 @@ nav:
     - Costs: functionality/costs.md
     - Lifetimes: functionality/lifetimes.md
     - Losses: functionality/losses.md
-    - Time Segmentation: functionality/time_segmentation.md
+    - Flexible Time Segmentation: functionality/time_segmentation.md
   - 🔌 Network Infrastructure:
     - Gas Networks: functionality/gas.md
     - Hydrogen Networks: functionality/hydrogen.md

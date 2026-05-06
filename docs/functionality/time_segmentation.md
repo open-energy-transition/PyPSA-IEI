@@ -1,4 +1,4 @@
-# Time Segmentation
+# Flexible Time Segmentation
 
 ## Overview
 
