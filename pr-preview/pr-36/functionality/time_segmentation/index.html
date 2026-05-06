@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../overall_min_capacities/" rel="prev"/>
-<link href="../expansion/" rel="next"/>
+<link href="../losses/" rel="prev"/>
+<link href="../gas/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
-<title>Capacity Reserve Margin - PyPSA-IEI Documentation</title>
+<title>Time Segmentation - PyPSA-IEI Documentation</title>
 <link href="../../assets/stylesheets/main.484c7ddc.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Nunito:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -24,7 +24,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#capacity-reserve-margin">
+<a class="md-skip" href="#time-segmentation">
           Skip to content
         </a>
 </div>
@@ -48,7 +48,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Capacity Reserve Margin
+              Time Segmentation
             
           </span>
 </div>
@@ -205,8 +205,8 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_4_2" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4_2" type="checkbox"/>
 <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
 <span class="md-ellipsis">
     
@@ -218,7 +218,7 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_4_2_label" class="md-nav" data-md-level="2">
+<nav aria-expanded="true" aria-labelledby="__nav_4_2_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_4_2">
 <span class="md-nav__icon md-icon"></span>
             
@@ -264,8 +264,20 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../time_segmentation/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Time Segmentation
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
 <span class="md-ellipsis">
     
   
@@ -275,6 +287,103 @@
     
   </span>
 </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#overview">
+<span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#snakemake-rules">
+<span class="md-ellipsis">
+      
+        Snakemake Rules
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-it-works">
+<span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+</a>
+<nav aria-label="How It Works" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#step-1-compute-snapshot-weightings-time_aggregationpy">
+<span class="md-ellipsis">
+      
+        Step 1 — Compute snapshot weightings (time_aggregation.py)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#step-2-apply-to-the-sector-coupled-network-prepare_sector_networkpy">
+<span class="md-ellipsis">
+      
+        Step 2 — Apply to the sector-coupled network (prepare_sector_network.py)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration">
+<span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+</a>
+<nav aria-label="Configuration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#via-the-sector_opts-wildcard">
+<span class="md-ellipsis">
+      
+        Via the sector_opts wildcard
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#via-the-static-config-alternative">
+<span class="md-ellipsis">
+      
+        Via the static config (alternative)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-to-change-the-number-of-segments">
+<span class="md-ellipsis">
+      
+        How to Change the Number of Segments
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
 </li>
 </ul>
 </nav>
@@ -427,8 +536,8 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
 <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
 <span class="md-ellipsis">
     
@@ -440,7 +549,7 @@
   </span>
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="true" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<nav aria-expanded="false" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
 <label class="md-nav__title" for="__nav_4_5">
 <span class="md-nav__icon md-icon"></span>
             
@@ -474,20 +583,8 @@
   </span>
 </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-<span class="md-ellipsis">
-    
-  
-    Capacity Reserve Margin
-  
-
-    
-  </span>
-<span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../capacity_reserve/">
 <span class="md-ellipsis">
     
   
@@ -497,99 +594,6 @@
     
   </span>
 </a>
-<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#overview">
-<span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#snakemake-rule">
-<span class="md-ellipsis">
-      
-        Snakemake Rule
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#scenario-behavior">
-<span class="md-ellipsis">
-      
-        Scenario Behavior
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#how-it-works">
-<span class="md-ellipsis">
-      
-        How It Works
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#config">
-<span class="md-ellipsis">
-      
-        Config
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#how-to-modify">
-<span class="md-ellipsis">
-      
-        How to Modify
-      
-    </span>
-</a>
-<nav aria-label="How to Modify" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#change-the-reserve-margin">
-<span class="md-ellipsis">
-      
-        Change the reserve margin
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#define-which-carriers-count-as-conventional">
-<span class="md-ellipsis">
-      
-        Define which carriers count as "conventional"
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#disable-the-constraint">
-<span class="md-ellipsis">
-      
-        Disable the constraint
-      
-    </span>
-</a>
-</li>
-</ul>
-</nav>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../expansion/">
@@ -853,19 +857,10 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#snakemake-rule">
+<a class="md-nav__link" href="#snakemake-rules">
 <span class="md-ellipsis">
       
-        Snakemake Rule
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#scenario-behavior">
-<span class="md-ellipsis">
-      
-        Scenario Behavior
+        Snakemake Rules
       
     </span>
 </a>
@@ -878,55 +873,68 @@
       
     </span>
 </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#config">
-<span class="md-ellipsis">
-      
-        Config
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#how-to-modify">
-<span class="md-ellipsis">
-      
-        How to Modify
-      
-    </span>
-</a>
-<nav aria-label="How to Modify" class="md-nav">
+<nav aria-label="How It Works" class="md-nav">
 <ul class="md-nav__list">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#change-the-reserve-margin">
+<a class="md-nav__link" href="#step-1-compute-snapshot-weightings-time_aggregationpy">
 <span class="md-ellipsis">
       
-        Change the reserve margin
+        Step 1 — Compute snapshot weightings (time_aggregation.py)
       
     </span>
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#define-which-carriers-count-as-conventional">
+<a class="md-nav__link" href="#step-2-apply-to-the-sector-coupled-network-prepare_sector_networkpy">
 <span class="md-ellipsis">
       
-        Define which carriers count as "conventional"
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#disable-the-constraint">
-<span class="md-ellipsis">
-      
-        Disable the constraint
+        Step 2 — Apply to the sector-coupled network (prepare_sector_network.py)
       
     </span>
 </a>
 </li>
 </ul>
 </nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#configuration">
+<span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+</a>
+<nav aria-label="Configuration" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#via-the-sector_opts-wildcard">
+<span class="md-ellipsis">
+      
+        Via the sector_opts wildcard
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#via-the-static-config-alternative">
+<span class="md-ellipsis">
+      
+        Via the static config (alternative)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#how-to-change-the-number-of-segments">
+<span class="md-ellipsis">
+      
+        How to Change the Number of Segments
+      
+    </span>
+</a>
 </li>
 </ul>
 </nav>
@@ -935,85 +943,146 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="capacity-reserve-margin">Capacity Reserve Margin</h1>
+<h1 id="time-segmentation">Time Segmentation</h1>
 <h2 id="overview">Overview</h2>
-<p>Enforces a <strong>capacity reserve margin</strong> as a percentage above peak demand,
-requiring sufficient dispatchable generation capacity to cover peak load
-plus a safety margin. Only <strong>conventional (dispatchable) generation</strong>
-counts toward the reserve; renewable and storage units are excluded.</p>
-<p><strong>Origin:</strong> This constraint is from <strong>PyPSA-Eur</strong>, where it was originally
-called "SAFE" (capacity reserve). It has been renamed to <code>capacity_reserve</code>
-for clarity.</p>
-<p>This constraint models security-of-supply requirements or capacity markets
-where a minimum firm capacity must be maintained regardless of renewables
-penetration.</p>
-<p><strong>Example:</strong> 10% reserve margin means total conventional capacity must be
-≥110% of peak demand.</p>
+<p>Full-year hourly time series (8760 snapshots) make sector-coupled optimisation
+extremely slow. To keep solve times tractable, the model aggregates snapshots
+into a smaller number of <strong>representative segments</strong> using the
+<a href="https://github.com/FZJ-IEK3-VSA/tsam">tsam</a> library.
+The number of segments is controlled via the <code>sector_opts</code> wildcard (e.g.
+<code>2190SEG</code>, <code>256SEG</code>) and can be changed freely for each run without touching
+any script.</p>
+<p>Two simpler alternatives also exist:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th><code>sector_opts</code> example</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal segmentation (tsam)</td>
+<td><code>2190SEG</code></td>
+<td>Aggregate 8760 h → N representative segments</td>
+</tr>
+<tr>
+<td>Hourly resampling</td>
+<td><code>4h</code></td>
+<td>Average every 4 hours → 2190 snapshots</td>
+</tr>
+<tr>
+<td>No aggregation</td>
+<td><em>(no suffix)</em></td>
+<td>Keep all hourly snapshots</td>
+</tr>
+</tbody>
+</table>
 <hr/>
-<h2 id="snakemake-rule">Snakemake Rule</h2>
-<p><strong>Script:</strong> <code>scripts/solve_network.py</code> — function
-<code>add_capacity_reserve_constraints</code>, called from <code>extra_functionality</code><br/>
-<strong>Rule:</strong> <code>solve_sector_network_myopic</code></p>
-<hr/>
-<h2 id="scenario-behavior">Scenario Behavior</h2>
-<p>By default, this constraint is <strong>disabled</strong> in all scenarios.</p>
-<p>Enable via scenario config:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nt">capacity_reserve</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
+<h2 id="snakemake-rules">Snakemake Rules</h2>
+<p><strong>Rule:</strong> <code>time_aggregation</code> (in <code>rules/build_sector.smk</code>)<br/>
+<strong>Script:</strong> <code>scripts/time_aggregation.py</code></p>
+<p>This rule runs <strong>before</strong> <code>prepare_sector_network</code> and writes a CSV of snapshot
+weightings. The sector-coupled network then reads that CSV and applies the aggregation.</p>
+<p><strong>Rule:</strong> <code>prepare_sector_network</code><br/>
+<strong>Script:</strong> <code>scripts/prepare_sector_network.py</code> — function
+<code>set_temporal_aggregation()</code></p>
 <hr/>
 <h2 id="how-it-works">How It Works</h2>
-<ol>
-<li>Calculate peak demand as the maximum total load across all time steps  </li>
-<li>Apply reserve margin: Required capacity = Peak demand × (1 + margin)  </li>
-<li>Sum existing + extendable conventional generation capacity  </li>
-<li>Constrain: Total conventional capacity ≥ Required capacity</li>
-</ol>
-<p><strong>Conventional carriers</strong> are defined in <code>electricity.conventional_carriers</code>:
-- <code>nuclear</code>, <code>coal</code>, <code>lignite</code>, <code>oil</code>, <code>OCGT</code>, <code>CCGT</code>, <code>geothermal</code>, <code>biomass</code> </p>
-<p><strong>Excluded</strong> from the constraint:<br/>
-- Renewable generators (solar, wind)<br/>
-- Storage units (batteries, hydro)<br/>
-- Transmission capacity  </p>
+<h3 id="step-1-compute-snapshot-weightings-time_aggregationpy">Step 1 — Compute snapshot weightings (<code>time_aggregation.py</code>)</h3>
+<p>All time-varying data is collected (generator profiles, load, heat demand,
+solar thermal) and normalised to the unit interval. <code>tsam</code> then partitions the
+8760-hour year into N contiguous segments, each described by a representative
+hour and a duration weight:</p>
+<div class="highlight"><span class="filename">scripts/time_aggregation.py</span><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">agg</span> <span class="o">=</span> <span class="n">tsam</span><span class="o">.</span><span class="n">TimeSeriesAggregation</span><span class="p">(</span>
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>    <span class="n">df</span><span class="p">,</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="n">hoursPerPeriod</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>   <span class="c1"># treat the whole year as one period</span>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="n">noTypicalPeriods</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>    <span class="n">noSegments</span><span class="o">=</span><span class="n">segments</span><span class="p">,</span>       <span class="c1"># e.g. 2190 or 256</span>
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="n">segmentation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>    <span class="n">solver</span><span class="o">=</span><span class="n">snakemake</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">solver_name</span><span class="p">,</span>
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="p">)</span>
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">agg</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">createTypicalPeriods</span><span class="p">()</span>
+<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>
+<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">weightings</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s2">"Segment Duration"</span><span class="p">)</span>
+<a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weightings</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="n">snapshot_weightings</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">snapshot_weightings</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">offsets</span><span class="p">]]</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span>
+<a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="n">weightings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+<a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="p">)</span>
+<a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="n">snapshot_weightings</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">snakemake</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">snapshot_weightings</span><span class="p">)</span>
+</code></pre></div>
+<p>The result is a CSV with one row per segment, indexed by the representative
+timestamp and holding the duration of that segment in hours.</p>
+<h3 id="step-2-apply-to-the-sector-coupled-network-prepare_sector_networkpy">Step 2 — Apply to the sector-coupled network (<code>prepare_sector_network.py</code>)</h3>
+<p><code>set_temporal_aggregation()</code> reads the CSV and reindexes all time-dependent
+network data (profiles, loads, snapshot weightings) to the reduced set of
+snapshots:</p>
+<div class="highlight"><span class="filename">scripts/prepare_sector_network.py</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">snapshot_weightings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>    <span class="n">snakemake</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">snapshot_weightings</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="p">)</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="n">set_temporal_aggregation</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">snapshot_weightings</span><span class="p">)</span>
+</code></pre></div>
 <hr/>
-<h2 id="config">Config</h2>
-<p>Add to your config (typically in a scenario file):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">electricity</span><span class="p">:</span>
-<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">capacity_reserve_margin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span><span class="w">  </span><span class="c1"># 10% reserve above peak demand</span>
-<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="nt">conventional_carriers</span><span class="p">:</span>
-<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nuclear</span>
-<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oil</span>
-<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OCGT</span>
-<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CCGT</span>
-<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coal</span>
-<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lignite</span>
-<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">geothermal</span>
-<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biomass</span>
-<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>
-<a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">    </span><span class="nt">capacity_reserve</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<h2 id="configuration">Configuration</h2>
+<h3 id="via-the-sector_opts-wildcard">Via the <code>sector_opts</code> wildcard</h3>
+<p>The number of segments is set in <code>sector_opts</code> in the scenario config file.
+The <code>SEG</code> suffix is parsed at runtime — no code change is needed:</p>
+<div class="highlight"><span class="filename">config/scenarios/config.SE.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">scenario</span><span class="p">:</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2190SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># full study resolution</span>
 </code></pre></div>
-<p><strong><code>capacity_reserve_margin</code></strong>: Fraction above peak demand (0.1 = 10%, 0.15 = 15%, etc.)</p>
+<table>
+<thead>
+<tr>
+<th><code>sector_opts</code> value</th>
+<th>Segments</th>
+<th>Intended use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2190SEG-T-H-B-I-A</code></td>
+<td>2190</td>
+<td>Full study (publication results)</td>
+</tr>
+<tr>
+<td><code>256SEG-T-H-B-I-A</code></td>
+<td>256</td>
+<td>Pipeline test with sector coupling</td>
+</tr>
+<tr>
+<td><code>256SEG</code></td>
+<td>256</td>
+<td>Electricity-only pipeline test</td>
+</tr>
+</tbody>
+</table>
+<h3 id="via-the-static-config-alternative">Via the static config (alternative)</h3>
+<p><code>snapshots.segmentation</code> in <code>config/config.agora.yaml</code> can also trigger
+segmentation. It is <code>false</code> by default — all scenarios use the wildcard
+approach instead:</p>
+<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">snapshots</span><span class="p">:</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2013-01-01"</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">  </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2014-01-01"</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">  </span><span class="nt">inclusive</span><span class="p">:</span><span class="w"> </span><span class="s">'left'</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">  </span><span class="nt">resolution</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">      </span><span class="c1"># hourly resampling, e.g. "4h" — disabled by default</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">  </span><span class="nt">segmentation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">    </span><span class="c1"># static segment count — disabled by default</span>
+</code></pre></div>
+<p>The wildcard always takes precedence over the static config value.</p>
 <hr/>
-<h2 id="how-to-modify">How to Modify</h2>
-<h3 id="change-the-reserve-margin">Change the reserve margin</h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">electricity</span><span class="p">:</span>
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">capacity_reserve_margin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.15</span><span class="w">  </span><span class="c1"># increase to 15%</span>
+<h2 id="how-to-change-the-number-of-segments">How to Change the Number of Segments</h2>
+<p>Edit <code>sector_opts</code> in the relevant scenario config:</p>
+<div class="highlight"><span class="filename">config/scenarios/config.SE.yaml</span><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">scenario</span><span class="p">:</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># fewer segments → faster, less accurate</span>
 </code></pre></div>
-<h3 id="define-which-carriers-count-as-conventional">Define which carriers count as "conventional"</h3>
-<p>Edit the list to include/exclude specific technologies:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">electricity</span><span class="p">:</span>
-<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">conventional_carriers</span><span class="p">:</span>
-<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nuclear</span>
-<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CCGT</span><span class="w">  </span><span class="c1"># exclude OCGT and coal from reserve requirement</span>
-</code></pre></div>
-<h3 id="disable-the-constraint">Disable the constraint</h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">solving</span><span class="p">:</span>
-<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
-<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="nt">capacity_reserve</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Results produced with different segment counts are <strong>not directly
+comparable</strong>. The study uses <code>2190SEG</code> for all published results.
+Use reduced counts (e.g. <code>256SEG</code>) only for pipeline testing.</p>
+</div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
