@@ -399,6 +399,46 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-types-and-extendability">
+<span class="md-ellipsis">
+      
+        Pipeline Types and Extendability
+      
+    </span>
+</a>
+<nav aria-label="Pipeline Types and Extendability" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#existing-pipes-gas-pipeline">
+<span class="md-ellipsis">
+      
+        Existing pipes (gas pipeline)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#new-connectivity-pipes-gas-pipeline-new">
+<span class="md-ellipsis">
+      
+        New connectivity pipes (gas pipeline new)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tyndp-gas-projects-gas-pipeline-tyndp">
+<span class="md-ellipsis">
+      
+        TYNDP gas projects (gas pipeline tyndp)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#how-to-modify-the-gas-network">
 <span class="md-ellipsis">
       
@@ -924,6 +964,46 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#pipeline-types-and-extendability">
+<span class="md-ellipsis">
+      
+        Pipeline Types and Extendability
+      
+    </span>
+</a>
+<nav aria-label="Pipeline Types and Extendability" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#existing-pipes-gas-pipeline">
+<span class="md-ellipsis">
+      
+        Existing pipes (gas pipeline)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#new-connectivity-pipes-gas-pipeline-new">
+<span class="md-ellipsis">
+      
+        New connectivity pipes (gas pipeline new)
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tyndp-gas-projects-gas-pipeline-tyndp">
+<span class="md-ellipsis">
+      
+        TYNDP gas projects (gas pipeline tyndp)
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#how-to-modify-the-gas-network">
 <span class="md-ellipsis">
       
@@ -1075,7 +1155,7 @@ are dropped. The output is saved to CSV for use in <code>prepare_sector_network<
 </tr>
 <tr>
 <td>SE, SN</td>
-<td>all statuses (no filter)</td>
+<td><code>FID</code>, <code>Advanced</code>, <code>Less-Advanced</code> (default — no override in scenario config)</td>
 </tr>
 </tbody>
 </table>
@@ -1085,6 +1165,71 @@ are dropped. The output is saved to CSV for use in <code>prepare_sector_network<
 <a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="nt">allowed_statuses</span><span class="p">:</span>
 <a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FID</span><span class="w">  </span><span class="c1"># Final Investment Decision</span>
 </code></pre></div>
+<hr/>
+<h2 id="pipeline-types-and-extendability">Pipeline Types and Extendability</h2>
+<p>Three types of gas pipeline links exist in the model, with different extendability behaviour:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Carrier</th>
+<th>Source</th>
+<th><code>p_nom_extendable</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Existing pipes</td>
+<td><code>gas pipeline</code></td>
+<td>SciGRID_gas (clustered)</td>
+<td>Depends on <code>H2_retrofit</code> and <code>wasserstoff_kernnetz.optimize_after</code> — see below</td>
+</tr>
+<tr>
+<td>New connectivity pipes</td>
+<td><code>gas pipeline new</code></td>
+<td>k-edge augmentation</td>
+<td>Always <code>True</code> — controlled by <code>include_tyndp_gas.optimize_after</code></td>
+</tr>
+<tr>
+<td>TYNDP projects</td>
+<td><code>gas pipeline tyndp</code></td>
+<td>TYNDP Excel file</td>
+<td>Always <code>False</code> — fixed at commissioned capacity</td>
+</tr>
+</tbody>
+</table>
+<h3 id="existing-pipes-gas-pipeline">Existing pipes (<code>gas pipeline</code>)</h3>
+<p>Behaviour depends on whether <code>H2_retrofit</code> is enabled:</p>
+<ul>
+<li><strong><code>H2_retrofit: true</code></strong> (default): Existing pipes get a small decommissioning capital cost
+  (<code>0.1 €/MW/km/a</code>), <code>p_nom_max = p_nom</code> and <code>p_nom_min = 0</code>. The pipe capacity is therefore
+  <strong>capped at its current value</strong> — it can never grow. Instead the optimizer can <em>reduce</em> it
+  toward zero, freeing that capacity for <code>H2 pipeline retrofitted</code> links on the same corridors.
+  Two separate mechanisms reduce gas pipe capacity:<ol>
+<li><strong>Exogenous reduction</strong> (<code>scripts/modify_prenetwork.py</code>): when <code>wasserstoff_kernnetz</code>
+   is enabled, gas pipe <code>p_nom</code> is directly reduced by the <code>removed_gas_cap</code> of all
+   Wasserstoffkernnetz (hydrogen core network) pipes commissioned up to the current
+   horizon — this happens unconditionally, before any optimization.</li>
+<li><strong>Optimizer reduction</strong> (<code>scripts/prepare_sector_network.py</code>): whether the optimizer
+   can <em>additionally</em> reduce gas capacity is controlled by <code>wasserstoff_kernnetz.optimize_after</code>
+   via <code>p_nom_extendable</code> — fixed until that year, freely reducible after.
+  The same <code>optimize_after</code> parameter also gates all <strong>H2 pipeline</strong> extendability
+  (carriers containing <code>"H2 pipeline"</code>) in <code>scripts/modify_prenetwork.py</code>.</li>
+</ol>
+</li>
+<li><strong><code>H2_retrofit: false</code></strong>: Pipes are fully extendable with no upper bound (<code>p_nom_max = inf</code>,
+  <code>p_nom_min = p_nom</code>, full capital cost charged) — capacity can grow freely.</li>
+</ul>
+<h3 id="new-connectivity-pipes-gas-pipeline-new">New connectivity pipes (<code>gas pipeline new</code>)</h3>
+<p>Added via k-edge augmentation to ensure <code>gas_network_connectivity_upgrade</code>-connectivity of the
+gas bus graph. Always extendable. Whether they are added at all is controlled by
+<code>include_tyndp_gas.optimize_after</code>: set to <code>false</code> to suppress them entirely, <code>true</code> (default)
+to always add them. An integer value has no practical gating effect due to how the logic is
+implemented — only <code>false</code> prevents new pipes from being added.</p>
+<h3 id="tyndp-gas-projects-gas-pipeline-tyndp">TYNDP gas projects (<code>gas pipeline tyndp</code>)</h3>
+<p>Commissioned at fixed capacity (<code>p_nom_extendable=False</code>) in the planning horizon their
+commissioning year falls into. The <code>optimize_after</code> key in the config has <strong>no effect</strong> on
+these — it controls new connectivity pipes only.</p>
 <div class="admonition note">
 <p class="admonition-title">No <code>optimize_after</code> for gas</p>
 <p>Unlike TYNDP electricity projects and national grid plans, TYNDP gas pipelines are
