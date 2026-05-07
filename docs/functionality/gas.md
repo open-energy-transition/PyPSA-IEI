@@ -117,6 +117,12 @@ policy_plans:
       - FID  # Final Investment Decision
 ```
 
+!!! note "No `optimize_after` for gas"
+    Unlike TYNDP electricity projects and national grid plans, TYNDP gas pipelines are
+    always added as **fixed capacity** (`p_nom_extendable=False`). The `optimize_after`
+    key exists in the config but has no effect — commissioned projects are simply built
+    in the horizon they fall into and cannot be further optimized.
+
 ---
 
 ## How to Modify the Gas Network
