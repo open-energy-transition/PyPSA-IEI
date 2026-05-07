@@ -1085,6 +1085,13 @@ are dropped. The output is saved to CSV for use in <code>prepare_sector_network<
 <a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="nt">allowed_statuses</span><span class="p">:</span>
 <a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FID</span><span class="w">  </span><span class="c1"># Final Investment Decision</span>
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">No <code>optimize_after</code> for gas</p>
+<p>Unlike TYNDP electricity projects and national grid plans, TYNDP gas pipelines are
+always added as <strong>fixed capacity</strong> (<code>p_nom_extendable=False</code>). The <code>optimize_after</code>
+key exists in the config but has no effect — commissioned projects are simply built
+in the horizon they fall into and cannot be further optimized.</p>
+</div>
 <hr/>
 <h2 id="how-to-modify-the-gas-network">How to Modify the Gas Network</h2>
 <h3 id="change-which-tyndp-projects-are-included">Change which TYNDP projects are included</h3>
