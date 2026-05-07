@@ -31,6 +31,8 @@ policy_plans:
   agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
 
 solving:
+  oetc:
+    enabled: false # enable solving via Open Energy Transition Cloud (OETC)
   solver:
     name: gurobi
     options: gurobi-default
