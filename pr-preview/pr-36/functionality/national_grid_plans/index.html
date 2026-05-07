@@ -1064,11 +1064,15 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 <hr/>
 <h2 id="csv-data-format">CSV Data Format</h2>
 <h3 id="datanational_line_expansionscsv"><code>data/national_line_expansions.csv</code></h3>
-<p>Columns: Country ISO2 code as row index, year columns (e.g., <code>2025</code>, <code>2030</code>, ...):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>,2025,2030,2035,2040,2045,2050
-<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>DE,1.2,1.5,1.8,2.0,2.2,2.5
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>FR,1.1,1.3,1.5,1.7,1.9,2.1
-<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>PL,1.0,1.2,1.4,1.6,1.8,2.0
+<p>Columns: Country ISO2 code as row index, year columns (e.g., <code>2026</code>, <code>2030</code>, ...):</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>country,2026,2030
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>DK,1.44,
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>EE,1.17,1.24
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>GR,1.16,1.35
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>DE,1.09,1.2
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>FR,1.01,1.02
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>PL,1.12,1.24
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>LV,1.0,1.0
 </code></pre></div>
 <p>Each cell contains the <strong>expansion factor</strong> (float) relative to base year capacity:</p>
 <table>
@@ -1081,19 +1085,19 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 <tbody>
 <tr>
 <td><code>1.0</code></td>
-<td>No expansion allowed beyond base year</td>
+<td>No expansion allowed beyond base year (e.g. LV)</td>
 </tr>
 <tr>
-<td><code>1.5</code></td>
-<td>50% expansion allowed (factor × base capacity)</td>
+<td><code>1.09</code></td>
+<td>9% expansion allowed (e.g. DE in 2026)</td>
 </tr>
 <tr>
-<td><code>2.0</code></td>
-<td>Doubling of capacity allowed</td>
+<td><code>1.44</code></td>
+<td>44% expansion allowed (e.g. DK in 2026)</td>
 </tr>
 <tr>
 <td>Empty/NaN</td>
-<td>Fallback behavior applies</td>
+<td>Fallback behavior applies (e.g. DK in 2030)</td>
 </tr>
 </tbody>
 </table>
