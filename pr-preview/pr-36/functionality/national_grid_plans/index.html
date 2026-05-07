@@ -1038,25 +1038,38 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 </tr>
 </tbody>
 </table>
-<p>When no expansion factor is specified for a country/year:</p>
+<p><strong>Base year capacities:</strong> The reference capacities that factors are applied to are derived from the
+optimized network of the <strong>first planning horizon</strong> (e.g. 2020). They are computed by
+<code>extract_base_year_capacities()</code> in <code>scripts/add_brownfield.py</code> when preparing the second planning
+horizon, summing national AC line (<code>s_nom_opt × s_max_pu</code>) and DC link (<code>p_nom_opt</code>) capacities per
+country, and saved to <code>results/.../base_year_capacities/</code>. The constraint then enforces
+<code>factor × base_capacity</code>.</p>
+<p><strong>Factor selection per country:</strong> For each country, the code searches the CSV for data years that fall
+in the window <code>(previous_horizon, current_horizon]</code>. The most recent year within that window is used as the
+expansion factor. Countries with no data in that window are excluded from the constraint.</p>
+<p><strong>Fallback when no country has data in the window</strong> (e.g. all countries lack CSV entries for this period):</p>
 <table>
 <thead>
 <tr>
 <th>Case</th>
+<th>Condition</th>
 <th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Year before data is available</td>
-<td>National transmission fixed (except TYNDP projects)</td>
+<td>1A — Before data range</td>
+<td>Current year &lt; first CSV year, and not the first planning horizon</td>
+<td>National transmission <strong>fixed</strong> at current capacity (except TYNDP-committed projects)</td>
 </tr>
 <tr>
-<td>First planning horizon (2020)</td>
-<td>All national transmission freely extendable</td>
+<td>1B — First planning horizon</td>
+<td>Current year is the first in <code>planning_horizons</code></td>
+<td>All national transmission <strong>freely extendable</strong></td>
 </tr>
 <tr>
-<td>No matching CSV data (not before data range, not first horizon)</td>
+<td>1C — Beyond data range</td>
+<td>Current year &gt; last CSV year (and not first horizon)</td>
 <td>Controlled by <code>optimize_after</code> setting</td>
 </tr>
 </tbody>
