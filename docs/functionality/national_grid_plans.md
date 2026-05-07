@@ -38,13 +38,24 @@ freely extendable (no longer bound by the CSV expansion factors).
 | SE | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 | SN | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 
-When no expansion factor is specified for a country/year:
+**Base year capacities:** The reference capacities that factors are applied to are derived from the
+optimized network of the **first planning horizon** (e.g. 2020). They are computed by
+`extract_base_year_capacities()` in `scripts/add_brownfield.py` when preparing the second planning
+horizon, summing national AC line (`s_nom_opt × s_max_pu`) and DC link (`p_nom_opt`) capacities per
+country, and saved to `results/.../base_year_capacities/`. The constraint then enforces
+`factor × base_capacity`.
 
-| Case | Behavior |
-|---|---|
-| Year before data is available | National transmission fixed (except TYNDP projects) |
-| First planning horizon (2020) | All national transmission freely extendable |
-| No matching CSV data (not before data range, not first horizon) | Controlled by `optimize_after` setting |
+**Factor selection per country:** For each country, the code searches the CSV for data years that fall
+in the window `(previous_horizon, current_horizon]`. The most recent year within that window is used as the
+expansion factor. Countries with no data in that window are excluded from the constraint.
+
+**Fallback when no country has data in the window** (e.g. all countries lack CSV entries for this period):
+
+| Case | Condition | Behavior |
+|---|---|---|
+| 1A — Before data range | Current year < first CSV year, and not the first planning horizon | National transmission **fixed** at current capacity (except TYNDP-committed projects) |
+| 1B — First planning horizon | Current year is the first in `planning_horizons` | All national transmission **freely extendable** |
+| 1C — Beyond data range | Current year > last CSV year (and not first horizon) | Controlled by `optimize_after` setting |
 
 ---
 
