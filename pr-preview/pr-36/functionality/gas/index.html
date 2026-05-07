@@ -1168,6 +1168,18 @@ are dropped. The output is saved to CSV for use in <code>prepare_sector_network<
 <hr/>
 <h2 id="pipeline-types-and-extendability">Pipeline Types and Extendability</h2>
 <p>Three types of gas pipeline links exist in the model, with different extendability behaviour:</p>
+<pre class="mermaid"><code>graph TD
+    A[(SciGRID_gas)] --&gt;|"build_gas_network\ncluster_gas_network"| B["gas pipeline\n— existing —"]
+    B --&gt;|"H2_retrofit: true\np_nom_max = p_nom"| C["H2 pipeline retrofitted\np_nom_max ≤ 0.6 × gas p_nom"]
+
+    D["k-edge augmentation\ngas_network_connectivity_upgrade"] --&gt; E["gas pipeline new\n— connectivity gaps —"]
+
+    F[(TYNDP Excel)] --&gt;|"build_tyndp_gas_pipes"| G["gas pipeline tyndp\np_nom_extendable=False"]
+
+    style B fill:#BDD7EE,color:#1a1a1a
+    style C fill:#D9B3F0,color:#1a1a1a
+    style E fill:#C6E0B4,color:#1a1a1a
+    style G fill:#FCE4D6,color:#1a1a1a</code></pre>
 <table>
 <thead>
 <tr>
