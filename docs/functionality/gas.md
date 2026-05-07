@@ -123,6 +123,21 @@ policy_plans:
 
 Three types of gas pipeline links exist in the model, with different extendability behaviour:
 
+```mermaid
+graph TD
+    A[(SciGRID_gas)] -->|"build_gas_network\ncluster_gas_network"| B["gas pipeline\n— existing —"]
+    B -->|"H2_retrofit: true\np_nom_max = p_nom"| C["H2 pipeline retrofitted\np_nom_max ≤ 0.6 × gas p_nom"]
+
+    D["k-edge augmentation\ngas_network_connectivity_upgrade"] --> E["gas pipeline new\n— connectivity gaps —"]
+
+    F[(TYNDP Excel)] -->|"build_tyndp_gas_pipes"| G["gas pipeline tyndp\np_nom_extendable=False"]
+
+    style B fill:#BDD7EE,color:#1a1a1a
+    style C fill:#D9B3F0,color:#1a1a1a
+    style E fill:#C6E0B4,color:#1a1a1a
+    style G fill:#FCE4D6,color:#1a1a1a
+```
+
 | Type | Carrier | Source | `p_nom_extendable` |
 |---|---|---|---|
 | Existing pipes | `gas pipeline` | SciGRID_gas (clustered) | Depends on `H2_retrofit` and `wasserstoff_kernnetz.optimize_after` — see below |
