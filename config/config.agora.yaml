@@ -43,13 +43,13 @@ scenario:
   sector_opts:
   - 876H-T-H-B-I-A
   planning_horizons:
-    - 2020
-    - 2025
-    - 2030
-    - 2035
-    - 2040
-    - 2045
-    - 2050
+  - 2020
+  - 2025
+  - 2030
+  - 2035
+  - 2040
+  - 2045
+  - 2050
 
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#countries
@@ -134,7 +134,7 @@ electricity:
   autarky:
     enable: false
     by_country: false
-    
+
 
 
 
@@ -600,10 +600,10 @@ policy_plans:
   include_tyndp_elec:
     enable: false
     allowed_statuses:
-      - under consideration
-      - in planning
-      - in permitting
-      - under construction
+    - under consideration
+    - in planning
+    - in permitting
+    - under construction
     optimize_after: true # true: extension of pipelines at any optimization year, int: year after which the transmission lines can be optimized
   include_national_grid_plans:
     national_grid_plan_data: data/national_line_expansions.csv
@@ -613,9 +613,9 @@ policy_plans:
     enable: false
     PCI_only: false
     allowed_statuses:
-      - FID # Final investment decision
-      - Advanced
-      - Less-Advanced
+    - FID   # Final investment decision
+    - Advanced
+    - Less-Advanced
     optimize_after: true # true: extension of pipelines at any optimization year, int: year after which the transmission lines can be optimized
   agg_p_nom_limits: data/agg_p_nom_minmax.csv
   self_sufficiency_limits: data/self_sufficiency_limits.csv
@@ -814,8 +814,8 @@ clustering:
       ramp_limit_down: max
 
 sensitivities:
-  no_gas_no_oil: False
-  expensive_compensation: False
+  no_gas_no_oil: false
+  expensive_compensation: false
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#solving
 solving:
@@ -844,6 +844,14 @@ solving:
     overall_min_capacities: false # set minimum capacity per carrier for the entire model
     capacity_reserve: false #Add a capacity reserve margin of a certain fraction above the peak demand.
     national_grid_plans: false # enable constraint that includes national electricity grid expansion plans
+
+  oetc:
+    enabled: false
+    name: "my-oetc-job"
+    authentication_server_url: "https://oetc.openenergytransition.org"
+    orchestrator_server_url: "https://oetc.openenergytransition.org"
+    cpu_cores: 16
+    disk_space_gb: 100
 
   solver:
     name: highs
@@ -909,7 +917,7 @@ solving:
       defaultalg: 4 # any of [ 1, 2, 3, 4 ] 4 = Newton barrier algorithm
       crossover: 0 # any of [ -1, 0, 1, 2 ] Determines whether the barrier method will cross over to the simplex method.
       feastol: 1.0e-6 # [ positive float ] The feasibility tolerance determines the degree to which the basic variables of
-      # a model may violate their bounds. The solver works with tolerance values for solution feasibility that are typically 
+      # a model may violate their bounds. The solver works with tolerance values for solution feasibility that are typically
       # of the order of 10-6 by default.
       threads: 4 # [ either -1 or >0 ] Determines the number of threads to use.
       bargapstop: 1.0e-6 # [>= 0] Determines the convergence parameter representing the tolerance for the relative

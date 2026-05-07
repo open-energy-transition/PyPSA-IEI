@@ -1672,8 +1672,9 @@ def solve_network(n, config, solving, opts="", **kwargs):
     kwargs["io_api"] = cf_solving.get("io_api", None)
 
     oetc = solving.get("oetc", None)
-    if oetc:
+    if oetc and oetc.get("enabled"):
         oetc = dict(oetc)
+        oetc.pop("enabled")
         oetc["credentials"] = OetcCredentials(
             email=os.environ["OETC_EMAIL"], password=os.environ["OETC_PASSWORD"]
         )

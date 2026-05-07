@@ -11,30 +11,31 @@ scenario:
   sector_opts:
   - 2190SEG-T-H-B-I-A
   planning_horizons:
-    - 2020
-    - 2025
-    - 2030
-    - 2035
-    - 2040
-    - 2045
-    - 2050
+  - 2020
+  - 2025
+  - 2030
+  - 2035
+  - 2040
+  - 2045
+  - 2050
 
 policy_plans:
   include_tyndp_elec:
     enable: true
     allowed_statuses:
-      - under construction
+    - under construction
   include_tyndp_gas:
     enable: true
     allowed_statuses:
-      - FID # Final investment decision
+    - FID   # Final investment decision
   agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
 
 industry:
   transhyde_scenario: 2 # 1.5 or 2
 
 solving:
+  oetc:
+    enabled: false # enable solving via Open Energy Transition Cloud (OETC)
   solver:
     name: gurobi
     options: gurobi-default
-
