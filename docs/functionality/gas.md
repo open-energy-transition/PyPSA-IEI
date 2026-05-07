@@ -98,9 +98,7 @@ Pipe capacity is derived from diameter using the `diameter_to_capacity`
 function (from `build_gas_network.py`). Projects entirely within one cluster
 are dropped. The output is saved to CSV for use in `prepare_sector_network`.
 
----
-
-## Scenario-Dependent Project Selection
+### Scenario-Dependent Project Selection
 
 TYNDP projects are filtered by maturity status via the scenario config:
 
@@ -119,9 +117,7 @@ policy_plans:
 
 ---
 
-## Pipeline Types and Extendability
-
-Three types of gas pipeline links exist in the model, with different extendability behaviour:
+## Pipeline Extendability
 
 ```mermaid
 graph TD
