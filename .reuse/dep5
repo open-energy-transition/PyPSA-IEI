@@ -15,6 +15,10 @@ Files: config/config.plotting.yaml
 Copyright: PyPSA-IEI developers
 License: CC-BY-4.0
 
+Files: data/attributed_ports.json
+Copyright: Worldbank
+License: CC-BY-4.0
+
 Files: data/entsoegridkit/*
 Copyright: 2017-2024 The PyPSA-Eur Authors
 License: CC-BY-4.0

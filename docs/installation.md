@@ -27,7 +27,31 @@ cd PyPSA-IEI
 
 ---
 
-## 2. Set Up the Environment
+## 2. Download Input Data
+
+This repository only contains input data explicitly developed for this study.
+The following files must be copied from
+[PyPSA-Eur v0.10.0 (February 19, 2024)](https://github.com/PyPSA/pypsa-eur/tree/9c08af998906eec076745fae45e849bf2fc54643)
+into the `data/` folder of this repository:
+
+```
+pypsa-eur/                          ← source repository
+└── data/
+    ├── GDP_PPP_30arcsec_v3_mapped_default.csv
+    ├── switzerland-new_format-all_years.csv
+    └── urban_percent.csv
+```
+
+Additional data will be automatically retrieved by Snakemake rules during
+the first run.
+
+!!! note
+    The data used to generate the study results were downloaded on
+    **June 27th 2024**.
+
+---
+
+## 3. Set Up the Environment
 
 Create and activate the conda environment using the file matching your operating system:
 
@@ -50,7 +74,7 @@ For detailed instructions on setting up PyPSA-Eur, refer to the
 
 ---
 
-## 3. Run a Scenario
+## 4. Run a Scenario
 
 Results for the study were generated across four main scenarios and four
 sensitivities. Choose the track that matches your situation:
@@ -314,7 +338,7 @@ If the steps below do not resolve your issue, please open a report on the
 
 ---
 
-## 4. Run the Evaluations
+## 5. Run the Evaluations
 
 To use the analysis scripts developed for this study:
 
