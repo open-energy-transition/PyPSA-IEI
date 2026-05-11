@@ -1,0 +1,76 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: PyPSA-Eur
+Upstream-Contact: Tom Brown <t.brown@tu-berlin.de>
+Source: https://github.com/pypsa/pypsa-eur
+
+Files: .github/*
+Copyright: 2019-2024 The PyPSA-Eur Authors
+License: CC0-1.0
+
+Files: config/scenarios/*.yaml
+Copyright: PyPSA-IEI developers
+License: CC-BY-4.0
+
+Files: config/config.plotting.yaml
+Copyright: PyPSA-IEI developers
+License: CC-BY-4.0
+
+Files: data/attributed_ports.json
+Copyright: Worldbank
+License: CC-BY-4.0
+
+Files: data/entsoegridkit/*
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/existing_infrastructure/*
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/district_heat_share.csv
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/eia_hydro_annual_generation.csv
+Copyright: Energy Information Agency (EIA)
+License: CC0-1.0
+
+Files: data/heat_load_profile_BDEW.csv
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/links_p_nom.csv
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/nuclear_p_max_pu.csv
+Copyright: International Atomic Energy Agency (IAEA)
+License: CC-BY-4.0
+
+Files: data/parameter_corrections.yaml
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: data/unit_commitment.csv
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0
+
+Files: docs/*
+Copyright: Open Energy Transition gGmbH
+License: CC-BY-4.0
+
+Files: scripts_analysis/*
+Copyright: PyPSA-IEI developers
+License: CC-BY-4.0
+
+Files: matplotlibrc
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC0-1.0
+
+Files: borg-it
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC0-1.0
+
+Files: graphics/*
+Copyright: 2017-2024 The PyPSA-Eur Authors
+License: CC-BY-4.0

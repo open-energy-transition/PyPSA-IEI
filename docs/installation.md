@@ -37,20 +37,9 @@ into the `data/` folder of this repository:
 ```
 pypsa-eur/                          ← source repository
 └── data/
-    ├── entsoegridkit/
-    ├── existing_infrastructure/
-    ├── parameter_corrections.yaml
-    ├── links_p_nom.csv
-    ├── eia_hydro_annual_generation.csv
     ├── GDP_PPP_30arcsec_v3_mapped_default.csv
-    ├── unit_commitment.csv
-    ├── geth2015_hydro_capacities.csv
-    ├── nuclear_p_max_pu.csv
-    ├── district_heat_share.csv
     ├── switzerland-new_format-all_years.csv
-    ├── urban_percent.csv
-    ├── attributed_ports.json
-    └── heat_load_profile_BDEW.csv
+    └── urban_percent.csv
 ```
 
 Additional data will be automatically retrieved by Snakemake rules during

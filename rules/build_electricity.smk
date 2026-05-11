@@ -17,17 +17,18 @@ if config["enable"].get("prepare_links_p_nom", False):
         script:
             "../scripts/prepare_links_p_nom.py"
 
+
 rule update_costs_csv:
     params:
-        invest_update=config['costs']['investment']
+        invest_update=config["costs"]["investment"],
     input:
-        costs = (
+        costs=(
             "data/costs_{}.csv".format(config["costs"]["year"])
             if config["foresight"] == "overnight"
             else "data/costs_{planning_horizons}.csv"
         ),
     output:
-            costs = (
+        costs=(
             RESOURCES + "costs_{}.csv".format(config["costs"]["year"])
             if config["foresight"] == "overnight"
             else RESOURCES + "costs_{planning_horizons}.csv"
@@ -35,13 +36,14 @@ rule update_costs_csv:
     log:
         LOGS + "update_costs_csv.log"
         if config["foresight"] == "overnight"
-        else LOGS + "update_costs_csv_{planning_horizons}.log"
+        else LOGS + "update_costs_csv_{planning_horizons}.log",
     resources:
         mem_mb=5000,
     conda:
         "../envs/environment.yaml"
     script:
         "../scripts/update_costs_csv.py"
+
 
 rule build_electricity_demand:
     params:
@@ -71,7 +73,7 @@ rule build_powerplants:
     input:
         base_network=RESOURCES + "networks/base.nc",
         custom_powerplants="data/custom_powerplants.csv",
-        new_ppl_lifetimes=config["electricity"]["new_powerplant_lifetimes"]
+        new_ppl_lifetimes=config["electricity"]["new_powerplant_lifetimes"],
     output:
         RESOURCES + "powerplants.csv",
     log:
@@ -436,7 +438,6 @@ rule add_electricity:
         regions=RESOURCES + "regions_onshore.geojson",
         powerplants=RESOURCES + "powerplants.csv",
         hydro_capacities=ancient("data/bundle/hydro_capacities.csv"),
-        geth_hydro_capacities="data/geth2015_hydro_capacities.csv",
         unit_commitment="data/unit_commitment.csv",
         fuel_price=(
             RESOURCES + "monthly_fuel_price.csv"

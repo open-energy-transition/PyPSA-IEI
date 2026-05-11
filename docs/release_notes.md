@@ -1,5 +1,7 @@
 # Release Notes
 
+* Add missing data files to repository [PR #36](https://github.com/open-energy-transition/PyPSA-IEI/pull/36)
+
 * Add OETC toggle config option [PR #39](https://github.com/open-energy-transition/PyPSA-IEI/pull/39)
 
 * Add documentation on constraints and national grid expansion plan [PR #17](https://github.com/open-energy-transition/PyPSA-IEI/pull/17)

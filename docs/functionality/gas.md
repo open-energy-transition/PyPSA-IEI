@@ -98,16 +98,14 @@ Pipe capacity is derived from diameter using the `diameter_to_capacity`
 function (from `build_gas_network.py`). Projects entirely within one cluster
 are dropped. The output is saved to CSV for use in `prepare_sector_network`.
 
----
-
-## Scenario-Dependent Project Selection
+### Scenario-Dependent Project Selection
 
 TYNDP projects are filtered by maturity status via the scenario config:
 
 | Scenario | `allowed_statuses` |
 |---|---|
 | CE, CN | `FID` only |
-| SE, SN | all statuses (no filter) |
+| SE, SN | `FID`, `Advanced`, `Less-Advanced` (default — no override in scenario config) |
 
 ```yaml title="config/scenarios/config.CE.yaml"
 policy_plans:
@@ -116,6 +114,72 @@ policy_plans:
     allowed_statuses:
       - FID  # Final Investment Decision
 ```
+
+---
+
+## Pipeline Extendability
+
+```mermaid
+graph TD
+    A[(SciGRID_gas)] -->|"build_gas_network\ncluster_gas_network"| B["gas pipeline\n— existing —"]
+    B -->|"H2_retrofit: true\np_nom_max = p_nom"| C["H2 pipeline retrofitted\np_nom_max ≤ 0.6 × gas p_nom"]
+
+    D["k-edge augmentation\ngas_network_connectivity_upgrade"] --> E["gas pipeline new\n— connectivity gaps —"]
+
+    F[(TYNDP Excel)] -->|"build_tyndp_gas_pipes"| G["gas pipeline tyndp\np_nom_extendable=False"]
+
+    style B fill:#BDD7EE,color:#1a1a1a
+    style C fill:#D9B3F0,color:#1a1a1a
+    style E fill:#C6E0B4,color:#1a1a1a
+    style G fill:#FCE4D6,color:#1a1a1a
+```
+
+| Type | Carrier | Source | `p_nom_extendable` |
+|---|---|---|---|
+| Existing pipes | `gas pipeline` | SciGRID_gas (clustered) | Depends on `H2_retrofit` and `wasserstoff_kernnetz.optimize_after` — see below |
+| New connectivity pipes | `gas pipeline new` | k-edge augmentation | Always `True` — controlled by `include_tyndp_gas.optimize_after` |
+| TYNDP projects | `gas pipeline tyndp` | TYNDP Excel file | Always `False` — fixed at commissioned capacity |
+
+### Existing pipes (`gas pipeline`)
+
+Behaviour depends on whether `H2_retrofit` is enabled:
+
+- **`H2_retrofit: true`** (default): Existing pipes get a small decommissioning capital cost
+  (`0.1 €/MW/km/a`), `p_nom_max = p_nom` and `p_nom_min = 0`. The pipe capacity is therefore
+  **capped at its current value** — it can never grow. Instead the optimizer can *reduce* it
+  toward zero, freeing that capacity for `H2 pipeline retrofitted` links on the same corridors.
+  Two separate mechanisms reduce gas pipe capacity:
+    1. **Exogenous reduction** (`scripts/modify_prenetwork.py`): when `wasserstoff_kernnetz`
+       is enabled, gas pipe `p_nom` is directly reduced by the `removed_gas_cap` of all
+       Wasserstoffkernnetz (hydrogen core network) pipes commissioned up to the current
+       horizon — this happens unconditionally, before any optimization.
+    2. **Optimizer reduction** (`scripts/prepare_sector_network.py`): whether the optimizer
+       can *additionally* reduce gas capacity is controlled by `wasserstoff_kernnetz.optimize_after`
+       via `p_nom_extendable` — fixed until that year, freely reducible after.
+  The same `optimize_after` parameter also gates all **H2 pipeline** extendability
+  (carriers containing `"H2 pipeline"`) in `scripts/modify_prenetwork.py`.
+- **`H2_retrofit: false`**: Pipes are fully extendable with no upper bound (`p_nom_max = inf`,
+  `p_nom_min = p_nom`, full capital cost charged) — capacity can grow freely.
+
+### New connectivity pipes (`gas pipeline new`)
+
+Added via k-edge augmentation to ensure `gas_network_connectivity_upgrade`-connectivity of the
+gas bus graph. Always extendable. Whether they are added at all is controlled by
+`include_tyndp_gas.optimize_after`: set to `false` to suppress them entirely, `true` (default)
+to always add them. An integer value has no practical gating effect due to how the logic is
+implemented — only `false` prevents new pipes from being added.
+
+### TYNDP gas projects (`gas pipeline tyndp`)
+
+Commissioned at fixed capacity (`p_nom_extendable=False`) in the planning horizon their
+commissioning year falls into. The `optimize_after` key in the config has **no effect** on
+these — it controls new connectivity pipes only.
+
+!!! note "No `optimize_after` for gas"
+    Unlike TYNDP electricity projects and national grid plans, TYNDP gas pipelines are
+    always added as **fixed capacity** (`p_nom_extendable=False`). The `optimize_after`
+    key exists in the config but has no effect — commissioned projects are simply built
+    in the horizon they fall into and cannot be further optimized.
 
 ---
 
