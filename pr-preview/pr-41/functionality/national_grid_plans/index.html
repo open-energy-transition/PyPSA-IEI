@@ -264,6 +264,18 @@
   </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../time_segmentation/">
+<span class="md-ellipsis">
+    
+  
+    Flexible Time Segmentation
+  
+
+    
+  </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -1026,25 +1038,38 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 </tr>
 </tbody>
 </table>
-<p>When no expansion factor is specified for a country/year:</p>
+<p><strong>Base year capacities:</strong> The reference capacities that factors are applied to are derived from the
+optimized network of the <strong>first planning horizon</strong> (e.g. 2020). They are computed by
+<code>extract_base_year_capacities()</code> in <code>scripts/add_brownfield.py</code> when preparing the second planning
+horizon, summing national AC line (<code>s_nom_opt × s_max_pu</code>) and DC link (<code>p_nom_opt</code>) capacities per
+country, and saved to <code>results/.../base_year_capacities/</code>. The constraint then enforces
+<code>factor × base_capacity</code>.</p>
+<p><strong>Factor selection per country:</strong> For each country, the code searches the CSV for data years that fall
+in the window <code>(previous_horizon, current_horizon]</code>. The most recent year within that window is used as the
+expansion factor. Countries with no data in that window are excluded from the constraint.</p>
+<p><strong>Fallback when no country has data in the window</strong> (e.g. all countries lack CSV entries for this period):</p>
 <table>
 <thead>
 <tr>
 <th>Case</th>
+<th>Condition</th>
 <th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Year before data is available</td>
-<td>National transmission fixed (except TYNDP projects)</td>
+<td>1A — Before data range</td>
+<td>Current year &lt; first CSV year, and not the first planning horizon</td>
+<td>National transmission <strong>fixed</strong> at current capacity (except TYNDP-committed projects)</td>
 </tr>
 <tr>
-<td>First planning horizon (2020)</td>
-<td>All national transmission freely extendable</td>
+<td>1B — First planning horizon</td>
+<td>Current year is the first in <code>planning_horizons</code></td>
+<td>All national transmission <strong>freely extendable</strong></td>
 </tr>
 <tr>
-<td>No matching CSV data (not before data range, not first horizon)</td>
+<td>1C — Beyond data range</td>
+<td>Current year &gt; last CSV year (and not first horizon)</td>
 <td>Controlled by <code>optimize_after</code> setting</td>
 </tr>
 </tbody>
@@ -1052,11 +1077,15 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 <hr/>
 <h2 id="csv-data-format">CSV Data Format</h2>
 <h3 id="datanational_line_expansionscsv"><code>data/national_line_expansions.csv</code></h3>
-<p>Columns: Country ISO2 code as row index, year columns (e.g., <code>2025</code>, <code>2030</code>, ...):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>,2025,2030,2035,2040,2045,2050
-<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>DE,1.2,1.5,1.8,2.0,2.2,2.5
-<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>FR,1.1,1.3,1.5,1.7,1.9,2.1
-<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>PL,1.0,1.2,1.4,1.6,1.8,2.0
+<p>Columns: Country ISO2 code as row index, year columns (e.g., <code>2026</code>, <code>2030</code>, ...):</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>country,2026,2030
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>DK,1.44,
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>EE,1.17,1.24
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>GR,1.16,1.35
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>DE,1.09,1.2
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>FR,1.01,1.02
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>PL,1.12,1.24
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>LV,1.0,1.0
 </code></pre></div>
 <p>Each cell contains the <strong>expansion factor</strong> (float) relative to base year capacity:</p>
 <table>
@@ -1069,19 +1098,19 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 <tbody>
 <tr>
 <td><code>1.0</code></td>
-<td>No expansion allowed beyond base year</td>
+<td>No expansion allowed beyond base year (e.g. LV)</td>
 </tr>
 <tr>
-<td><code>1.5</code></td>
-<td>50% expansion allowed (factor × base capacity)</td>
+<td><code>1.09</code></td>
+<td>9% expansion allowed (e.g. DE in 2026)</td>
 </tr>
 <tr>
-<td><code>2.0</code></td>
-<td>Doubling of capacity allowed</td>
+<td><code>1.44</code></td>
+<td>44% expansion allowed (e.g. DK in 2026)</td>
 </tr>
 <tr>
 <td>Empty/NaN</td>
-<td>Fallback behavior applies</td>
+<td>Fallback behavior applies (e.g. DK in 2030)</td>
 </tr>
 </tbody>
 </table>
