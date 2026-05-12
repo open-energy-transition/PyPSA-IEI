@@ -1,0 +1,50 @@
+# Run scenario 1: Cross-sectoral, European view
+# Grid planning is realized both cross-border and cross-sectoral
+
+run:
+  name: "2025-MM-DD-branch-2190SEG-CE-no-CO2-storage"
+  disable_progressbar: true
+  shared_resources: false
+  shared_cutouts: true
+
+scenario:
+  sector_opts:
+  - 2190SEG-T-H-B-I-A
+  planning_horizons:
+  - 2020
+  - 2025
+  - 2030
+  - 2035
+  - 2040
+  - 2045
+  - 2050
+
+sector:
+  regional_co2_sequestration_potential:
+    enable: true
+    attribute: 'conservative estimate Mt'
+    include_onshore: false #true
+    min_size: 3
+    max_size: 25
+    years_of_storage: 25
+  co2_sequestration_potential: 500
+  co2_sequestration_cost: 10
+  co2_sequestration_lifetime: 50
+
+policy_plans:
+  include_tyndp_elec:
+    enable: true
+    allowed_statuses:
+    - under construction
+  include_tyndp_gas:
+    enable: true
+    allowed_statuses:
+    - FID   # Final investment decision
+  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
+
+solving:
+  oetc:
+    enabled: false # enable solving via Open Energy Transition Cloud (OETC)
+  solver:
+    name: gurobi
+    options: gurobi-default
