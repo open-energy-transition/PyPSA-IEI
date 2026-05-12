@@ -1,0 +1,46 @@
+# Run scenario 2: Cross-sectoral, national view
+# Grid planning is realized across sectors but national self-sufficiency targets are present.
+
+run:
+  name: "2025-MM-DD-branch-2190SEG-CN-H2-infrastructure"
+  disable_progressbar: true
+  shared_resources: false
+  shared_cutouts: true
+
+scenario:
+  sector_opts:
+  - 2190SEG-T-H-B-I-A
+  planning_horizons:
+  - 2020
+  - 2025
+  - 2030
+  - 2035
+  - 2040
+  - 2045
+  - 2050
+
+policy_plans:
+  include_tyndp_elec:
+    enable: true
+    allowed_statuses:
+    - under construction
+  include_tyndp_gas:
+    enable: true
+    allowed_statuses:
+    - FID   # Final investment decision
+  agg_p_nom_limits: data/agg_p_nom_minmax_national.csv
+  self_sufficiency_limits: data/self_sufficiency_limits_custom.csv
+
+industry:
+  transhyde_data: true
+  transhyde_scenario: 1.5custom # 1.5 or 2
+  transhyde_processes: high_temp_only
+
+solving:
+  oetc:
+    enabled: false # enable solving via Open Energy Transition Cloud (OETC)
+  solver:
+    name: gurobi
+    options: gurobi-default
+  constraints:
+    self_sufficiency: true # enable self-sufficiency constraint for clusters/countries/the EU
