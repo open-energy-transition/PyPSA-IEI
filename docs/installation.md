@@ -90,8 +90,8 @@ study results. Indicative requirements per scenario:
 
 | Configuration | RAM | Time |
 |---------------|-----|------|
-| `256SEG` (electricity-only, no sector coupling) | >16 GB | ~3.5 hours |
-| `256SEG-T-H-B-I-A` (with sector coupling) | >32 GB | ~9 hours |
+| `20SEG` (electricity-only, no sector coupling) | > 16 GB | ~3.5 hours |
+| `20SEG-T-H-B-I-A` (with sector coupling) | >32 GB | ~9 hours |
 
 !!! tip "No local solver?"
     If you do not have a Gurobi licence or prefer to offload solving,
@@ -112,7 +112,7 @@ Edit `sector_opts` in your scenario config to use fewer time segments:
 # config/scenarios/config.SE.yaml
 scenario:
   sector_opts:
-  - 256SEG-T-H-B-I-A   # reduced from 2190SEG — much faster, less memory
+  - 20SEG-T-H-B-I-A   # reduced from 2190SEG — much faster, less memory
 ```
 
 For the fastest possible run (electricity-only, no sector coupling), omit all
@@ -121,7 +121,7 @@ sector suffixes entirely:
 ```yaml
 scenario:
   sector_opts:
-  - 256SEG   # electricity-only — pipeline test only
+  - 20SEG   # electricity-only — pipeline test only
 ```
 
 | Suffix | Sector coupled |
@@ -204,7 +204,7 @@ For each planning horizon (2020–2050), a solved network file should appear und
 
 | Track | Example postnetwork file |
 |-------|--------------------------|
-| Track 1 — `256SEG` | `elec_s_62_lv99__256SEG_2020.nc` |
+| Track 1 — `20SEG` | `elec_s_62_lv99__20SEG_2020.nc` |
 | Track 2 — `2190SEG-T-H-B-I-A` | `elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc` |
 
 If any files are missing, check the corresponding log file under `logs/` for the failing rule.
@@ -353,20 +353,44 @@ To use the analysis scripts developed for this study:
     Replace `<run_name>` with the value of `run.name` from your scenario config file (e.g. `2025-MM-DD-branch-2190SEG-SN`).
     These files are produced by the `build_shapes` and `cluster_network` Snakemake rules and are available after the pipeline has run at least once.
 
-2. Open `scripts_analysis/analysis_main.py` and set the `runs` dictionary to map scenario labels to your run names:
+2. Open `scripts_analysis/analysis_main.py` and update the scenario-specific settings so they match the files created by your run:
 
     ```python
     runs = {
-        "scenario_1": "2025-MM-DD-branch-2190SEG-SN",
+        "SE": "2025-MM-DD-branch-2190SEG-SE",
         # "scenario_2": "run_name_2",
         # "scenario_3": "run_name_3",
         # "scenario_4": "run_name_4",
     }
+
+    sector_opts = {
+        "SE": "20SEG",
+        # "scenario_2": "2190SEG-T-H-B-I-A",
+        # "scenario_3": "2190SEG-T-H-B-I-A",
+        # "scenario_4": "2190SEG-T-H-B-I-A",
+    }
+
+    postnetwork_prefixes = {
+        scen: f"elec_s_62_lv99__{sector_opt}"
+        for scen, sector_opt in sector_opts.items()
+    }
     ```
 
     The run name must match the `run.name` value in the corresponding scenario
-    config file and the folder name under `results/`. Unused scenarios can be
-    commented out.
+    config file and the folder name under `results/`.
+
+    Each `sector_opts` entry must match the solved postnetwork filename
+    suffix exactly, including the temporal resolution and any enabled
+    sector-coupling suffixes. For example:
+
+    - full study run: `2190SEG-T-H-B-I-A`
+    - reduced-resolution electricity-only test: `20SEG`
+    - run without industry coupling: `20SEG-T-H-B-A`
+
+    `analysis_main.py` converts these entries into the full postnetwork prefix
+    automatically, so users only need to edit `runs` and `sector_opts`.
+
+    Unused scenarios can be commented out.
 
 3. Execute it:
 
