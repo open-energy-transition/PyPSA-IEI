@@ -90,8 +90,8 @@ study results. Indicative requirements per scenario:
 
 | Configuration | RAM | Time |
 |---------------|-----|------|
-| `20SEG` (electricity-only, no sector coupling) | > 16 GB | ~3.5 hours |
-| `20SEG-T-H-B-I-A` (with sector coupling) | >32 GB | ~9 hours |
+| `20SEG-T-H-B-I-A` (recommended reduced-resolution test) | >32 GB | ~9 hours |
+| `20SEG` (electricity-only fallback, limited downstream compatibility in post-analysis) | > 16 GB | ~3.5 hours |
 
 !!! tip "No local solver?"
     If you do not have a Gurobi licence or prefer to offload solving,
@@ -106,7 +106,7 @@ study results. Indicative requirements per scenario:
 
 **Step 1 — Reduce the temporal resolution**
 
-Edit `sector_opts` in your scenario config to use fewer time segments:
+Edit `sector_opts` in your scenario config to use fewer time segments while keeping the sector suffixes enabled:
 
 ```yaml
 # config/scenarios/config.SE.yaml
@@ -115,43 +115,49 @@ scenario:
   - 20SEG-T-H-B-I-A   # reduced from 2190SEG — much faster, less memory
 ```
 
-For the fastest possible run (electricity-only, no sector coupling), omit all
+This is the recommended Track 1 setup. It keeps the workflow closer to the
+full study configuration and avoids downstream issues in summary generation and
+post-analysis scripts that can appear with electricity-only runs.
+
+If you only want the lightest possible smoke test, you can still omit the
 sector suffixes entirely:
 
 ```yaml
 scenario:
-  sector_opts:
-  - 20SEG   # electricity-only — pipeline test only
+    sector_opts:
+    - 20SEG
 ```
 
-| Suffix | Sector coupled |
-|--------|----------------|
-| `T`    | Transport      |
-| `H`    | Heat           |
-| `B`    | Biomass        |
-| `I`    | Industry       |
-| `A`    | Agriculture    |
+However, this electricity-only variant should be treated as a minimal pipeline
+check only. Later postprocessing and analysis steps are more likely to **fail with
+an electricity-only model**.
 
 !!! warning
-    Reduced-segment and electricity-only results are **not comparable** to the
-    study. Use this track only to verify the workflow runs without errors.
+        Reduced-segment results are **not comparable** to the study. Electricity-only
+        runs are even more limited and are mainly useful for quick smoke tests.
 
 **Step 2 — Dry run (recommended)**
 
 Verify that Snakemake can resolve all rules and inputs before executing anything:
 
 ```bash
-~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml --dry-run
+~/PyPSA-IEI$ snakemake -call all --configfile config/scenarios/config.SE.yaml --dry-run
 ```
 
-**Step 3 — Run the solve step**
+**Step 3 — Run the full workflow**
 
-Use `solve_sector_networks` as the target (avoids `make_summary`, which fails
-when sectors are omitted) and limit to a single core:
+Use the `all` target so the full pipeline runs and the summary outputs needed
+for later analysis are generated. Start with as many cores as your machine can
+handle:
 
 ```bash
-~/PyPSA-IEI$ snakemake --cores 1 solve_sector_networks --configfile config/scenarios/config.SE.yaml
+~/PyPSA-IEI$ snakemake -call all --configfile config/scenarios/config.SE.yaml
 ```
+
+If you are on Windows, you can still start with the `all` target as shown
+above. If the workflow later becomes unstable when it reaches
+`solve_sector_networks`, see [Troubleshooting](#troubleshooting) and resume the
+same target with `--cores 1`.
 
 Once the run completes, see [Verifying Success](#verifying-success) to confirm the output files are in place.
 If you run into issues, see the [Troubleshooting](#troubleshooting) section.
@@ -186,8 +192,10 @@ This prints the list of jobs that would be executed. If any rule or input file i
     to the publication.
 
 !!! warning
-    On Windows, always use `--cores 1` — running with more than one core causes
-    crashes during the solving step.
+    On Windows, the workflow may become unstable once it reaches
+    `solve_sector_networks`. Start with as many cores as you want, but if the
+    solve stage fails, resume with `--cores 1` as described in
+    [Troubleshooting](#troubleshooting).
 
 ---
 
@@ -204,7 +212,7 @@ For each planning horizon (2020–2050), a solved network file should appear und
 
 | Track | Example postnetwork file |
 |-------|--------------------------|
-| Track 1 — `20SEG` | `elec_s_62_lv99__20SEG_2020.nc` |
+| Track 1 — `20SEG-T-H-B-I-A` | `elec_s_62_lv99__20SEG-T-H-B-I-A_2020.nc` |
 | Track 2 — `2190SEG-T-H-B-I-A` | `elec_s_62_lv99__2190SEG-T-H-B-I-A_2050.nc` |
 
 If any files are missing, check the corresponding log file under `logs/` for the failing rule.
@@ -330,11 +338,32 @@ If the steps below do not resolve your issue, please open a report on the
     can exhaust memory and trigger crashes on Linux. Limiting parallelism
     reduces peak memory and CPU pressure:
 
+    If you run into memory pressure, out-of-memory errors, or system
+    instability during the workflow, rerun the same command with fewer cores.
+    A good first step is to reduce to `--cores 2`, and if needed to `--cores 1`.
+
     ```bash
-    ~/PyPSA-IEI$ snakemake --cores 2 all --configfile config/scenarios/config.SN.yaml
+    ~/PyPSA-IEI$ snakemake --cores 2 all --configfile config/scenarios/config.SE.yaml
     ```
 
-    On Windows, always use `--cores 1` (see [Track 2](#track-2-full-study-run)).
+??? warning "Windows crashes when `solve_sector_networks` starts"
+
+    On Windows, you can still start the workflow with multiple cores to speed up
+    preprocessing and postprocessing:
+
+    ```bash
+    ~/PyPSA-IEI$ snakemake -call all --configfile config/scenarios/config.SE.yaml
+    ```
+
+    If the workflow reaches `solve_sector_networks` and then crashes or becomes
+    unstable, rerun the same target with one core:
+
+    ```bash
+    ~/PyPSA-IEI$ snakemake --cores 1 all --configfile config/scenarios/config.SE.yaml
+    ```
+
+    Snakemake will reuse completed upstream jobs and continue from the remaining
+    solve and postprocessing steps.
 
 ---
 
@@ -364,7 +393,7 @@ To use the analysis scripts developed for this study:
     }
 
     sector_opts = {
-        "SE": "20SEG",
+        "SE": "20SEG-T-H-B-I-A",
         # "scenario_2": "2190SEG-T-H-B-I-A",
         # "scenario_3": "2190SEG-T-H-B-I-A",
         # "scenario_4": "2190SEG-T-H-B-I-A",
@@ -384,8 +413,7 @@ To use the analysis scripts developed for this study:
     sector-coupling suffixes. For example:
 
     - full study run: `2190SEG-T-H-B-I-A`
-    - reduced-resolution electricity-only test: `20SEG`
-    - run without industry coupling: `20SEG-T-H-B-A`
+    - reduced-resolution sector-coupled test: `20SEG-T-H-B-I-A`
 
     `analysis_main.py` converts these entries into the full postnetwork prefix
     automatically, so users only need to edit `runs` and `sector_opts`.
