@@ -35,6 +35,11 @@ transmission is handled separately via [National Grid Plans](national_grid_plans
 
 ## CSV Data Format
 
+!!! info "PyPSA capacity parameters"
+    - **`p_nom`** — nominal (installed) capacity of a component in MW.
+    - **`p_nom_extendable`** — if `True`, the optimizer decides the capacity; if `False`, it is fixed at `p_nom`.
+    - **`p_nom_min`** / **`p_nom_max`** — lower and upper bounds on the capacity the optimizer can choose. Setting both equal to `p_nom` fixes the capacity; setting only `p_nom_min` leaves it extendable without an upper limit.
+
 ### `data/links_2020-2050.csv`
 
 Columns: `name`, `bus0`, `bus1`, `p_nom`, `2020`, `2025`, …, `2050`
