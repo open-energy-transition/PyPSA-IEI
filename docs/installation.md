@@ -387,14 +387,14 @@ To use the analysis scripts developed for this study:
     ```python
     runs = {
         "SE": "2025-MM-DD-branch-2190SEG-SE",
-        # "scenario_2": "run_name_2",
+        "CE": "2025-MM-DD-branch-2190SEG-CE",
         # "scenario_3": "run_name_3",
         # "scenario_4": "run_name_4",
     }
 
     sector_opts = {
         "SE": "20SEG-T-H-B-I-A",
-        # "scenario_2": "2190SEG-T-H-B-I-A",
+        "CE": "20SEG-T-H-B-I-A",
         # "scenario_3": "2190SEG-T-H-B-I-A",
         # "scenario_4": "2190SEG-T-H-B-I-A",
     }
@@ -402,6 +402,21 @@ To use the analysis scripts developed for this study:
     postnetwork_prefixes = {
         scen: f"elec_s_62_lv99__{sector_opt}"
         for scen, sector_opt in sector_opts.items()
+    }
+
+    # Reference scenario — used as the baseline in all comparison/residual plots.
+    # Must be one of the keys defined in `runs`.
+    sel_scen = "SE"
+
+    # No need to edit — overridden automatically by the script during execution.
+    scenarios_for_comp = ["SE", "CE"]
+
+    # Every key in `runs` must have an entry here or the script will crash.
+    scenario_colors = {
+        "SE": "#F58220",
+        "CE": "#39C1CD",
+        # "scenario_3": "#179C7D",
+        # "scenario_4": "#854006",
     }
     ```
 
@@ -419,6 +434,34 @@ To use the analysis scripts developed for this study:
     automatically, so users only need to edit `runs` and `sector_opts`.
 
     Unused scenarios can be commented out.
+
+    !!! warning "At least two entries required in `runs`"
+        The cost analysis script generates comparison plots (residual capital
+        costs, residual operational costs) that require a reference scenario
+        and at least one other scenario to compare against. **Running with
+        only one entry in `runs` will cause a crash.**
+
+        If you have only one run, duplicate it under a second key as a
+        workaround:
+
+        ```python
+        runs = {
+            "SE":  "2025-MM-DD-branch-2190SEG-SE",
+            "SE2": "2025-MM-DD-branch-2190SEG-SE",  # same run, avoids crash
+        }
+        sector_opts = {
+            "SE":  "20SEG-T-H-B-I-A",
+            "SE2": "20SEG-T-H-B-I-A",
+        }
+        sel_scen = "SE"
+        scenario_colors = {
+            "SE":  "#39C1CD",
+            "SE2": "#39C1CD",
+        }
+        ```
+
+        The residual/comparison plots will show zero differences, which is
+        expected when comparing a scenario against itself.
 
 3. Execute it:
 
