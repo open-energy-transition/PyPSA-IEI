@@ -1322,14 +1322,14 @@ These files are produced by the <code>build_shapes</code> and <code>cluster_netw
 <p>Open <code>scripts_analysis/analysis_main.py</code> and update the scenario-specific settings so they match the files created by your run:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
 <a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>
-<a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a>    <span class="c1"># "scenario_2": "run_name_2",</span>
+<a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-CE"</span><span class="p">,</span>
 <a href="#__codelineno-26-4" id="__codelineno-26-4" name="__codelineno-26-4"></a>    <span class="c1"># "scenario_3": "run_name_3",</span>
 <a href="#__codelineno-26-5" id="__codelineno-26-5" name="__codelineno-26-5"></a>    <span class="c1"># "scenario_4": "run_name_4",</span>
 <a href="#__codelineno-26-6" id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="p">}</span>
 <a href="#__codelineno-26-7" id="__codelineno-26-7" name="__codelineno-26-7"></a>
 <a href="#__codelineno-26-8" id="__codelineno-26-8" name="__codelineno-26-8"></a><span class="n">sector_opts</span> <span class="o">=</span> <span class="p">{</span>
 <a href="#__codelineno-26-9" id="__codelineno-26-9" name="__codelineno-26-9"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
-<a href="#__codelineno-26-10" id="__codelineno-26-10" name="__codelineno-26-10"></a>    <span class="c1"># "scenario_2": "2190SEG-T-H-B-I-A",</span>
+<a href="#__codelineno-26-10" id="__codelineno-26-10" name="__codelineno-26-10"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
 <a href="#__codelineno-26-11" id="__codelineno-26-11" name="__codelineno-26-11"></a>    <span class="c1"># "scenario_3": "2190SEG-T-H-B-I-A",</span>
 <a href="#__codelineno-26-12" id="__codelineno-26-12" name="__codelineno-26-12"></a>    <span class="c1"># "scenario_4": "2190SEG-T-H-B-I-A",</span>
 <a href="#__codelineno-26-13" id="__codelineno-26-13" name="__codelineno-26-13"></a><span class="p">}</span>
@@ -1338,6 +1338,21 @@ These files are produced by the <code>build_shapes</code> and <code>cluster_netw
 <a href="#__codelineno-26-16" id="__codelineno-26-16" name="__codelineno-26-16"></a>    <span class="n">scen</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"elec_s_62_lv99__</span><span class="si">{</span><span class="n">sector_opt</span><span class="si">}</span><span class="s2">"</span>
 <a href="#__codelineno-26-17" id="__codelineno-26-17" name="__codelineno-26-17"></a>    <span class="k">for</span> <span class="n">scen</span><span class="p">,</span> <span class="n">sector_opt</span> <span class="ow">in</span> <span class="n">sector_opts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <a href="#__codelineno-26-18" id="__codelineno-26-18" name="__codelineno-26-18"></a><span class="p">}</span>
+<a href="#__codelineno-26-19" id="__codelineno-26-19" name="__codelineno-26-19"></a>
+<a href="#__codelineno-26-20" id="__codelineno-26-20" name="__codelineno-26-20"></a><span class="c1"># Reference scenario — used as the baseline in all comparison/residual plots.</span>
+<a href="#__codelineno-26-21" id="__codelineno-26-21" name="__codelineno-26-21"></a><span class="c1"># Must be one of the keys defined in `runs`.</span>
+<a href="#__codelineno-26-22" id="__codelineno-26-22" name="__codelineno-26-22"></a><span class="n">sel_scen</span> <span class="o">=</span> <span class="s2">"SE"</span>
+<a href="#__codelineno-26-23" id="__codelineno-26-23" name="__codelineno-26-23"></a>
+<a href="#__codelineno-26-24" id="__codelineno-26-24" name="__codelineno-26-24"></a><span class="c1"># No need to edit — overridden automatically by the script during execution.</span>
+<a href="#__codelineno-26-25" id="__codelineno-26-25" name="__codelineno-26-25"></a><span class="n">scenarios_for_comp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"SE"</span><span class="p">,</span> <span class="s2">"CE"</span><span class="p">]</span>
+<a href="#__codelineno-26-26" id="__codelineno-26-26" name="__codelineno-26-26"></a>
+<a href="#__codelineno-26-27" id="__codelineno-26-27" name="__codelineno-26-27"></a><span class="c1"># Every key in `runs` must have an entry here or the script will crash.</span>
+<a href="#__codelineno-26-28" id="__codelineno-26-28" name="__codelineno-26-28"></a><span class="n">scenario_colors</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-26-29" id="__codelineno-26-29" name="__codelineno-26-29"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"#F58220"</span><span class="p">,</span>
+<a href="#__codelineno-26-30" id="__codelineno-26-30" name="__codelineno-26-30"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-26-31" id="__codelineno-26-31" name="__codelineno-26-31"></a>    <span class="c1"># "scenario_3": "#179C7D",</span>
+<a href="#__codelineno-26-32" id="__codelineno-26-32" name="__codelineno-26-32"></a>    <span class="c1"># "scenario_4": "#854006",</span>
+<a href="#__codelineno-26-33" id="__codelineno-26-33" name="__codelineno-26-33"></a><span class="p">}</span>
 </code></pre></div>
 <p>The run name must match the <code>run.name</code> value in the corresponding scenario
 config file and the folder name under <code>results/</code>.</p>
@@ -1351,21 +1366,46 @@ sector-coupling suffixes. For example:</p>
 <p><code>analysis_main.py</code> converts these entries into the full postnetwork prefix
 automatically, so users only need to edit <code>runs</code> and <code>sector_opts</code>.</p>
 <p>Unused scenarios can be commented out.</p>
+<div class="admonition warning">
+<p class="admonition-title">At least two entries required in <code>runs</code></p>
+<p>The cost analysis script generates comparison plots (residual capital
+costs, residual operational costs) that require a reference scenario
+and at least one other scenario to compare against. <strong>Running with
+only one entry in <code>runs</code> will cause a crash.</strong></p>
+<p>If you have only one run, duplicate it under a second key as a
+workaround:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>
+<a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>  <span class="c1"># same run, avoids crash</span>
+<a href="#__codelineno-27-4" id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="p">}</span>
+<a href="#__codelineno-27-5" id="__codelineno-27-5" name="__codelineno-27-5"></a><span class="n">sector_opts</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-6" id="__codelineno-27-6" name="__codelineno-27-6"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-27-7" id="__codelineno-27-7" name="__codelineno-27-7"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-27-8" id="__codelineno-27-8" name="__codelineno-27-8"></a><span class="p">}</span>
+<a href="#__codelineno-27-9" id="__codelineno-27-9" name="__codelineno-27-9"></a><span class="n">sel_scen</span> <span class="o">=</span> <span class="s2">"SE"</span>
+<a href="#__codelineno-27-10" id="__codelineno-27-10" name="__codelineno-27-10"></a><span class="n">scenario_colors</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-11" id="__codelineno-27-11" name="__codelineno-27-11"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-27-12" id="__codelineno-27-12" name="__codelineno-27-12"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-27-13" id="__codelineno-27-13" name="__codelineno-27-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>The residual/comparison plots will show zero differences, which is
+expected when comparing a scenario against itself.</p>
+</div>
 </li>
 <li>
 <p>Execute it:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
 </code></pre></div>
 <p>This will run all evaluations automatically.</p>
 <hr/>
 <h2 id="documentation-environment-optional">Documentation Environment (Optional)</h2>
 <p>To build or preview this documentation locally, create the lightweight docs
 environment:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
-<a href="#__codelineno-28-2" id="__codelineno-28-2" name="__codelineno-28-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
-<a href="#__codelineno-28-3" id="__codelineno-28-3" name="__codelineno-28-3"></a>mkdocs<span class="w"> </span>serve
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-29-1" id="__codelineno-29-1" name="__codelineno-29-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
+<a href="#__codelineno-29-2" id="__codelineno-29-2" name="__codelineno-29-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
+<a href="#__codelineno-29-3" id="__codelineno-29-3" name="__codelineno-29-3"></a>mkdocs<span class="w"> </span>serve
 </code></pre></div>
 <p>Then open <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> in your browser.</p>
 </article>
