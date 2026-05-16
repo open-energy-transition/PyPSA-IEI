@@ -38,8 +38,6 @@ freely extendable (no longer bound by the CSV expansion factors).
 | SE | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 | SN | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 
-**Base year capacities:** The reference capacities that factors are applied to are derived from the
-
 !!! info "PyPSA capacity parameters"
     PyPSA uses different capacity attributes depending on component type:
 

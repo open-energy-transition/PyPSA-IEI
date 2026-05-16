@@ -88,10 +88,10 @@ or for anyone who wants to verify the full pipeline works end-to-end before
 committing to a full run. The goal is to test the workflow, not to reproduce
 study results. Indicative requirements per scenario:
 
-| Configuration | RAM | Time |
-|---------------|-----|------|
-| `20SEG-T-H-B-I-A` (recommended reduced-resolution test) | >32 GB | ~9 hours |
-| `20SEG` (electricity-only fallback, limited downstream compatibility in post-analysis) | > 16 GB | ~3.5 hours |
+| Configuration | RAM | Cores | Time |
+|---------------|-----|-------|------|
+| `20SEG-T-H-B-I-A` (recommended reduced-resolution test) | >16 GB | 4 | ~1.5-2 hours |
+| `20SEG` (electricity-only fallback, limited downstream compatibility in post-analysis) | >16 GB | 4 | ~1.5-2 hours |
 
 !!! tip "No local solver?"
     If you do not have a Gurobi licence or prefer to offload solving,
