@@ -44,7 +44,7 @@ transmission is handled separately via [National Grid Plans](national_grid_plans
 
 Columns: `name`, `bus0`, `bus1`, `p_nom`, `2020`, `2025`, …, `2050`
 
-Each year column contains a fraction of `p_nom` or `opt`:
+Each year column contains a fraction of `p_nom` or the special keyword `opt` (= set a soft minimum and leave the link extendable without an upper bound):
 
 | Value | Effect |
 |---|---|
