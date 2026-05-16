@@ -24,6 +24,12 @@ The feature is **disabled by default** and can be enabled in the config file.
 
 ## Implementation
 
+!!! info "PyPSA per-unit dispatch parameters"
+    - **`p_max_pu`** — upper bound on dispatch in each time step, as a fraction of `p_nom` (e.g. `0.8` = the generator can produce at most 80% of its capacity in that hour). For renewables this is the availability profile.
+    - **`p_min_pu`** — lower bound on dispatch, also as a fraction of `p_nom`. Setting `p_min_pu = p_max_pu` forces the generator to run at exactly its available capacity (no curtailment allowed unless a curtailment generator absorbs the excess).
+
+    These are **time-varying dispatch bounds**, distinct from `p_nom_min`/`p_nom_max` which are bounds on the *installed* capacity chosen by the optimizer.
+
 When enabled, curtailment is modeled explicitly rather than implicitly:
 
 1. All renewable generators have their `p_min_pu` set equal to `p_max_pu`

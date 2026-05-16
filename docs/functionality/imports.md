@@ -105,7 +105,16 @@ n.madd(
 
 ## Input CSV Format
 
-`data/import_nodes_tech_manipulated_s_62_<year>.csv`:
+`data/import_nodes_tech_manipulated_s_62_<year>.csv` — one row per import node and technology:
+
+```csv
+,bus,Hydrogen Derivate,p_nom,note,tech,shipping_idx,marginal_cost,capital_cost
+0,IT1 2,0,36721.2,Pipeline Italien: p_nom=existing gas_pipeline*0.6,pipeline-H2,,97,2688.0
+1,BE1 0,,18782.8,,pipeline-syngas,,163,0.0
+15,BE1 0,,20780.2,,shipping-syngas,,163,0.0
+47,EU,,inf,,synfuel,,161,0.0
+48,BE1 0,Ammonia,23000.0,Zeebrugge New Molecules development,shipping-H2,new,99,8421.6
+```
 
 | Column | Description |
 |---|---|
