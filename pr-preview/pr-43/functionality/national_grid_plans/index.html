@@ -1038,6 +1038,17 @@ freely extendable (no longer bound by the CSV expansion factors).</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Base year capacities:</strong> The reference capacities that factors are applied to are derived from the</p>
+<div class="admonition info">
+<p class="admonition-title">PyPSA capacity parameters</p>
+<p>PyPSA uses different capacity attributes depending on component type:</p>
+<ul>
+<li><strong><code>p_nom</code></strong> — nominal power capacity of a <strong>Link</strong> (DC line, converter, etc.) in MW. <code>p_nom_opt</code> is the value chosen by the optimizer; <code>p_nom_min</code> / <code>p_nom_max</code> are the bounds.</li>
+<li><strong><code>s_nom</code></strong> — nominal apparent power capacity of a <strong>Line</strong> (AC transmission) in MVA. <code>s_nom_opt</code> is the optimized value; <code>s_nom_min</code> / <code>s_nom_max</code> are the bounds.</li>
+<li><strong><code>s_max_pu</code></strong> — per-unit loading limit on a Line (typically 0.7), so effective capacity = <code>s_nom × s_max_pu</code>.</li>
+<li><strong><code>p_nom_extendable</code></strong> / <strong><code>s_nom_extendable</code></strong> — if <code>True</code>, the optimizer decides the capacity.</li>
+</ul>
+</div>
 <p><strong>Base year capacities:</strong> The reference capacities that factors are applied to are derived from the
 optimized network of the <strong>first planning horizon</strong> (e.g. 2020). They are computed by
 <code>extract_base_year_capacities()</code> in <code>scripts/add_brownfield.py</code> when preparing the second planning
