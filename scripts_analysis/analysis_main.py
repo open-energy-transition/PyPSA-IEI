@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import warnings
 from datetime import datetime
@@ -5,13 +6,16 @@ from pathlib import Path
 
 warnings.filterwarnings("ignore")
 
+import configurable_energy_balances as ceb
 import geopandas as gpd
 import pypsa
 from analyze_total_system_cost import analyze_system_cost
 from common import import_network, log
 from compare_grids import plot_grid_comparisons
-from configurable_energy_balances import compute_energy_balance_cache, get_standard_balances
-import configurable_energy_balances as ceb
+from configurable_energy_balances import (
+    compute_energy_balance_cache,
+    get_standard_balances,
+)
 from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
@@ -126,7 +130,7 @@ th_countries = [
 def load_all_network_files(
     runs,
     main_dir,
-    sector,
+    postnetwork_prefixes,
     years,
     scenarios,
     off_region_seq=False,
@@ -139,15 +143,15 @@ def load_all_network_files(
         for scen in scenarios:
             log(f"  Loading network: {year} / {scen}")
             run_name = runs[scen]
-            sector_opts = sector[scen]
+            postnetwork_prefix = postnetwork_prefixes[scen]
             path_to_networks = Path(f"{main_dir}/results/{run_name}/postnetworks")
             if off_region_seq is False:
                 n = pypsa.Network(
-                    path_to_networks / f"{sector_opts}_{year}.nc"
+                    path_to_networks / f"{postnetwork_prefix}_{year}.nc"
                 )  # load the network
             if off_region_seq is True:
                 n = import_network(
-                    path_to_networks / f"{sector_opts}_{year}.nc",
+                    path_to_networks / f"{postnetwork_prefix}_{year}.nc",
                     revert_dac=True,
                     offshore_sequestration=True,
                     offshore_regions=off_regions,
@@ -169,16 +173,17 @@ if __name__ == "__main__":
         "scenario_3": "run_name_3",
         "scenario_4": "run_name_4",
     }
-    resolution = {
-        "scenario_1": "2190SEG",
-        "scenario_2": "2190SEG",
-        "scenario_3": "2190SEG",
-        "scenario_4": "2190SEG",
-    }  # either 'XXXh' for equal time steps or 'XXXSEG' for time segmentation
+    sector_opts = {
+        "scenario_1": "2190SEG-T-H-B-I-A",
+        "scenario_2": "2190SEG-T-H-B-I-A",
+        "scenario_3": "2190SEG-T-H-B-I-A",
+        "scenario_4": "2190SEG-T-H-B-I-A",
+    }  # e.g. '2190SEG-T-H-B-I-A', '20SEG-T-H-B-A', or '20SEG'
 
-    sector_opts = dict()
-    for scen, res in resolution.items():
-        sector_opts[scen] = f"elec_s_62_lv99__{res}-T-H-B-I-A"
+    postnetwork_prefixes = {
+        scen: f"elec_s_62_lv99__{sector_opt}"
+        for scen, sector_opt in sector_opts.items()
+    }
 
     # choose scenario for focus analysis
     sel_scen = "scenario_1"
@@ -214,7 +219,7 @@ if __name__ == "__main__":
     networks = load_all_network_files(
         runs,
         main_dir,
-        sector_opts,
+        postnetwork_prefixes,
         years,
         scenarios,
     )
@@ -222,7 +227,7 @@ if __name__ == "__main__":
     networks_all = load_all_network_files(
         runs,
         main_dir,
-        sector_opts,
+        postnetwork_prefixes,
         add_years,
         scenarios,
     )
@@ -345,7 +350,7 @@ if __name__ == "__main__":
         scenarios,
         years,
         main_dir,
-        sector_opts,
+        postnetwork_prefixes,
         runs,
         country_to_plot_networks,
     )
@@ -503,7 +508,7 @@ if __name__ == "__main__":
     networks_off = load_all_network_files(
         runs,
         main_dir,
-        sector_opts,
+        postnetwork_prefixes,
         years,
         scenarios,
         True,

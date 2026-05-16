@@ -744,54 +744,54 @@ costs:
     co2_monthly_prices: false
   investment:
     2020:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 1260.0  # https://iea.blob.core.windows.net/assets/ecdfc3bb-d212-4a4c-9ff7-6ce5b1e19cef/GlobalHydrogenReview2023.pdf
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 1260.0  # EUR/kW_e, https://iea.blob.core.windows.net/assets/ecdfc3bb-d212-4a4c-9ff7-6ce5b1e19cef/GlobalHydrogenReview2023.pdf
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2025:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 900.0 # https://iea.blob.core.windows.net/assets/ecdfc3bb-d212-4a4c-9ff7-6ce5b1e19cef/GlobalHydrogenReview2023.pdf
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 900.0 # EUR/kW_e, https://iea.blob.core.windows.net/assets/ecdfc3bb-d212-4a4c-9ff7-6ce5b1e19cef/GlobalHydrogenReview2023.pdf
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2030:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 705 # TransHyDE assumptions
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 705 # EUR/kW_e, TransHyDE assumptions
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2035:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 590 # TransHyDE assumptions
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 590 # EUR/kW_e, TransHyDE assumptions
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2040:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 490 # TransHyDE assumptions
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 490 # EUR/kW_e, TransHyDE assumptions
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2045:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 435 # TransHyDE assumptions
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 435 # EUR/kW_e, TransHyDE assumptions
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
     2050:
-      HVDC overhead: 2000.0
-      HVDC submarine: 2000.0
-      HVAC overhead: 500.0
-      electrolysis: 410 # TransHyDE assumptions
-      CO2 pipeline: 13000.0 # https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
-      CO2 submarine pipeline: 33000.0 #https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
+      HVDC overhead: 2000.0 # EUR/MW/km
+      HVDC submarine: 2000.0 # EUR/MW/km
+      HVAC overhead: 500.0 # EUR/MW/km
+      electrolysis: 410 # EUR/kW_e, TransHyDE assumptions
+      CO2 pipeline: 13000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx, 10'' pipeline
+      CO2 submarine pipeline: 33000.0 # EUR/(tCO2/h)/km, https://ens.dk/sites/ens.dk/files/Analyser/technology_data_for_carbon_capture_transport_storage.xlsx
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#clustering
 clustering:
   focus_weights: false
