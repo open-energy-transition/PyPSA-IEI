@@ -1032,7 +1032,14 @@ on the <code>co2 atmosphere</code> bus:</p>
 <code>efficiency2=-costs.at["oil", "CO2 intensity"]</code>.</p>
 <hr/>
 <h2 id="input-csv-format">Input CSV Format</h2>
-<p><code>data/import_nodes_tech_manipulated_s_62_&lt;year&gt;.csv</code>:</p>
+<p><code>data/import_nodes_tech_manipulated_s_62_&lt;year&gt;.csv</code> — one row per import node and technology:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>,bus,Hydrogen Derivate,p_nom,note,tech,shipping_idx,marginal_cost,capital_cost
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>0,IT1 2,0,36721.2,Pipeline Italien: p_nom=existing gas_pipeline*0.6,pipeline-H2,,97,2688.0
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>1,BE1 0,,18782.8,,pipeline-syngas,,163,0.0
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>15,BE1 0,,20780.2,,shipping-syngas,,163,0.0
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>47,EU,,inf,,synfuel,,161,0.0
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>48,BE1 0,Ammonia,23000.0,Zeebrugge New Molecules development,shipping-H2,new,99,8421.6
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1079,9 +1086,9 @@ on the <code>co2 atmosphere</code> bus:</p>
 <h2 id="how-to-modify-imports">How to Modify Imports</h2>
 <h3 id="import-capacities-and-costs">Import Capacities and Costs</h3>
 <p>To change import capacities or costs, edit the relevant year file:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>data/import_nodes_tech_manipulated_s_62_2030.csv
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>data/import_nodes_tech_manipulated_s_62_2035.csv
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>...
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>data/import_nodes_tech_manipulated_s_62_2030.csv
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>data/import_nodes_tech_manipulated_s_62_2035.csv
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>...
 </code></pre></div>
 <h3 id="import-nodes">Import nodes</h3>
 <p>To add a new import node, add a row with the correct bus name, technology,
