@@ -33,7 +33,7 @@ policy_plans:
 
 industry:
   transhyde_data: true
-  transhyde_scenario: 1.5custom # 1.5 or 2
+  transhyde_scenario: 2 # default is 1.5
   transhyde_processes: high_temp_only
 
 solving:
