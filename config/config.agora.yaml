@@ -418,18 +418,7 @@ existing_capacities:
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#sector
 sector:
-  district_heating:
-    potential: 0.6
-    progress:
-      2020: 0.0
-      2025: 0.15
-      2030: 0.3
-      2035: 0.45
-      2040: 0.6
-      2045: 0.8
-      2050: 1.0
-    district_heating_loss: 0.15
-  cluster_heat_buses: false
+  # --- Electric Vehicles & Land Transport ---
   bev_dsm_restriction_value: 0.75
   bev_dsm_restriction_time: 7
   transport_heating_deadband_upper: 20.
@@ -473,10 +462,14 @@ sector:
     2050: 0
   transport_fuel_cell_efficiency: 0.5
   transport_internal_combustion_efficiency: 0.3
+
+  # --- Agriculture ---
   agriculture_machinery_electric_share: 0
   agriculture_machinery_oil_share: 1
   agriculture_machinery_fuel_efficiency: 0.7
   agriculture_machinery_electric_efficiency: 0.3
+
+  # --- Shipping & Aviation ---
   MWh_MeOH_per_MWh_H2: 0.8787
   MWh_MeOH_per_tCO2: 4.0321
   MWh_MeOH_per_MWh_e: 3.6907
@@ -509,6 +502,20 @@ sector:
   shipping_oil_efficiency: 0.40
   aviation_demand_factor: 1.
   HVC_demand_factor: 1.
+
+  # --- Space Heating & Heat Supply ---
+  district_heating:
+    potential: 0.6
+    progress:
+      2020: 0.0
+      2025: 0.15
+      2030: 0.3
+      2035: 0.45
+      2040: 0.6
+      2045: 0.8
+      2050: 1.0
+    district_heating_loss: 0.15
+  cluster_heat_buses: false
   time_dep_hp_cop: true
   heat_pump_sink_T: 55.
   reduce_space_heat_exogenously: true
@@ -541,6 +548,8 @@ sector:
   solar_thermal: true
   solar_cf_correction: 0.788457  # =  >>> 1/1.2683
   marginal_cost_storage: 0. #1e-4
+
+  # --- Power-to-X & Conversion ---
   methanation: true
   coal_cc: true
   dac: true
@@ -556,6 +565,8 @@ sector:
   methanol_import_share: 50
   regional_oil_demand: true
   regional_coal_demand: false
+
+  # --- CO2 Capture & Storage ---
   regional_co2_sequestration_potential:
     enable: true
     attribute: 'conservative estimate Mt'
@@ -570,14 +581,13 @@ sector:
   co2network: true
   co2_network_cost_factor: 1
   cc_fraction: 0.9
-  hydrogen_underground_storage: true
-  hydrogen_underground_storage_locations:
-  - onshore  # more than 50 km from sea
-  - nearshore    # within 50 km of sea
-  - offshore
+
+  # --- Ammonia ---
   ammonia: false
   ammonia_import: false
   ammonia_import_share: 50
+
+  # --- Process Efficiency & Waste Heat ---
   min_part_load_fischer_tropsch: 0.7
   min_part_load_methanolisation: 0.3
   min_part_load_methanation: 0.3
@@ -587,6 +597,8 @@ sector:
   use_methanation_waste_heat: true
   use_fuel_cell_waste_heat: true
   use_electrolysis_waste_heat: true
+
+  # --- Electricity Grid ---
   electricity_distribution_grid: true
   electricity_distribution_grid_cost_factor: 1.0
   electricity_grid_connection: true
@@ -602,6 +614,8 @@ sector:
       compression_per_1000km: 0.01
     electricity distribution grid:
       efficiency_static: 1 #0.97
+
+  # --- Gas & Hydrogen Networks ---
   H2_network: true
   gas_network: true
   import_from_russia: false
@@ -611,6 +625,13 @@ sector:
   gas_network_connectivity_upgrade: 1
   gas_distribution_grid: true
   gas_distribution_grid_cost_factor: 1.0
+  hydrogen_underground_storage: true
+  hydrogen_underground_storage_locations:
+  - onshore  # more than 50 km from sea
+  - nearshore    # within 50 km of sea
+  - offshore
+
+  # --- Biomass & Biofuels ---
   biomass_spatial: true
   biomass_transport: true
   biogas_upgrading_cc: true
@@ -618,6 +639,8 @@ sector:
     OCGT: gas
   biomass_to_liquid: true
   biosng: true
+
+  # --- Renewable Growth Limits ---
   limit_max_growth:
     enable: false
     # allowing 30% larger than max historic growth
