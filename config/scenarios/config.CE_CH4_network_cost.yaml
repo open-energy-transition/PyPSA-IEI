@@ -22,19 +22,19 @@ scenario:
 costs:
   investment:
     2020:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 85 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2025:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 90 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2030:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 95 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2035:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 100 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2040:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 105 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2045:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 120 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
     2050:
-      CH4 (g) pipeline: 87.22 # EUR/MW/km
+      CH4 (g) pipeline: 150 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
 
 policy_plans:
   include_tyndp_elec:
