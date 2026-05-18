@@ -23,7 +23,7 @@ sector:
   regional_co2_sequestration_potential:
     enable: true
     attribute: 'conservative estimate Mt'
-    include_onshore: false #true
+    include_onshore: false # default is true
     min_size: 3
     max_size: 25
     years_of_storage: 25
