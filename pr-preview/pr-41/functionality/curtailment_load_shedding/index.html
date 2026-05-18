@@ -897,6 +897,14 @@ useful for analyzing renewable integration and grid flexibility constraints.</p>
 <strong>Script:</strong> <code>scripts/solve_network.py</code> — function <code>prepare_network()</code></p>
 <hr/>
 <h2 id="implementation">Implementation</h2>
+<div class="admonition info">
+<p class="admonition-title">PyPSA per-unit dispatch parameters</p>
+<ul>
+<li><strong><code>p_max_pu</code></strong> — upper bound on dispatch in each time step, as a fraction of <code>p_nom</code> (e.g. <code>0.8</code> = the generator can produce at most 80% of its capacity in that hour). For renewables this is the availability profile.</li>
+<li><strong><code>p_min_pu</code></strong> — lower bound on dispatch, also as a fraction of <code>p_nom</code>. Setting <code>p_min_pu = p_max_pu</code> forces the generator to run at exactly its available capacity (no curtailment allowed unless a curtailment generator absorbs the excess).</li>
+</ul>
+<p>These are <strong>time-varying dispatch bounds</strong>, distinct from <code>p_nom_min</code>/<code>p_nom_max</code> which are bounds on the <em>installed</em> capacity chosen by the optimizer.</p>
+</div>
 <p>When enabled, curtailment is modeled explicitly rather than implicitly:</p>
 <ol>
 <li>All renewable generators have their <code>p_min_pu</code> set equal to <code>p_max_pu</code>

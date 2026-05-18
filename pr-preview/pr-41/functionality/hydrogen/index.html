@@ -1101,6 +1101,14 @@ interpolation across three reference points:</p>
 <code>diameter_to_capacity</code> (from <code>build_gas_network.py</code>) to reduce the gas
 network capacity accordingly.</p>
 <h3 id="integration-into-the-network">Integration into the Network</h3>
+<div class="admonition info">
+<p class="admonition-title">PyPSA capacity parameters</p>
+<ul>
+<li><strong><code>p_nom</code></strong> — nominal (installed) capacity of a link in MW.</li>
+<li><strong><code>p_nom_extendable</code></strong> — if <code>True</code>, the optimizer decides the capacity; if <code>False</code>, it is fixed at <code>p_nom</code>.</li>
+<li><strong><code>p_nom_min</code></strong> / <strong><code>p_nom_max</code></strong> — lower and upper bounds on the capacity the optimizer can choose. <code>p_nom_max = p_nom</code> means no expansion beyond current size; <code>p_nom_min = 0</code> means the link can be fully decommissioned.</li>
+</ul>
+</div>
 <p>H₂ pipeline data is integrated into the network in the <code>modify_prenetwork</code>
 rule via <code>add_wasserstoff_kernnetz()</code>. Only pipelines with <code>build_year</code> within
 the current investment period are added. The function also:</p>

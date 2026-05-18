@@ -1063,19 +1063,22 @@ study results. Indicative requirements per scenario:</p>
 <tr>
 <th>Configuration</th>
 <th>RAM</th>
+<th>Cores</th>
 <th>Time</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>256SEG</code> (electricity-only, no sector coupling)</td>
+<td><code>20SEG-T-H-B-I-A</code> (recommended reduced-resolution test)</td>
 <td>&gt;16 GB</td>
-<td>~3.5 hours</td>
+<td>4</td>
+<td>~1.5-2 hours</td>
 </tr>
 <tr>
-<td><code>256SEG-T-H-B-I-A</code> (with sector coupling)</td>
-<td>&gt;32 GB</td>
-<td>~9 hours</td>
+<td><code>20SEG</code> (electricity-only fallback, limited downstream compatibility in post-analysis)</td>
+<td>&gt;16 GB</td>
+<td>4</td>
+<td>~1.5-2 hours</td>
 </tr>
 </tbody>
 </table>
@@ -1093,62 +1096,44 @@ industry sector components (e.g. Fischer-Tropsch links) to be present —
 running it without the <code>I</code> suffix will cause an error.</p>
 </div>
 <p><strong>Step 1 — Reduce the temporal resolution</strong></p>
-<p>Edit <code>sector_opts</code> in your scenario config to use fewer time segments:</p>
+<p>Edit <code>sector_opts</code> in your scenario config to use fewer time segments while keeping the sector suffixes enabled:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1"># config/scenarios/config.SE.yaml</span>
 <a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="nt">scenario</span><span class="p">:</span>
 <a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
-<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG — much faster, less memory</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20SEG-T-H-B-I-A</span><span class="w">   </span><span class="c1"># reduced from 2190SEG — much faster, less memory</span>
 </code></pre></div>
-<p>For the fastest possible run (electricity-only, no sector coupling), omit all
+<p>This is the recommended Track 1 setup. It keeps the workflow closer to the
+full study configuration and avoids downstream issues in summary generation and
+post-analysis scripts that can appear with electricity-only runs.</p>
+<p>If you only want the lightest possible smoke test, you can still omit the
 sector suffixes entirely:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="nt">scenario</span><span class="p">:</span>
-<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">  </span><span class="nt">sector_opts</span><span class="p">:</span>
-<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256SEG</span><span class="w">   </span><span class="c1"># electricity-only — pipeline test only</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">    </span><span class="nt">sector_opts</span><span class="p">:</span>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20SEG</span>
 </code></pre></div>
-<table>
-<thead>
-<tr>
-<th>Suffix</th>
-<th>Sector coupled</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>T</code></td>
-<td>Transport</td>
-</tr>
-<tr>
-<td><code>H</code></td>
-<td>Heat</td>
-</tr>
-<tr>
-<td><code>B</code></td>
-<td>Biomass</td>
-</tr>
-<tr>
-<td><code>I</code></td>
-<td>Industry</td>
-</tr>
-<tr>
-<td><code>A</code></td>
-<td>Agriculture</td>
-</tr>
-</tbody>
-</table>
+<p>However, this electricity-only variant should be treated as a minimal pipeline
+check only. Later postprocessing and analysis steps are more likely to <strong>fail with
+an electricity-only model</strong>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Reduced-segment and electricity-only results are <strong>not comparable</strong> to the
-study. Use this track only to verify the workflow runs without errors.</p>
+<div class="highlight"><pre><span></span><code>Reduced-segment results are **not comparable** to the study. Electricity-only
+runs are even more limited and are mainly useful for quick smoke tests.
+</code></pre></div>
 </div>
 <p><strong>Step 2 — Dry run (recommended)</strong></p>
 <p>Verify that Snakemake can resolve all rules and inputs before executing anything:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml<span class="w"> </span>--dry-run
 </code></pre></div>
-<p><strong>Step 3 — Run the solve step</strong></p>
-<p>Use <code>solve_sector_networks</code> as the target (avoids <code>make_summary</code>, which fails
-when sectors are omitted) and limit to a single core:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>solve_sector_networks<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
+<p><strong>Step 3 — Run the full workflow</strong></p>
+<p>Use the <code>all</code> target so the full pipeline runs and the summary outputs needed
+for later analysis are generated. Start with as many cores as your machine can
+handle:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
 </code></pre></div>
+<p>If you are on Windows, you can still start with the <code>all</code> target as shown
+above. If the workflow later becomes unstable when it reaches
+<code>solve_sector_networks</code>, see <a href="#troubleshooting">Troubleshooting</a> and resume the
+same target with <code>--cores 1</code>.</p>
 <p>Once the run completes, see <a href="#verifying-success">Verifying Success</a> to confirm the output files are in place.
 If you run into issues, see the <a href="#troubleshooting">Troubleshooting</a> section.</p>
 <hr/>
@@ -1172,8 +1157,10 @@ to the publication.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>On Windows, always use <code>--cores 1</code> — running with more than one core causes
-crashes during the solving step.</p>
+<p>On Windows, the workflow may become unstable once it reaches
+<code>solve_sector_networks</code>. Start with as many cores as you want, but if the
+solve stage fails, resume with <code>--cores 1</code> as described in
+<a href="#troubleshooting">Troubleshooting</a>.</p>
 </div>
 <hr/>
 <h3 id="verifying-success">Verifying Success</h3>
@@ -1191,8 +1178,8 @@ crashes during the solving step.</p>
 </thead>
 <tbody>
 <tr>
-<td>Track 1 — <code>256SEG</code></td>
-<td><code>elec_s_62_lv99__256SEG_2020.nc</code></td>
+<td>Track 1 — <code>20SEG-T-H-B-I-A</code></td>
+<td><code>elec_s_62_lv99__20SEG-T-H-B-I-A_2020.nc</code></td>
 </tr>
 <tr>
 <td>Track 2 — <code>2190SEG-T-H-B-I-A</code></td>
@@ -1284,9 +1271,24 @@ with less than 16 GB, reduce <code>nprocesses</code> in <code>config/config.agor
 <p>By default, <code>-call</code> (<code>--cores all</code>) uses every available CPU core, which
 can exhaust memory and trigger crashes on Linux. Limiting parallelism
 reduces peak memory and CPU pressure:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SN.yaml
+<p>If you run into memory pressure, out-of-memory errors, or system
+instability during the workflow, rerun the same command with fewer cores.
+A good first step is to reduce to <code>--cores 2</code>, and if needed to <code>--cores 1</code>.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
 </code></pre></div>
-<p>On Windows, always use <code>--cores 1</code> (see <a href="#track-2-full-study-run">Track 2</a>).</p>
+</details>
+<details class="warning">
+<summary>Windows crashes when <code>solve_sector_networks</code> starts</summary>
+<p>On Windows, you can still start the workflow with multiple cores to speed up
+preprocessing and postprocessing:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>-call<span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
+</code></pre></div>
+<p>If the workflow reaches <code>solve_sector_networks</code> and then crashes or becomes
+unstable, rerun the same target with one core:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a>~/PyPSA-IEI$<span class="w"> </span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>all<span class="w"> </span>--configfile<span class="w"> </span>config/scenarios/config.SE.yaml
+</code></pre></div>
+<p>Snakemake will reuse completed upstream jobs and continue from the remaining
+solve and postprocessing steps.</p>
 </details>
 <hr/>
 <h2 id="5-run-the-evaluations">5. Run the Evaluations</h2>
@@ -1320,32 +1322,93 @@ reduces peak memory and CPU pressure:</p>
 These files are produced by the <code>build_shapes</code> and <code>cluster_network</code> Snakemake rules and are available after the pipeline has run at least once.</p>
 </li>
 <li>
-<p>Open <code>scripts_analysis/analysis_main.py</code> and set the <code>runs</code> dictionary to map scenario labels to your run names:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
-<a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>    <span class="s2">"scenario_1"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SN"</span><span class="p">,</span>
-<a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a>    <span class="c1"># "scenario_2": "run_name_2",</span>
-<a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a>    <span class="c1"># "scenario_3": "run_name_3",</span>
-<a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a>    <span class="c1"># "scenario_4": "run_name_4",</span>
-<a href="#__codelineno-24-6" id="__codelineno-24-6" name="__codelineno-24-6"></a><span class="p">}</span>
+<p>Open <code>scripts_analysis/analysis_main.py</code> and update the scenario-specific settings so they match the files created by your run:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>
+<a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-CE"</span><span class="p">,</span>
+<a href="#__codelineno-26-4" id="__codelineno-26-4" name="__codelineno-26-4"></a>    <span class="c1"># "scenario_3": "run_name_3",</span>
+<a href="#__codelineno-26-5" id="__codelineno-26-5" name="__codelineno-26-5"></a>    <span class="c1"># "scenario_4": "run_name_4",</span>
+<a href="#__codelineno-26-6" id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="p">}</span>
+<a href="#__codelineno-26-7" id="__codelineno-26-7" name="__codelineno-26-7"></a>
+<a href="#__codelineno-26-8" id="__codelineno-26-8" name="__codelineno-26-8"></a><span class="n">sector_opts</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-26-9" id="__codelineno-26-9" name="__codelineno-26-9"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-26-10" id="__codelineno-26-10" name="__codelineno-26-10"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-26-11" id="__codelineno-26-11" name="__codelineno-26-11"></a>    <span class="c1"># "scenario_3": "2190SEG-T-H-B-I-A",</span>
+<a href="#__codelineno-26-12" id="__codelineno-26-12" name="__codelineno-26-12"></a>    <span class="c1"># "scenario_4": "2190SEG-T-H-B-I-A",</span>
+<a href="#__codelineno-26-13" id="__codelineno-26-13" name="__codelineno-26-13"></a><span class="p">}</span>
+<a href="#__codelineno-26-14" id="__codelineno-26-14" name="__codelineno-26-14"></a>
+<a href="#__codelineno-26-15" id="__codelineno-26-15" name="__codelineno-26-15"></a><span class="n">postnetwork_prefixes</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-26-16" id="__codelineno-26-16" name="__codelineno-26-16"></a>    <span class="n">scen</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"elec_s_62_lv99__</span><span class="si">{</span><span class="n">sector_opt</span><span class="si">}</span><span class="s2">"</span>
+<a href="#__codelineno-26-17" id="__codelineno-26-17" name="__codelineno-26-17"></a>    <span class="k">for</span> <span class="n">scen</span><span class="p">,</span> <span class="n">sector_opt</span> <span class="ow">in</span> <span class="n">sector_opts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<a href="#__codelineno-26-18" id="__codelineno-26-18" name="__codelineno-26-18"></a><span class="p">}</span>
+<a href="#__codelineno-26-19" id="__codelineno-26-19" name="__codelineno-26-19"></a>
+<a href="#__codelineno-26-20" id="__codelineno-26-20" name="__codelineno-26-20"></a><span class="c1"># Reference scenario — used as the baseline in all comparison/residual plots.</span>
+<a href="#__codelineno-26-21" id="__codelineno-26-21" name="__codelineno-26-21"></a><span class="c1"># Must be one of the keys defined in `runs`.</span>
+<a href="#__codelineno-26-22" id="__codelineno-26-22" name="__codelineno-26-22"></a><span class="n">sel_scen</span> <span class="o">=</span> <span class="s2">"SE"</span>
+<a href="#__codelineno-26-23" id="__codelineno-26-23" name="__codelineno-26-23"></a>
+<a href="#__codelineno-26-24" id="__codelineno-26-24" name="__codelineno-26-24"></a><span class="c1"># No need to edit — overridden automatically by the script during execution.</span>
+<a href="#__codelineno-26-25" id="__codelineno-26-25" name="__codelineno-26-25"></a><span class="n">scenarios_for_comp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"SE"</span><span class="p">,</span> <span class="s2">"CE"</span><span class="p">]</span>
+<a href="#__codelineno-26-26" id="__codelineno-26-26" name="__codelineno-26-26"></a>
+<a href="#__codelineno-26-27" id="__codelineno-26-27" name="__codelineno-26-27"></a><span class="c1"># Every key in `runs` must have an entry here or the script will crash.</span>
+<a href="#__codelineno-26-28" id="__codelineno-26-28" name="__codelineno-26-28"></a><span class="n">scenario_colors</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-26-29" id="__codelineno-26-29" name="__codelineno-26-29"></a>    <span class="s2">"SE"</span><span class="p">:</span> <span class="s2">"#F58220"</span><span class="p">,</span>
+<a href="#__codelineno-26-30" id="__codelineno-26-30" name="__codelineno-26-30"></a>    <span class="s2">"CE"</span><span class="p">:</span> <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-26-31" id="__codelineno-26-31" name="__codelineno-26-31"></a>    <span class="c1"># "scenario_3": "#179C7D",</span>
+<a href="#__codelineno-26-32" id="__codelineno-26-32" name="__codelineno-26-32"></a>    <span class="c1"># "scenario_4": "#854006",</span>
+<a href="#__codelineno-26-33" id="__codelineno-26-33" name="__codelineno-26-33"></a><span class="p">}</span>
 </code></pre></div>
 <p>The run name must match the <code>run.name</code> value in the corresponding scenario
-config file and the folder name under <code>results/</code>. Unused scenarios can be
-commented out.</p>
+config file and the folder name under <code>results/</code>.</p>
+<p>Each <code>sector_opts</code> entry must match the solved postnetwork filename
+suffix exactly, including the temporal resolution and any enabled
+sector-coupling suffixes. For example:</p>
+<ul>
+<li>full study run: <code>2190SEG-T-H-B-I-A</code></li>
+<li>reduced-resolution sector-coupled test: <code>20SEG-T-H-B-I-A</code></li>
+</ul>
+<p><code>analysis_main.py</code> converts these entries into the full postnetwork prefix
+automatically, so users only need to edit <code>runs</code> and <code>sector_opts</code>.</p>
+<p>Unused scenarios can be commented out.</p>
+<div class="admonition warning">
+<p class="admonition-title">At least two entries required in <code>runs</code></p>
+<p>The cost analysis script generates comparison plots (residual capital
+costs, residual operational costs) that require a reference scenario
+and at least one other scenario to compare against. <strong>Running with
+only one entry in <code>runs</code> will cause a crash.</strong></p>
+<p>If you have only one run, duplicate it under a second key as a
+workaround:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="n">runs</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>
+<a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"2025-MM-DD-branch-2190SEG-SE"</span><span class="p">,</span>  <span class="c1"># same run, avoids crash</span>
+<a href="#__codelineno-27-4" id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="p">}</span>
+<a href="#__codelineno-27-5" id="__codelineno-27-5" name="__codelineno-27-5"></a><span class="n">sector_opts</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-6" id="__codelineno-27-6" name="__codelineno-27-6"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-27-7" id="__codelineno-27-7" name="__codelineno-27-7"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"20SEG-T-H-B-I-A"</span><span class="p">,</span>
+<a href="#__codelineno-27-8" id="__codelineno-27-8" name="__codelineno-27-8"></a><span class="p">}</span>
+<a href="#__codelineno-27-9" id="__codelineno-27-9" name="__codelineno-27-9"></a><span class="n">sel_scen</span> <span class="o">=</span> <span class="s2">"SE"</span>
+<a href="#__codelineno-27-10" id="__codelineno-27-10" name="__codelineno-27-10"></a><span class="n">scenario_colors</span> <span class="o">=</span> <span class="p">{</span>
+<a href="#__codelineno-27-11" id="__codelineno-27-11" name="__codelineno-27-11"></a>    <span class="s2">"SE"</span><span class="p">:</span>  <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-27-12" id="__codelineno-27-12" name="__codelineno-27-12"></a>    <span class="s2">"SE2"</span><span class="p">:</span> <span class="s2">"#39C1CD"</span><span class="p">,</span>
+<a href="#__codelineno-27-13" id="__codelineno-27-13" name="__codelineno-27-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>The residual/comparison plots will show zero differences, which is
+expected when comparing a scenario against itself.</p>
+</div>
 </li>
 <li>
 <p>Execute it:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a>python<span class="w"> </span>scripts_analysis/analysis_main.py
 </code></pre></div>
 <p>This will run all evaluations automatically.</p>
 <hr/>
 <h2 id="documentation-environment-optional">Documentation Environment (Optional)</h2>
 <p>To build or preview this documentation locally, create the lightweight docs
 environment:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
-<a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
-<a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a>mkdocs<span class="w"> </span>serve
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-29-1" id="__codelineno-29-1" name="__codelineno-29-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/environment_docs.yaml
+<a href="#__codelineno-29-2" id="__codelineno-29-2" name="__codelineno-29-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>pypsa-iei-docs
+<a href="#__codelineno-29-3" id="__codelineno-29-3" name="__codelineno-29-3"></a>mkdocs<span class="w"> </span>serve
 </code></pre></div>
 <p>Then open <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> in your browser.</p>
 </article>
