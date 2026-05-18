@@ -116,8 +116,8 @@ Leave `min` or `max` blank (or empty rows) for no constraint in that direction.
 | `country` | ISO2 country code (e.g. `DE`, `FR`), cluster ID (e.g. `PL0 0`), or `EU` for EU-wide |
 | `carrier` | Carrier: `H2`, `AC`, or `synfuel` |
 | `year` | Planning year (integer) |
-| `min` | Minimum self-sufficiency fraction [0–1] — blank = no minimum |
-| `max` | Maximum self-sufficiency fraction [0–1 or >1 for net exporters] — blank = no maximum |
+| `min` | Minimum self-sufficiency as a fraction (e.g. `0.8` = 80%) — blank = no minimum |
+| `max` | Maximum self-sufficiency as a fraction (e.g. `1.1` = 110%, allowing 10% net exports) — blank = no maximum |
 
 **Default data** (excerpt from `data/self_sufficiency_limits.csv`):
 

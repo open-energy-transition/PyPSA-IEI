@@ -38,6 +38,14 @@ freely extendable (no longer bound by the CSV expansion factors).
 | SE | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 | SN | Yes | `2040` | Expansion capped by CSV factors; freely extendable from 2040 |
 
+!!! info "PyPSA capacity parameters"
+    PyPSA uses different capacity attributes depending on component type:
+
+    - **`p_nom`** — nominal power capacity of a **Link** (DC line, converter, etc.) in MW. `p_nom_opt` is the value chosen by the optimizer; `p_nom_min` / `p_nom_max` are the bounds.
+    - **`s_nom`** — nominal apparent power capacity of a **Line** (AC transmission) in MVA. `s_nom_opt` is the optimized value; `s_nom_min` / `s_nom_max` are the bounds.
+    - **`s_max_pu`** — per-unit loading limit on a Line (typically 0.7), so effective capacity = `s_nom × s_max_pu`.
+    - **`p_nom_extendable`** / **`s_nom_extendable`** — if `True`, the optimizer decides the capacity.
+
 **Base year capacities:** The reference capacities that factors are applied to are derived from the
 optimized network of the **first planning horizon** (e.g. 2020). They are computed by
 `extract_base_year_capacities()` in `scripts/add_brownfield.py` when preparing the second planning

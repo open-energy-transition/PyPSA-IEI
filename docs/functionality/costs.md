@@ -74,15 +74,15 @@ technology-data v0.9.0 baseline** for every planning year:
 | `central resistive heater` |
 | `decentral resistive heater` |
 
-Example for 2030 (EUR/kW unless otherwise noted):
+Example for 2030:
 
-| Technology | Baseline (tech-data) | CE Flexibility (+20%) |
-|---|---|---|
-| `central air-sourced heat pump` | 906.1 | 1087.3 |
-| `decentral air-sourced heat pump` | 899.5 | 1079.4 |
-| `central gas CHP` | 592.6 | 711.1 |
-| `micro CHP` | 7841.7 | 9410.1 |
-| `central water tank storage` | 0.576 EUR/kWh | 0.691 EUR/kWh |
+| Technology | Unit | Baseline (tech-data) | CE Flexibility (+20%) |
+|---|---|---|---|
+| `central air-sourced heat pump` | EUR/kW_th | 906.1 | 1087.3 |
+| `decentral air-sourced heat pump` | EUR/kW_th | 899.5 | 1079.4 |
+| `central gas CHP` | EUR/kW | 592.6 | 711.1 |
+| `micro CHP` | EUR/kW_th | 7841.7 | 9410.1 |
+| `central water tank storage` | EUR/kWh | 0.576 | 0.691 |
 
 ---
 
@@ -105,12 +105,12 @@ the technology — check the `unit` column in the costs CSV first.
 costs:
   investment:
     2020:
-      HVDC overhead: 2000.0        # EUR/MW — IEA 2023
-      HVDC submarine: 2000.0       # EUR/MW
-      HVAC overhead: 500.0         # EUR/MW
-      electrolysis: 1260.0         # EUR/kW — IEA Global Hydrogen Review 2023
-      CO2 pipeline: 13000.0        # EUR/MW — Danish Energy Agency
-      CO2 submarine pipeline: 33000.0  # EUR/MW — Danish Energy Agency
+      HVDC overhead: 2000.0        # EUR/MW/km — IEA 2023
+      HVDC submarine: 2000.0       # EUR/MW/km
+      HVAC overhead: 500.0         # EUR/MW/km
+      electrolysis: 1260.0         # EUR/kW_e — IEA Global Hydrogen Review 2023
+      CO2 pipeline: 13000.0        # EUR/(tCO2/h)/km — Danish Energy Agency
+      CO2 submarine pipeline: 33000.0  # EUR/(tCO2/h)/km — Danish Energy Agency
     2025:
       HVDC overhead: 2000.0
       ...

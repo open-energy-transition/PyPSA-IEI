@@ -52,7 +52,7 @@ same corridors.
 
 ## Russian Import Removal
 
-**Rule:** `build_gas_input_locations`  
+**Rule:** `build_gas_input_locations`
 **Script:** `scripts/build_gas_input_locations.py`
 
 The base config sets `import_from_russia: false` under `sector:`, so Russian
@@ -71,7 +71,33 @@ elif not snakemake.params.nordstream:
 ## TYNDP Gas Pipelines
 
 **Rule:** `build_tyndp_gas_pipes`  
-**Script:** `scripts/build_tyndp_gas_pipes.py`
+**Script:** `scripts/build_tyndp_gas_pipes.py`  
+**Input file:** `data/gas_network/TYNDP_Gas_Interconnectors.xlsx`
+
+### Input data format
+
+The Excel file contains the following columns (rows with any missing value in these columns are dropped):
+
+| Column | Type | Description |
+|---|---|---|
+| `Code` | string | Unique project identifier (e.g. `TRA-N-7`) |
+| `Project Name` | string | Human-readable project name; combined with `Code` into a `tag` field |
+| `Maturity Status` | string | One of `FID`, `Advanced`, `Less-Advanced` — used for scenario-dependent filtering |
+| `Diameter (mm)` | float | Pipe inner diameter; converted to capacity via the same piecewise-linear formula used for existing SciGRID_gas pipes |
+| `Length (km)` | float | Pipeline length in km |
+| `PCI 5th List` | string | `Yes` or `No` — whether the project is on the EU Projects of Common Interest (PCI) 5th list |
+| `Project Commissioning Year Last` | int | Latest commissioning year; determines which planning horizon the pipe is built in |
+| `Start` | string | Start location — either a 2-letter country code (e.g. `DE`) for countries with a single cluster, or DMS coordinates (e.g. `51°30'N 000°07'E`) for countries with multiple clusters |
+| `End` | string | End location — same format as `Start` |
+
+Additional columns present in the file (`Project Description`, `Capacities`, `Reference`) are read but dropped before output.
+
+!!! tip "Adding a new project"
+    Copy an existing row, assign a new `Code`, fill in all required columns, and set `Maturity Status` to the appropriate level. The script will automatically:
+
+    - convert `Diameter (mm)` to MW capacity
+    - resolve 2-letter country codes or DMS coordinates to model cluster names
+    - drop the project if both endpoints fall within the same cluster
 
 TYNDP gas pipeline project data is processed and mapped to model cluster
 regions using geographic coordinates:
@@ -133,6 +159,11 @@ graph TD
     style E fill:#C6E0B4,color:#1a1a1a
     style G fill:#FCE4D6,color:#1a1a1a
 ```
+
+!!! info "PyPSA capacity parameters"
+    - **`p_nom`** — the nominal (installed) capacity of a link in MW. For existing pipes this equals the current physical capacity read from the dataset.
+    - **`p_nom_extendable`** — if `True`, the optimizer may change the capacity; if `False`, the capacity is fixed at `p_nom` and no investment decision is made.
+    - **`p_nom_min`** / **`p_nom_max`** — bounds on the capacity the optimizer can choose. `p_nom_max = p_nom` means the pipe can never grow beyond its current size; `p_nom_min = 0` means it can shrink all the way to zero (i.e. be decommissioned).
 
 | Type | Carrier | Source | `p_nom_extendable` |
 |---|---|---|---|
@@ -211,5 +242,5 @@ sector:
 ```
 
 To add custom gas pipeline projects, extend the TYNDP Excel input file
-(`data/gas_network/TYNDP_Gas_Interconnectors.xlsx`) with the required columns
-(`Code`, `Diameter (mm)`, `Length (km)`, `Start`, `End`, `Maturity Status`, etc.).
+(`data/gas_network/TYNDP_Gas_Interconnectors.xlsx`) — see the
+[Input data format](#input-data-format) table above for the required columns.

@@ -7,7 +7,7 @@ extremely slow. To keep solve times tractable, the model aggregates snapshots
 into a smaller number of **representative segments** using the
 [tsam](https://github.com/FZJ-IEK3-VSA/tsam) library.
 The number of segments is controlled via the `sector_opts` wildcard (e.g.
-`2190SEG`, `256SEG`) and can be changed freely for each run without touching
+`2190SEG`, `20SEG`) and can be changed freely for each run without touching
 any script.
 
 Two simpler alternatives also exist:
@@ -48,7 +48,7 @@ agg = tsam.TimeSeriesAggregation(
     df,
     hoursPerPeriod=len(df),   # treat the whole year as one period
     noTypicalPeriods=1,
-    noSegments=segments,       # e.g. 2190 or 256
+    noSegments=segments,       # e.g. 2190 or 20
     segmentation=True,
     solver=snakemake.params.solver_name,
 )
@@ -96,8 +96,8 @@ scenario:
 | `sector_opts` value | Segments | Intended use |
 |---|---|---|
 | `2190SEG-T-H-B-I-A` | 2190 | Full study (publication results) |
-| `256SEG-T-H-B-I-A` | 256 | Pipeline test with sector coupling |
-| `256SEG` | 256 | Electricity-only pipeline test |
+| `20SEG-T-H-B-I-A` | 20 | Pipeline test with sector coupling |
+| `20SEG` | 20 | Electricity-only pipeline test |
 
 ### Via the static config (alternative)
 
@@ -125,10 +125,10 @@ Edit `sector_opts` in the relevant scenario config:
 ```yaml title="config/scenarios/config.SE.yaml"
 scenario:
   sector_opts:
-  - 128SEG-T-H-B-I-A   # fewer segments → faster, less accurate
+  - 20SEG-T-H-B-I-A   # fewer segments → faster, less accurate
 ```
 
 !!! warning
     Results produced with different segment counts are **not directly
     comparable**. The study uses `2190SEG` for all published results.
-    Use reduced counts (e.g. `256SEG`) only for pipeline testing.
+    Use reduced counts (e.g. `20SEG`) only for pipeline testing.

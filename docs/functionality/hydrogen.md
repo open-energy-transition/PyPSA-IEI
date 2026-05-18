@@ -100,6 +100,11 @@ network capacity accordingly.
 
 ### Integration into the Network
 
+!!! info "PyPSA capacity parameters"
+    - **`p_nom`** — nominal (installed) capacity of a link in MW.
+    - **`p_nom_extendable`** — if `True`, the optimizer decides the capacity; if `False`, it is fixed at `p_nom`.
+    - **`p_nom_min`** / **`p_nom_max`** — lower and upper bounds on the capacity the optimizer can choose. `p_nom_max = p_nom` means no expansion beyond current size; `p_nom_min = 0` means the link can be fully decommissioned.
+
 H₂ pipeline data is integrated into the network in the `modify_prenetwork`
 rule via `add_wasserstoff_kernnetz()`. Only pipelines with `build_year` within
 the current investment period are added. The function also:
@@ -129,7 +134,7 @@ res_h2_pipes_retrofitted = reduce_capacity(
 
 ## How to Modify the Hydrogen Network
 
-### The Wasserstoffkernnetz 
+### The Wasserstoffkernnetz
 The Wasserstoffkernnetz integration is controlled under `policy_plans` in the scenario config:
 
 ```yaml title="config/scenarios/config.SE.yaml"
