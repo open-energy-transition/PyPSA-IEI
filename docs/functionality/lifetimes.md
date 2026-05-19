@@ -127,7 +127,24 @@ reactors extended per the 2023 Engie agreement (Reuters):
 
 ## How to Modify
 
-### Limit a country-wide fuel type (phase-out)
+The active lifetime file is set in the config under `electricity`:
+
+```yaml title="config/config.agora.yaml"
+electricity:
+  new_powerplant_lifetimes: data/powerplant_lifetime.csv
+```
+
+You have two options depending on whether the change should apply to **all
+runs** or only to **specific scenarios**.
+
+---
+
+### Option 1: Edit the shared file (applies to all runs)
+
+Edit `data/powerplant_lifetime.csv` directly. All runs that reference this
+file will pick up the change.
+
+**Limit a country-wide fuel type (phase-out)**
 
 Set `Name` to `all` and `status` to `limit`. All plants of that fuel type
 in that country will retire no later than `DateOut`:
@@ -138,14 +155,14 @@ DE,Lignite,2030,all,limit,custom
 PL,Hard Coal,2040,all,limit,custom
 ```
 
-### Extend a country-wide fuel type (lifetime extension)
+**Extend a country-wide fuel type (lifetime extension)**
 
 ```csv
 Country,Fueltype,DateOut,Name,status,Reference
 CZ,Nuclear,2050,all,extend,custom
 ```
 
-### Override a specific plant
+**Override a specific plant**
 
 Use the exact plant name as it appears in the powerplantmatching database:
 
@@ -155,7 +172,30 @@ PL,Lignite,2036,Bełchatów,limit,custom
 CZ,Nuclear,2050,Dukovany,extend,custom
 ```
 
-### Disable lifetime corrections entirely
+---
 
-Leave the `new_ppl_lifetimes` input empty in the Snakemake config (the
-function returns the original dataframe unchanged if no path is provided).
+### Option 2: Create a scenario-specific file (applies to selected runs only)
+
+1. Copy the base file and give it a descriptive name:
+
+    ```
+    cp data/powerplant_lifetime.csv data/powerplant_lifetime_nuclear_extension.csv
+    ```
+
+2. Edit the copy with the scenario-specific adjustments.
+
+3. Point to it in the relevant scenario config under `config/scenarios/`:
+
+    ```yaml title="config/scenarios/config.MY_SCENARIO.yaml"
+    electricity:
+      new_powerplant_lifetimes: data/powerplant_lifetime_nuclear_extension.csv
+    ```
+
+    This overrides only `new_powerplant_lifetimes` for that scenario; all
+    other config values remain inherited from `config.agora.yaml`.
+
+!!! tip
+    This approach is recommended when you want to compare scenarios with
+    different phase-out assumptions — e.g. a baseline with the default file
+    and a sensitivity with a more aggressive coal exit date — without
+    touching the shared file.
