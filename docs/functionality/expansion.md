@@ -73,19 +73,15 @@ RO,co2 sequestered,2030,,10000000.0,t,NZIA communicated by EPG,store
 
 ## Config
 
-```yaml
+The active file is set via `policy_plans.agg_p_nom_limits`. The base config
+uses the European file; scenario configs override it:
+
+```yaml title="config/config.agora.yaml"
 policy_plans:
-  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv  # default base config
+  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv  # default
 ```
 
-Scenario configs override this key:
-
-```yaml
-# config.CE.yaml / config.SE.yaml
-policy_plans:
-  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
-
-# config.CN.yaml / config.SN.yaml
+```yaml title="config/scenarios/config.CN.yaml  |  config.SN.yaml"
 policy_plans:
   agg_p_nom_limits: data/agg_p_nom_minmax_national.csv
 ```
@@ -95,6 +91,38 @@ policy_plans:
     targets: ±20 % in the European file and ±15 % in the national file.
     The 2050 upper bounds (Atlite technical potentials) and all non-renewable
     entries are identical.
+
+You have two options for customising the limits.
+
+**Option 1: Edit a shared file (applies to all runs that use it)**
+
+Edit `data/agg_p_nom_minmax_european.csv` or `data/agg_p_nom_minmax_national.csv`
+directly. All scenarios that reference the file will pick up the change.
+
+**Option 2: Create a scenario-specific file (applies to selected runs only)**
+
+1. Copy the relevant base file and give it a descriptive name:
+
+    ```
+    cp data/agg_p_nom_minmax_european.csv data/agg_p_nom_minmax_custom.csv
+    ```
+
+2. Edit the copy with the scenario-specific capacity limits.
+
+3. Point to it in the relevant scenario config under `config/scenarios/`:
+
+    ```yaml title="config/scenarios/config.MY_SCENARIO.yaml"
+    policy_plans:
+      agg_p_nom_limits: data/agg_p_nom_minmax_custom.csv
+    ```
+
+    This overrides only `agg_p_nom_limits` for that scenario; all
+    other config values remain inherited from `config.agora.yaml`.
+
+!!! tip
+    This is useful when comparing scenarios with different renewable
+    expansion ambition levels — e.g. a moderate baseline and a high-ambition
+    sensitivity — without modifying the shared files.
 
 ---
 
