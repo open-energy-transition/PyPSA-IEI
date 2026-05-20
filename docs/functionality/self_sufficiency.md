@@ -140,20 +140,52 @@ In this default configuration:
 
 ## Config
 
-Base config location:
+The active file is set in the base config:
 
-```yaml
+```yaml title="config/config.agora.yaml"
 policy_plans:
   self_sufficiency_limits: data/self_sufficiency_limits.csv
 ```
 
-Enable in scenario config:
+Enable the constraint in a scenario config:
 
 ```yaml
 solving:
   constraints:
     self_sufficiency: true
 ```
+
+You have two options for customising the limits depending on scope.
+
+**Option 1: Edit the shared file (applies to all runs)**
+
+Edit `data/self_sufficiency_limits.csv` directly. All scenarios that load
+this file will pick up the change.
+
+**Option 2: Create a scenario-specific file (applies to selected runs only)**
+
+1. Copy the base file and give it a descriptive name:
+
+    ```
+    cp data/self_sufficiency_limits.csv data/self_sufficiency_limits_stricter_H2.csv
+    ```
+
+2. Edit the copy with the scenario-specific targets.
+
+3. Point to it in the relevant scenario config under `config/scenarios/`:
+
+    ```yaml title="config/scenarios/config.MY_SCENARIO.yaml"
+    policy_plans:
+      self_sufficiency_limits: data/self_sufficiency_limits_stricter_H2.csv
+    ```
+
+    This overrides only `self_sufficiency_limits` for that scenario; all
+    other config values remain inherited from `config.agora.yaml`.
+
+!!! tip
+    This approach is useful when comparing scenarios with different
+    self-sufficiency ambition levels — e.g. a relaxed baseline and a
+    strict national scenario — without touching the shared file.
 
 ---
 
