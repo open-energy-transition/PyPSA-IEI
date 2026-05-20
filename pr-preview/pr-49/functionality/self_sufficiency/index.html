@@ -1221,40 +1221,69 @@ are technically supported by the code but not configured in the default dataset.
 - EU-wide aggregates have the same targets as individual countries  </p>
 <hr/>
 <h2 id="config">Config</h2>
-<p>Base config location:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<p>The active file is set in the base config:</p>
+<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
 <a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">self_sufficiency_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/self_sufficiency_limits.csv</span>
 </code></pre></div>
-<p>Enable in scenario config:</p>
+<p>Enable the constraint in a scenario config:</p>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">solving</span><span class="p">:</span>
 <a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
 <a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="nt">self_sufficiency</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
+<p>You have two options for customising the limits depending on scope.</p>
+<p><strong>Option 1: Edit the shared file (applies to all runs)</strong></p>
+<p>Edit <code>data/self_sufficiency_limits.csv</code> directly. All scenarios that load
+this file will pick up the change.</p>
+<p><strong>Option 2: Create a scenario-specific file (applies to selected runs only)</strong></p>
+<ol>
+<li>
+<p>Copy the base file and give it a descriptive name:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>cp data/self_sufficiency_limits.csv data/self_sufficiency_limits_stricter_H2.csv
+</code></pre></div>
+</li>
+<li>
+<p>Edit the copy with the scenario-specific targets.</p>
+</li>
+<li>
+<p>Point to it in the relevant scenario config under <code>config/scenarios/</code>:</p>
+<div class="highlight"><span class="filename">config/scenarios/config.MY_SCENARIO.yaml</span><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">self_sufficiency_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/self_sufficiency_limits_stricter_H2.csv</span>
+</code></pre></div>
+<p>This overrides only <code>self_sufficiency_limits</code> for that scenario; all
+other config values remain inherited from <code>config.agora.yaml</code>.</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>This approach is useful when comparing scenarios with different
+self-sufficiency ambition levels — e.g. a relaxed baseline and a
+strict national scenario — without touching the shared file.</p>
+</div>
 <hr/>
 <h2 id="how-to-modify">How to Modify</h2>
 <h3 id="change-existing-targets">Change existing targets</h3>
 <p>The default CSV contains uniform targets for all countries. To adjust, modify the
 <code>min</code> or <code>max</code> values for specific countries and years:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>DE,H2,2030,0.8,1.1  # increase Germany's H₂ target from 0.7 to 0.8
-<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>FR,AC,2050,0.9,1.2  # relax France's electricity target and allow more exports
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>DE,H2,2030,0.8,1.1  # increase Germany's H₂ target from 0.7 to 0.8
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>FR,AC,2050,0.9,1.2  # relax France's electricity target and allow more exports
 </code></pre></div>
 <h3 id="add-self-sufficiency-target-for-a-new-country">Add self-sufficiency target for a new country</h3>
 <p>Add rows for a country not in the default data:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>CH,H2,2030,0.6,1.0
-<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>CH,AC,2030,0.85,1.1
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>CH,H2,2030,0.6,1.0
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>CH,AC,2030,0.85,1.1
 </code></pre></div>
 <h3 id="change-eu-wide-electricity-target">Change EU-wide electricity target</h3>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>EU,AC,2050,0.75,1.0
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>EU,AC,2050,0.75,1.0
 </code></pre></div>
 <p>EU must generate 75–100% of electricity demand in 2050 (no net imports, limited net exports).</p>
 <h3 id="relax-constraint-for-a-specific-year">Relax constraint for a specific year</h3>
 <p>Remove the corresponding row or leave both <code>min</code> and <code>max</code> blank:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>FR,H2,2035,,
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>FR,H2,2035,,
 </code></pre></div>
 <h3 id="apply-cluster-level-constraints">Apply cluster-level constraints</h3>
 <p>For finer-grained regional policy (not in default config):</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>PL0 0,AC,2030,0.9,
-<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>PL1 0,AC,2030,0.5,
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>PL0 0,AC,2030,0.9,
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>PL1 0,AC,2030,0.5,
 </code></pre></div>
 <p>Note: Cluster IDs must match the network clustering (e.g., <code>s_62</code> = 62 clusters)
 and follow the format <code>{country_code}{cluster_num} {sub_id}</code> with a space.</p>
