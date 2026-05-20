@@ -108,3 +108,38 @@ industry:
   transhyde_processes: high_temp_only  # default; or: with_steam
   transhyde_scenario: 1.5              # default (Mid Demand); or: 2 (High Demand)
 ```
+
+### Using a custom demand file
+
+`transhyde_scenario` is used directly to build the input file paths:
+
+```
+data/transhyde/TH_S{transhyde_scenario}_demand.csv
+data/transhyde/TH_S{transhyde_scenario}_process_emissions.csv
+```
+
+You can create a custom variant of either file and point to it by choosing
+any string as the scenario name. Both files must exist under the same name.
+
+1. Copy both base files and give them a shared custom suffix:
+
+    ```
+    cp data/transhyde/TH_S1.5_demand.csv             data/transhyde/TH_Scustom_demand.csv
+    cp data/transhyde/TH_S1.5_process_emissions.csv  data/transhyde/TH_Scustom_process_emissions.csv
+    ```
+
+2. Edit the demand or emissions file with the scenario-specific values.
+
+3. Point to it in the relevant scenario config under `config/scenarios/`:
+
+    ```yaml title="config/scenarios/config.MY_SCENARIO.yaml"
+    industry:
+      transhyde_scenario: custom
+    ```
+
+    Snakemake will then read `TH_Scustom_demand.csv` and
+    `TH_Scustom_process_emissions.csv` for that scenario only.
+
+!!! tip
+    If you only need to modify demand (not process emissions), still copy
+    the emissions file unchanged — both must be present for the rule to run.
