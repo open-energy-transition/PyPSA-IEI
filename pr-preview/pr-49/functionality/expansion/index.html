@@ -1079,17 +1079,13 @@ combination. Empty <code>min</code> or <code>max</code> cells mean no constraint
 </code></pre></div>
 <hr/>
 <h2 id="config">Config</h2>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
-<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_european.csv</span><span class="w">  </span><span class="c1"># default base config</span>
+<p>The active file is set via <code>policy_plans.agg_p_nom_limits</code>. The base config
+uses the European file; scenario configs override it:</p>
+<div class="highlight"><span class="filename">config/config.agora.yaml</span><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_european.csv</span><span class="w">  </span><span class="c1"># default</span>
 </code></pre></div>
-<p>Scenario configs override this key:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># config.CE.yaml / config.SE.yaml</span>
-<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="nt">policy_plans</span><span class="p">:</span>
-<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_european.csv</span>
-<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>
-<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="c1"># config.CN.yaml / config.SN.yaml</span>
-<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="nt">policy_plans</span><span class="p">:</span>
-<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_national.csv</span>
+<div class="highlight"><span class="filename">config/scenarios/config.CN.yaml  |  config.SN.yaml</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_national.csv</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1098,12 +1094,41 @@ targets: ±20 % in the European file and ±15 % in the national file.
 The 2050 upper bounds (Atlite technical potentials) and all non-renewable
 entries are identical.</p>
 </div>
+<p>You have two options for customising the limits.</p>
+<p><strong>Option 1: Edit a shared file (applies to all runs that use it)</strong></p>
+<p>Edit <code>data/agg_p_nom_minmax_european.csv</code> or <code>data/agg_p_nom_minmax_national.csv</code>
+directly. All scenarios that reference the file will pick up the change.</p>
+<p><strong>Option 2: Create a scenario-specific file (applies to selected runs only)</strong></p>
+<ol>
+<li>
+<p>Copy the relevant base file and give it a descriptive name:</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>cp data/agg_p_nom_minmax_european.csv data/agg_p_nom_minmax_custom.csv
+</code></pre></div>
+</li>
+<li>
+<p>Edit the copy with the scenario-specific capacity limits.</p>
+</li>
+<li>
+<p>Point to it in the relevant scenario config under <code>config/scenarios/</code>:</p>
+<div class="highlight"><span class="filename">config/scenarios/config.MY_SCENARIO.yaml</span><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">policy_plans</span><span class="p">:</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">  </span><span class="nt">agg_p_nom_limits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data/agg_p_nom_minmax_custom.csv</span>
+</code></pre></div>
+<p>This overrides only <code>agg_p_nom_limits</code> for that scenario; all
+other config values remain inherited from <code>config.agora.yaml</code>.</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>This is useful when comparing scenarios with different renewable
+expansion ambition levels — e.g. a moderate baseline and a high-ambition
+sensitivity — without modifying the shared files.</p>
+</div>
 <hr/>
 <h2 id="how-to-modify-the-expansion-limits">How to Modify the Expansion Limits</h2>
 <h3 id="change-a-capacity-limit-for-a-country">Change a capacity limit for a country</h3>
 <p>Edit the relevant CSV directly. Each row is a single (country, carrier, year)
 entry. For example, to raise the solar minimum in Spain for 2030:</p>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>ES,solar,2030,130000.0,195000.0,MW,Custom,generator
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>ES,solar,2030,130000.0,195000.0,MW,Custom,generator
 </code></pre></div>
 <h3 id="add-a-constraint-to-new-country-or-carrier">Add a constraint to new country or carrier</h3>
 <p>Add a new row with <code>country</code>, <code>carrier</code>, <code>year</code>, <code>min</code>/<code>max</code>, and <code>component</code>.
