@@ -143,7 +143,47 @@ solving:
 
 ### Change expansion factors per country/year
 
-Edit `data/national_line_expansions.csv` with country-specific factors.
+The active expansion data file is set in the config under `policy_plans`:
+
+```yaml title="config/config.agora.yaml"
+policy_plans:
+  include_national_grid_plans:
+    national_grid_plan_data: data/national_line_expansions.csv
+```
+
+You have two options depending on whether the change should apply to **all
+runs** or only to **specific scenarios**.
+
+**Option 1: Edit the shared file (applies to all runs)**
+
+Edit `data/national_line_expansions.csv` directly. All runs that reference
+this file will pick up the change.
+
+**Option 2: Create a scenario-specific file (applies to selected runs only)**
+
+1. Copy the base file and give it a descriptive name:
+
+    ```
+    cp data/national_line_expansions.csv data/national_line_expansions_constrained.csv
+    ```
+
+2. Edit the copy with the scenario-specific expansion factors.
+
+3. Point to it in the relevant scenario config under `config/scenarios/`:
+
+    ```yaml title="config/scenarios/config.MY_SCENARIO.yaml"
+    policy_plans:
+      include_national_grid_plans:
+        national_grid_plan_data: data/national_line_expansions_constrained.csv
+    ```
+
+    This overrides only `national_grid_plan_data` for that scenario; all
+    other config values remain inherited from `config.agora.yaml`.
+
+!!! tip
+    This approach is useful when comparing scenarios with different grid
+    ambition levels — e.g. a baseline with Ember factors and a sensitivity
+    with tighter national expansion limits — without touching the shared file.
 
 ### Adjust constraint type
 
