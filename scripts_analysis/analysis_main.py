@@ -20,6 +20,7 @@ from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
 from line_usage import evaluate_line_usage
+from marginal_prices import get_marginal_prices
 from matplotlib import pyplot as plt
 from plot_balance_map import load_config, plot_balance_map_years
 from plot_cases_KPIs import plot_case_study_KPIs
@@ -252,6 +253,18 @@ if __name__ == "__main__":
         years,
         sel_scen,
         demand_resultdir,
+    )
+
+    ## MARGINAL PRICES
+    prices_dir = resultdir / "marginal_prices"
+    if not os.path.exists(prices_dir):
+        os.mkdir(prices_dir)
+    get_marginal_prices(
+        networks,
+        years,
+        scenarios,
+        scenario_colors,
+        prices_dir,
     )
 
     ## ENERGY BALANCES
