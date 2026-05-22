@@ -20,6 +20,7 @@ from exogenous_demand_analyses import get_transport_demand_plot
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
 from line_usage import evaluate_line_usage
+from h2_generation import analyze_h2_generation
 from marginal_prices import get_marginal_prices
 from matplotlib import pyplot as plt
 from plot_balance_map import load_config, plot_balance_map_years
@@ -265,6 +266,17 @@ if __name__ == "__main__":
         scenarios,
         scenario_colors,
         prices_dir,
+    )
+
+    ## H2 GENERATION & FULL-LOAD HOURS
+    h2_gen_dir = resultdir / "h2_generation"
+    if not os.path.exists(h2_gen_dir):
+        os.mkdir(h2_gen_dir)
+    analyze_h2_generation(
+        networks,
+        years,
+        scenarios,
+        h2_gen_dir,
     )
 
     ## ENERGY BALANCES
