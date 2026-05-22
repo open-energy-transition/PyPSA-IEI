@@ -7,7 +7,6 @@ from typing import Dict, List
 
 import pandas as pd
 import pypsa
-
 from common import log
 
 # Technologies that produce H2, in display order.
@@ -65,14 +64,16 @@ def extract_h2_metrics(
 
                 # H2 output capacity per bus: p_nom_opt * efficiency, grouped by bus1
                 links = n.links[n.links.carrier == carrier]
-                cap = (links.p_nom_opt * links.efficiency).groupby(
-                    links["bus1"]
-                ).sum()
+                cap = (links.p_nom_opt * links.efficiency).groupby(links["bus1"]).sum()
                 cap_by_carrier[carrier] = cap
 
             # Total generation per node
             nonempty = [s for s in gen_by_carrier.values() if not s.empty]
-            total_gen = pd.concat(nonempty).groupby(level=0).sum() if nonempty else pd.Series(dtype=float)
+            total_gen = (
+                pd.concat(nonempty).groupby(level=0).sum()
+                if nonempty
+                else pd.Series(dtype=float)
+            )
             for node, val in total_gen.items():
                 rec[("H2 generation [GWh_H2]", "Total", node)] = round(val / 1e3, 2)
 
@@ -90,7 +91,9 @@ def extract_h2_metrics(
 
     df = pd.DataFrame(records)
     df.columns = pd.MultiIndex.from_tuples(df.columns, names=["scenario", "year"])
-    df.index = pd.MultiIndex.from_tuples(df.index, names=["metric", "technology", "node"])
+    df.index = pd.MultiIndex.from_tuples(
+        df.index, names=["metric", "technology", "node"]
+    )
     log("Extracted H2 generation and full-load hours for all technologies")
     return df
 

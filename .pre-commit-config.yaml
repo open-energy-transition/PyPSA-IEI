@@ -45,9 +45,10 @@ repos:
     args: ["--in-place", "--make-summary-multi-line", "--pre-summary-newline"]
 
 - repo: https://github.com/keewis/blackdoc
-  rev: v0.3.9
+  rev: v0.3.10
   hooks:
   - id: blackdoc
+    additional_dependencies: [black<24]
 
   # Formatting with "black" coding style
 - repo: https://github.com/psf/black-pre-commit-mirror
@@ -67,7 +68,7 @@ repos:
 
   # Do YAML formatting (before the linter checks it for misses)
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.12.0
+  rev: v2.14.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, "2", --preserve-quotes]
