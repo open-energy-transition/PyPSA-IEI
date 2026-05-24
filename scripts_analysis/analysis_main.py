@@ -17,6 +17,7 @@ from configurable_energy_balances import (
     get_standard_balances,
 )
 from exogenous_demand_analyses import get_transport_demand_plot
+from grid_emission_factors import analyze_grid_emission_factors
 from h2_generation import analyze_h2_generation
 from import_analysis import analyze_imports
 from installed_capacity import call_installed_capacity_plot
@@ -277,6 +278,17 @@ if __name__ == "__main__":
         years,
         scenarios,
         h2_gen_dir,
+    )
+
+    ## GRID EMISSION FACTORS
+    emission_factors_dir = resultdir / "grid_emission_factors"
+    if not os.path.exists(emission_factors_dir):
+        os.mkdir(emission_factors_dir)
+    analyze_grid_emission_factors(
+        networks,
+        years,
+        scenarios,
+        emission_factors_dir,
     )
 
     ## ENERGY BALANCES
