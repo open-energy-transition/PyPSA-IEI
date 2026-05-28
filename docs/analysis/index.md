@@ -32,6 +32,7 @@ analysis_results_YYYYMMDD/
   utilization/          ← transmission line utilization
   Import/               ← energy import volumes and costs
   balance_maps/         ← spatial energy balance maps
+  marginal_prices/      ← nodal marginal prices per carrier
 ```
 
 ---
@@ -57,6 +58,7 @@ analysis_results_YYYYMMDD/
 | `utilization/` | `line_usage.py` | `evaluate_line_usage()` |
 | `Import/` | `import_analysis.py` | `analyze_imports()` |
 | `balance_maps/` | `plot_balance_map.py` | `plot_balance_map_years()` |
+| `marginal_prices/` | `marginal_prices.py` | `get_marginal_prices()` |
 
 ---
 

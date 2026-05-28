@@ -13,9 +13,9 @@ markdown_extensions:
 - pymdownx.details
 - pymdownx.superfences:
     custom_fences:
-      - name: mermaid
-        class: mermaid
-        format: !!python/name:pymdownx.superfences.fence_code_format
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
 - pymdownx.highlight:
     anchor_linenums: true
 - pymdownx.inlinehilite
@@ -79,5 +79,6 @@ nav:
   - Balance Maps: analysis/balance_maps.md
   - Network Maps: analysis/networks.md
   - Gas Pipeline Utilization: analysis/utilization.md
+  - Marginal Prices: analysis/marginal_prices.md
 - 📝 Release Notes: release_notes.md
 - 🆘 Support: support.md
