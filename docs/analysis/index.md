@@ -33,6 +33,7 @@ analysis_results_YYYYMMDD/
   Import/               ← energy import volumes and costs
   balance_maps/         ← spatial energy balance maps
   marginal_prices/      ← nodal marginal prices per carrier
+  h2_generation/        ← H₂ production volumes and full-load hours
 ```
 
 ---
@@ -59,6 +60,7 @@ analysis_results_YYYYMMDD/
 | `Import/` | `import_analysis.py` | `analyze_imports()` |
 | `balance_maps/` | `plot_balance_map.py` | `plot_balance_map_years()` |
 | `marginal_prices/` | `marginal_prices.py` | `get_marginal_prices()` |
+| `h2_generation/` | `h2_generation.py` | `analyze_h2_generation()` |
 
 ---
 

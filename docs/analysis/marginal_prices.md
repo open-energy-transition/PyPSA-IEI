@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: Open Energy Transition GmbH and contributors
+SPDX-License-Identifier: MIT
+-->
+
 # Marginal Prices
 
 ## Overview

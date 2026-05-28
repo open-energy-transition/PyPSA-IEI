@@ -80,5 +80,6 @@ nav:
   - Network Maps: analysis/networks.md
   - Gas Pipeline Utilization: analysis/utilization.md
   - Marginal Prices: analysis/marginal_prices.md
+  - Hydrogen Generation: analysis/h2_generation.md
 - 📝 Release Notes: release_notes.md
 - 🆘 Support: support.md
