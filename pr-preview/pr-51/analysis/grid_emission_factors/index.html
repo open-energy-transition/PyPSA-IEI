@@ -969,13 +969,13 @@ hourly time steps and columns form a <code>MultiIndex(scenario, year)</code>. Va
 in tCO₂/MWh_el. Hours with no local generation yield <code>NaN</code>.</p>
 <hr/>
 <h2 id="emission-factor-definition">Emission Factor Definition</h2>
-<p>The emission factor at node $b$ at time $t$ is the generation-weighted
+<p>The emission factor at node <span class="arithmatex">\(b\)</span> at time <span class="arithmatex">\(t\)</span> is the generation-weighted
 average CO₂ intensity across all local generators:</p>
-<p>$$
+<div class="arithmatex">\[
 EF_b(t) = \frac{\sum_g p_g(t) \cdot \alpha_g}{\sum_g p_g(t)}
-$$</p>
-<p>where $p_g(t)$ is the dispatch [MW] and $\alpha_g$ is the CO₂ emission
-intensity [tCO₂/MWh_el] of generator $g$'s carrier. Hours with zero total
+\]</div>
+<p>where <span class="arithmatex">\(p_g(t)\)</span> is the dispatch [MW] and <span class="arithmatex">\(\alpha_g\)</span> is the CO₂ emission
+intensity [tCO₂/MWh_el] of generator <span class="arithmatex">\(g\)</span>'s carrier. Hours with zero total
 local generation yield <code>NaN</code>.</p>
 <hr/>
 <h2 id="how-it-works">How It Works</h2>
@@ -1057,5 +1057,6 @@ by bus name:</p>
 </div>
 <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
 <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+<script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 </html>
