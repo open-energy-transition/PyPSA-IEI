@@ -81,5 +81,6 @@ nav:
   - Gas Pipeline Utilization: analysis/utilization.md
   - Marginal Prices: analysis/marginal_prices.md
   - Hydrogen Generation: analysis/h2_generation.md
+  - Grid Emission Factors: analysis/grid_emission_factors.md
 - 📝 Release Notes: release_notes.md
 - 🆘 Support: support.md
