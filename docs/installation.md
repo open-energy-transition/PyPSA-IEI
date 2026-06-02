@@ -466,7 +466,8 @@ To use the analysis scripts developed for this study:
 3. Execute it:
 
 ```bash
-python scripts_analysis/analysis_main.py
+cd scripts_analysis
+python analysis_main.py
 ```
 
 This will run all evaluations automatically.

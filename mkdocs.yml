@@ -13,15 +13,20 @@ markdown_extensions:
 - pymdownx.details
 - pymdownx.superfences:
     custom_fences:
-      - name: mermaid
-        class: mermaid
-        format: !!python/name:pymdownx.superfences.fence_code_format
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format
 - pymdownx.highlight:
     anchor_linenums: true
 - pymdownx.inlinehilite
 - pymdownx.tabbed:
     alternate_style: true
 - tables
+- pymdownx.arithmatex:
+    generic: true
+
+extra_javascript:
+- https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 extra_css:
 - assets/css/custom.css
@@ -79,5 +84,8 @@ nav:
   - Balance Maps: analysis/balance_maps.md
   - Network Maps: analysis/networks.md
   - Gas Pipeline Utilization: analysis/utilization.md
+  - Marginal Prices: analysis/marginal_prices.md
+  - Hydrogen Generation: analysis/h2_generation.md
+  - Grid Emission Factors: analysis/grid_emission_factors.md
 - 📝 Release Notes: release_notes.md
 - 🆘 Support: support.md
