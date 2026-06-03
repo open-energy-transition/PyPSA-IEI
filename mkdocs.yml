@@ -51,6 +51,7 @@ nav:
 - ⚙️ Model Functionality:
   - Overview: functionality/index.md
   - 📐 Parameters & Configuration:
+    - Overview: functionality/parameters.md
     - Costs: functionality/costs.md
     - Lifetimes: functionality/lifetimes.md
     - Losses: functionality/losses.md
