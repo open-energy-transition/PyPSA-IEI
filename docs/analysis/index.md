@@ -39,6 +39,32 @@ analysis_results_YYYYMMDD/
 
 ---
 
+## Toggling Analyses On/Off
+
+Near the top of `analysis_main.py` there is a dictionary called `executed_analysis`.
+Each key corresponds to one analysis group, and its boolean value controls whether
+that group runs. Set a value to `False` to skip it entirely — useful when you only
+want to regenerate a subset of outputs or when iterating quickly on a single module.
+
+```python
+executed_analysis = {
+    "Exogenous demand":             True,   # transport demand plots
+    "Marginal prices":              True,   # nodal marginal price charts
+    "H2 generation & full-load hours": True, # H₂ production & FLH
+    "Grid emission factors":        True,   # hourly CO₂ emission factors
+    "Energy balances":              True,   # energy balance charts
+    "Network plots":                True,   # transmission network maps
+    "KPIs":                         True,   # capacity, GWkm, dispatch, summary KPIs
+    "Self-sufficiency":             True,   # regional self-sufficiency
+    "System costs":                 True,   # total system cost breakdown
+    "Utilization":                  True,   # line utilization
+    "Import":                       True,   # import volumes & costs
+    "Balance maps":                 True,   # spatial energy balance maps
+}
+```
+
+---
+
 ## Analysis Modules
 
 | Output folder | Script | Function |
