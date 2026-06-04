@@ -6,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../scenarios/" rel="prev"/>
-<link href="parameters/" rel="next"/>
+<link href="costs/" rel="next"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.6" name="generator"/>
 <title>Overview - PyPSA-IEI Documentation</title>
@@ -231,6 +231,15 @@
     </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#where-to-make-changes">
+<span class="md-ellipsis">
+      
+        Where to Make Changes
+      
+    </span>
+</a>
+</li>
 </ul>
 </nav>
 </li>
@@ -257,18 +266,6 @@
 
           </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="parameters/">
-<span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-</a>
-</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="costs/">
 <span class="md-ellipsis">
@@ -824,6 +821,15 @@
     </span>
 </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#where-to-make-changes">
+<span class="md-ellipsis">
+      
+        Where to Make Changes
+      
+    </span>
+</a>
+</li>
 </ul>
 </nav>
 </div>
@@ -915,6 +921,50 @@ Each sub-page covers one topic with a description, the relevant Snakemake rule(s
 </tr>
 </tbody>
 </table>
+<hr/>
+<h2 id="where-to-make-changes">Where to Make Changes</h2>
+<p>The table below shows at a glance where each type of assumption is adjusted.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Change location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Investment costs</td>
+<td><code>config/config.agora.yaml</code> or scenario override under <code>costs.investment</code></td>
+</tr>
+<tr>
+<td>Transmission efficiency / losses</td>
+<td><code>config/config.agora.yaml</code> under <code>sector.transmission_efficiency</code></td>
+</tr>
+<tr>
+<td>Powerplant lifetimes</td>
+<td><code>data/powerplant_lifetime.csv</code> (data file)</td>
+</tr>
+<tr>
+<td>Self-sufficiency targets</td>
+<td><code>data/self_sufficiency_limits.csv</code> (data file); enable per scenario via <code>solving.constraints.self_sufficiency</code></td>
+</tr>
+<tr>
+<td>Expansion limits (renewables, H₂, gas)</td>
+<td><code>data/agg_p_nom_minmax_european.csv</code> or <code>_national.csv</code> (data file); active file set via <code>policy_plans.agg_p_nom_limits</code></td>
+</tr>
+<tr>
+<td>National grid expansion factors</td>
+<td><code>data/national_line_expansions.csv</code> (data file); enable per scenario via <code>solving.constraints.national_grid_plans</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Finding the right technology name for cost overrides</p>
+<p>Technology names must exactly match the <code>technology</code> column in
+<code>data/costs_&lt;planning_horizon&gt;.csv</code> (e.g. <code>data/costs_2030.csv</code>), derived from
+<a href="https://github.com/PyPSA/technology-data/blob/v0.9.0/outputs/">technology-data v0.9.0</a>.
+Browse it to find the exact string to use as a key under <code>costs.investment.&lt;year&gt;</code> in the config.</p>
+</div>
 </article>
 </div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
