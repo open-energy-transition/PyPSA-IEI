@@ -1,5 +1,18 @@
 # Release Notes
 
+* Addressing additional comments [PR #53](https://github.com/open-energy-transition/PyPSA-IEI/pull/53)
+
+* Add documentation on prices and emission factor [PR #51](https://github.com/open-energy-transition/PyPSA-IEI/pull/51)
+
+* Integrate prices and emission factor [PR #50](https://github.com/open-energy-transition/PyPSA-IEI/pull/50)
+
+* Add a note in the documentation about files that can be changed from the config file (path changes)
+ [PR #49](https://github.com/open-energy-transition/PyPSA-IEI/pull/49)
+
+* Reorganize the config [PR #48](https://github.com/open-energy-transition/PyPSA-IEI/pull/48)
+
+* Improve documentation based on feedback [PR #43](https://github.com/open-energy-transition/PyPSA-IEI/pull/43)
+
 * Add missing data files to repository [PR #36](https://github.com/open-energy-transition/PyPSA-IEI/pull/36)
 
 * Add OETC toggle config option [PR #39](https://github.com/open-energy-transition/PyPSA-IEI/pull/39)
