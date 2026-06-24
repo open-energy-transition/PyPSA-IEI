@@ -1,0 +1,55 @@
+# Run scenario 1: Cross-sectoral, European view
+# Grid planning is realized both cross-border and cross-sectoral
+
+run:
+  name: "2026-MM-DD-branch-2190SEG-CE-CH4-network-cost"
+  disable_progressbar: true
+  shared_resources: false
+  shared_cutouts: true
+
+scenario:
+  sector_opts:
+  - 2190SEG-T-H-B-I-A
+  planning_horizons:
+  - 2020
+  - 2025
+  - 2030
+  - 2035
+  - 2040
+  - 2045
+  - 2050
+
+costs:
+  investment:
+    2020:
+      CH4 (g) pipeline: 85 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2025:
+      CH4 (g) pipeline: 90 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2030:
+      CH4 (g) pipeline: 95 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2035:
+      CH4 (g) pipeline: 100 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2040:
+      CH4 (g) pipeline: 105 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2045:
+      CH4 (g) pipeline: 120 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+    2050:
+      CH4 (g) pipeline: 150 # EUR/MW/km, 87.22 EUR/MW/km in technology-data
+
+policy_plans:
+  include_tyndp_elec:
+    enable: true
+    allowed_statuses:
+    - under construction
+  include_tyndp_gas:
+    enable: true
+    allowed_statuses:
+    - FID   # Final investment decision
+  agg_p_nom_limits: data/agg_p_nom_minmax_european.csv
+
+solving:
+  oetc:
+    enabled: true # enable solving via Open Energy Transition Cloud (OETC)
+  solver:
+    name: gurobi
+    options: gurobi-default
